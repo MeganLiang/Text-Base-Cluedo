@@ -51,7 +51,7 @@ public class Weapon implements Card{
 
     }
 
-//    public static void main(String[] args) {
-//        getRandom();
-//    }
+    public static void main(String[] args) {
+        getRandom();
+    }
 }

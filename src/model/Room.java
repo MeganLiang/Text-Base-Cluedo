@@ -4,7 +4,7 @@ package model;
  * Created by megan on 15/07/16.
  */
 public class Room extends Location {
-    public enum RoomType {
+    public enum RoomName {
         Kitchen,
         BallRoom,
         Conservatory,
@@ -16,17 +16,17 @@ public class Room extends Location {
         Study
     }
 
-    private RoomType roomType;
+    private RoomName roomType;
 
-    public Room(RoomType roomType) {
+    public Room(RoomName roomType) {
         this.roomType = roomType;
     }
 
-    public RoomType getRoomType() {
+    public RoomName getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(RoomType roomType) {
+    public void setRoomType(RoomName roomType) {
         this.roomType = roomType;
     }
 }

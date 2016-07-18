@@ -1,5 +1,7 @@
 package view;
 
+import model.Character;
+
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public interface UserInput {
      */
     List<String> getPlayerNames();
 
-    Player chooseCharacter(String playerName, List<Player.Character> allCharacters, List<Player.Character> avaliableCharacters);
+    //Character chooseCharacter(String playerName, List<Character.Character> allCharacters, List<Character.Character> avaliableCharacters);
 
 
 

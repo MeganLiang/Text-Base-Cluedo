@@ -6,7 +6,16 @@ import java.util.Random;
 /**
  * Created by megan on 15/07/16.
  */
-public class Room extends Location {
+public class Room implements Card {
+
+    private Rooms roomType;
+    private static final SecureRandom random = new SecureRandom();
+
+    public Room(Rooms roomType) {
+        this.roomType = roomType;
+    }
+
+
     public enum Rooms {
         Kitchen,
         BallRoom,
@@ -19,7 +28,30 @@ public class Room extends Location {
         Study
     }
 
-    private Rooms roomType;
+    public static Rooms getRandom(Class clazz) {
+        int x = random.nextInt(clazz.getEnumConstants().length);
+        System.out.println(clazz.getEnumConstants()[x]);
+        return (Rooms) clazz.getEnumConstants()[x];
+    }
+
+    public Rooms getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(Rooms roomType) {
+        this.roomType = roomType;
+    }
+
+    @Override
+    public Room getLocation() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
 
 //    public static final Room[] rooms = new Room[] {
 //            new Room(Rooms.BallRoom),
@@ -39,26 +71,7 @@ public class Room extends Location {
 //        return room;
 //
 //    }
-    private static final SecureRandom random = new SecureRandom();
 
-    public static Rooms getRandom(Class clazz) {
-        int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println(clazz.getEnumConstants()[x]);
-        return (Rooms) clazz.getEnumConstants()[x];
-    }
-
-
-    public Room(Rooms roomType) {
-        this.roomType = roomType;
-    }
-
-    public Rooms getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(Rooms roomType) {
-        this.roomType = roomType;
-    }
 
     public static void main(String[] args) {
         getRandom(Rooms.class);

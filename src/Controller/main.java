@@ -8,6 +8,7 @@ import model.Weapon;
  * Created by megan on 18/07/16.
  */
 public class main {
+    private static int diceRoll;
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */

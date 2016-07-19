@@ -8,6 +8,14 @@ import java.util.Random;
  */
 public class Weapon implements Card{
 
+    private Weapons weaponName;
+    private Room location;
+    private static final SecureRandom random = new SecureRandom();
+
+    public Weapon(Weapons name) {
+        this.weaponName = name;
+    }
+
     public enum  Weapons {
         CandleStick,
         Dagger,
@@ -16,24 +24,25 @@ public class Weapon implements Card{
         Revolver,
         Spanner
     };
-    private String weaponName;
-    private Room location;
 
-
-    public Weapon(String name) {
-        this.weaponName = name;
+    public static Weapons getRandom(Class clazz) {
+        int x = random.nextInt(clazz.getEnumConstants().length);
+        System.out.println(clazz.getEnumConstants()[x]);
+        return (Weapons) clazz.getEnumConstants()[x];
     }
+
+    @Override
     public Room getLocation() {
         return location;
     }
 
     @Override
     public String getName() {
-        return weaponName;
+        return weaponName.toString();
     }
 
     public String toString() {
-        return weaponName;
+        return weaponName.toString();
     }
     public void setLocation(Room location) {
         this.location = location;
@@ -55,13 +64,7 @@ public class Weapon implements Card{
 //        //System.out.println(w);
 //        return w;
 //    }
-    private static final SecureRandom random = new SecureRandom();
 
-    public static Weapons getRandom(Class clazz) {
-        int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println(clazz.getEnumConstants()[x]);
-        return (Weapons) clazz.getEnumConstants()[x];
-    }
     public static void main(String[] args) {
         getRandom(Weapons.class);
     }

@@ -24,9 +24,9 @@ public class Character {
 //    public Character(String name) {
 //        this.characterName = name;
 //    }
-public Character(CharacterName name) {
-    this.characterName = name;
-}
+    public Character(CharacterName name) {
+        this.characterName = name;
+    }
 
     public static final Character[] characters = new Character[] {
             new Character(CharacterName.MissScarlett),

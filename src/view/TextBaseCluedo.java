@@ -7,7 +7,7 @@ import java.util.*;
 
 public class TextBaseCluedo {//implements UserInput{
 
-    private static int diceRoll;
+
     private static Scanner reader = new Scanner(System.in);
     private static List<String> playerNames = new ArrayList<>();
     private static Set<String> availableCharacters = new HashSet<>();
@@ -115,12 +115,6 @@ public class TextBaseCluedo {//implements UserInput{
         System.out.println("ProfessorPlum");
     }
 
-
-    public static void playCluedo() {
-        getNumberOfPlayers();
-        diceRoll = 1 + (int)(Math.random() * 6);
-
-    }
 
     public static void main(String[] args) {
         addCharacterTokens();

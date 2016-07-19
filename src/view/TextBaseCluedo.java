@@ -5,12 +5,13 @@ import model.Character;
 
 import java.util.*;
 
-public class CluedoUI {//implements UserInput{
+public class TextBaseCluedo {//implements UserInput{
 
     private static int diceRoll;
     private static Scanner reader = new Scanner(System.in);
     private static List<String> playerNames = new ArrayList<>();
     private static Set<String> availableCharacters = new HashSet<>();
+
     //use queue for players, fifo
 
     /**
@@ -57,6 +58,7 @@ public class CluedoUI {//implements UserInput{
     public static void getPlayerNames() {
         System.out.println("Enter your name");
         String playerName = reader.next();
+        System.out.println("Your name is " + playerName);
         playerNames.add(playerName);
     }
 
@@ -70,7 +72,7 @@ public class CluedoUI {//implements UserInput{
         Set<Character> chosenCharacters = new HashSet<>();
         Set<String> chosenCharacterNames = new HashSet<>();
         System.out.println("=======================================");
-        for(String c: availableCharacters) {
+        for(Character.CharacterName c: Character.CharacterName.values()) {
             System.out.println(c.toString());
         }
         System.out.println("=======================================");
@@ -92,7 +94,7 @@ public class CluedoUI {//implements UserInput{
                 }
                 if(!chosenCharacterNames.contains(next) && availableCharacters.contains(next)) {
                     String characterName = next;
-                    Character character = new Character(characterName);
+                    Character character = new Character(Character.CharacterName.valueOf(next));
                     System.out.println("all sussed");
                     chosenCharacters.add(character);
                     chosenCharacterNames.add(next);

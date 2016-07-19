@@ -1,5 +1,6 @@
 package model;
 
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -7,9 +8,17 @@ import java.util.Set;
 /**
  * Created by megan on 15/07/16.
  */
-public class Character {
+public class Character implements Card{
 
-    public enum CharacterName {
+    private Location location;
+    private Characters characterName;
+    private static final SecureRandom random = new SecureRandom();
+    
+    public Character(Characters name) {
+        this.characterName = name;
+    }
+    
+    public enum Characters {
         MissScarlett,
         ColonelMustard,
         MrsWhite,
@@ -17,39 +26,34 @@ public class Character {
         MrsPeacock,
         ProfessorPlum
     }
-    private Location location;
-//    private String characterName;
-    private CharacterName characterName;
-//
-//    public Character(String name) {
-//        this.characterName = name;
-//    }
-    public Character(CharacterName name) {
-        this.characterName = name;
-    }
 
-    public static final Character[] characters = new Character[] {
-            new Character(CharacterName.MissScarlett),
-            new Character(CharacterName.ColonelMustard),
-            new Character(CharacterName.MrsWhite),
-            new Character(CharacterName.ReverendGreen),
-            new Character(CharacterName.MrsPeacock),
-            new Character(CharacterName.ProfessorPlum),
-
-    };
-
-    public static Character getRandom() {
-        Random r = new Random();
-        Character c = characters[r.nextInt(characters.length)];
-        System.out.println(c.toString());
-        return c;
-
-    }
-
-//    public String toString() {
-//        return characterName;
-//    }
-    public String toString() {
+    @Override
+    public String getName() {
         return characterName.toString();
     }
+
+    public static Characters getRandom(Class clazz) {
+        int x = random.nextInt(clazz.getEnumConstants().length);
+        System.out.println(clazz.getEnumConstants()[x]);
+        return (Characters) clazz.getEnumConstants()[x];
+    }
+
+//    public static final Character[] characters = new Character[] {
+//            new Character(Characters.MissScarlett),
+//            new Character(Characters.ColonelMustard),
+//            new Character(Characters.MrsWhite),
+//            new Character(Characters.ReverendGreen),
+//            new Character(Characters.MrsPeacock),
+//            new Character(Characters.ProfessorPlum),
+//
+//    };
+//
+//    public static Character getRandom() {
+//        Random r = new Random();
+//        Character c = characters[r.nextInt(characters.length)];
+//        System.out.println(c.toString());
+//        return c;
+//
+//    }
+
 }

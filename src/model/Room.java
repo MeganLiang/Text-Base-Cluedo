@@ -6,17 +6,16 @@ import java.util.Random;
 /**
  * Created by megan on 15/07/16.
  */
-public class Room implements Card {
+public class Room extends Location implements Card  {
 
-    private Rooms roomType;
+    private Rooms roomType; //enum which has possible tokens for rooms
     private static final SecureRandom random = new SecureRandom();
 
     public Room(Rooms roomType) {
         this.roomType = roomType;
     }
 
-
-    public enum Rooms {
+    public enum Rooms { // enum which represents 9 rooms in Cluedo game
         Kitchen,
         BallRoom,
         Conservatory,
@@ -28,7 +27,12 @@ public class Room implements Card {
         Study
     }
 
-    public static Rooms getRandom(Class clazz) {
+    /**
+     * randomly generates a room
+     * @param clazz
+     * @return a enum Rooms
+     */
+    public static Enum<? extends Enum> getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         System.out.println(clazz.getEnumConstants()[x]);
         return (Rooms) clazz.getEnumConstants()[x];

@@ -1,16 +1,13 @@
 package model;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 /**
  * Created by megan on 15/07/16.
  */
 public class Room extends Location {
-    public enum RoomName {
+    public enum Rooms {
         Kitchen,
         BallRoom,
         Conservatory,
@@ -22,48 +19,48 @@ public class Room extends Location {
         Study
     }
 
-    private RoomName roomType;
+    private Rooms roomType;
 
-    public static final Room[] rooms = new Room[] {
-            new Room(RoomName.BallRoom),
-            new Room(RoomName.Conservatory),
-            new Room(RoomName.Kitchen),
-            new Room(RoomName.Study),
-            new Room(RoomName.Hall),
-            new Room(RoomName.Lounge),
-            new Room(RoomName.Library),
-            new Room(RoomName.DiningRoom),
-            new Room(RoomName.BilliardRoom)
-    };
+//    public static final Room[] rooms = new Room[] {
+//            new Room(Rooms.BallRoom),
+//            new Room(Rooms.Conservatory),
+//            new Room(Rooms.Kitchen),
+//            new Room(Rooms.Study),
+//            new Room(Rooms.Hall),
+//            new Room(Rooms.Lounge),
+//            new Room(Rooms.Library),
+//            new Room(Rooms.DiningRoom),
+//            new Room(Rooms.BilliardRoom)
+//    };
 
-    public static Room getRandom() {
-        Random r = new Random();
-        Room room = rooms[r.nextInt(rooms.length)];
-        return room;
-
-    }
+//    public static Room getRandom() {
+//        Random r = new Random();
+//        Room room = rooms[r.nextInt(rooms.length)];
+//        return room;
+//
+//    }
     private static final SecureRandom random = new SecureRandom();
 
-    public static RoomName randomEnum(Class clazz) {
+    public static Rooms getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println((RoomName) clazz.getEnumConstants()[x]);
-        return (RoomName) clazz.getEnumConstants()[x];
+        System.out.println(clazz.getEnumConstants()[x]);
+        return (Rooms) clazz.getEnumConstants()[x];
     }
 
 
-    public Room(RoomName roomType) {
+    public Room(Rooms roomType) {
         this.roomType = roomType;
     }
 
-    public RoomName getRoomType() {
+    public Rooms getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(RoomName roomType) {
+    public void setRoomType(Rooms roomType) {
         this.roomType = roomType;
     }
 
     public static void main(String[] args) {
-        randomEnum(RoomName.class);
+        getRandom(Rooms.class);
     }
 }

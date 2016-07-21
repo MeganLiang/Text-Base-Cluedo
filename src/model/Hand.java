@@ -7,14 +7,37 @@ import java.util.List;
  */
 public class Hand {
     private List<Weapon> weaponsHand;
-    private List<Character> CharactersHand;
+    private List<Character> charactersHand;
     private List<Room> roomsHand;
 
     public Hand(List<Weapon> weaponsHand, List<Character> charactersHand, List<Room> roomsHand) {
         this.weaponsHand = weaponsHand;
-        CharactersHand = charactersHand;
+        this.charactersHand = charactersHand;
         this.roomsHand = roomsHand;
     }
 
+    public void addToWeaponsHand(Weapon w) {
+        weaponsHand.add(w);
+    }
 
+    public void addToCharacterssHand(Character c) {
+        charactersHand.add(c);
+    }
+    public void addToRoomsHand(Room r) {
+        roomsHand.add(r);
+    }
+
+    public List<Weapon> getWeaponsHand() {
+        return weaponsHand;
+    }
+
+    public List<Character> getCharactersHand() {
+        return charactersHand;
+    }
+
+    public List<Room> getRoomsHand() {
+        return roomsHand;
+    }
 }
+
+

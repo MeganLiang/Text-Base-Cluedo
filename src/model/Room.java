@@ -38,11 +38,8 @@ public class Room extends Location implements Card  {
         return (Rooms) clazz.getEnumConstants()[x];
     }
 
-    public Rooms getRoomType() {
-        return roomType;
-    }
 
-    public void setRoomType(Rooms roomType) {
+    public void setRoomName(Rooms roomType) {
         this.roomType = roomType;
     }
 
@@ -53,8 +50,9 @@ public class Room extends Location implements Card  {
 
     @Override
     public String getName() {
-        return null;
+        return roomType.toString();
     }
+
 
 
 //    public static final Room[] rooms = new Room[] {

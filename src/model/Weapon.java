@@ -26,12 +26,6 @@ public class Weapon implements Card{
         Spanner
     };
 
-//    public static Weapons getRandom(Class clazz) {
-//        int x = random.nextInt(clazz.getEnumConstants().length);
-//        System.out.println(clazz.getEnumConstants()[x]);
-//        return (Weapons) clazz.getEnumConstants()[x];
-//    }
-
     public Room getLocation() {
         return location;
     }
@@ -39,6 +33,10 @@ public class Weapon implements Card{
     @Override
     public String getName() {
         return weaponName.toString();
+    }
+
+    public void setWeaponName(Weapons weaponName) {
+        this.weaponName = weaponName;
     }
 
     public Enum<? extends Enum> getRandom(Class clazz) {
@@ -55,25 +53,8 @@ public class Weapon implements Card{
         this.location = location;
     }
 
-//    public static final Weapon[] weapons = new Weapon[] {
-//            new Weapon("CandleStick"),
-//            new Weapon("Dagger"),
-//            new Weapon("Rope"),
-//            new Weapon("LeadPipe"),
-//            new Weapon("Revolver"),
-//            new Weapon("Spanner")
-//    };
-
-
-//    public static Weapon getRandom() {
-//        Random r = new Random();
-//        Weapon w = weapons[r.nextInt(weapons.length)];
-//        //System.out.println(w);
-//        return w;
-//    }
 
     public static void main(String[] args) {
-
         //getRandom(Weapons.class);
     }
 }

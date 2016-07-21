@@ -32,6 +32,10 @@ public class Character implements Card{
         return characterName.toString();
     }
 
+    public void setCharacterName(Characters characterName) {
+        this.characterName = characterName;
+    }
+
     public static Characters getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         System.out.println(clazz.getEnumConstants()[x]);

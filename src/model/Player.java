@@ -1,15 +1,18 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Created by megan on 19/07/16.
  */
-public class HumanPlayer {
+public class Player {
     private String name;
     private Character.Characters character;
     private Hand hand;
 
-    public HumanPlayer(String name) {
+    public Player(String name) {
         this.name = name;
+        this.hand = new Hand(new ArrayList<Weapon>(), new ArrayList<Character>(), new ArrayList<Room>());
     }
 
     public Hand getHand() {
@@ -35,4 +38,12 @@ public class HumanPlayer {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void printHand() {
+        System.out.println(this.name + ": ");
+        for(Weapon w : this.hand.getWeaponsHand()) {
+            System.out.println(w.toString());
+        }
+    }
+
 }

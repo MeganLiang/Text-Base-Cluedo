@@ -1,68 +1,82 @@
 package model;
 
 import java.security.SecureRandom;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
+ * A class representing the murder weapon in Cluedo. This is represented by an enum and a location
  * Created by megan on 15/07/16.
  */
 public class Weapon implements Card{
 
-    public enum  Weapons {
-        CandleStick,
-        Dagger,
-        Rope,
-        LeadPipe,
-        Revolver,
-        Spanner
-    };
-    private String weaponName;
-    private Room location;
+    private Weapons weaponName; //enum representing all the possible weapons
+    private Room location; // location of the weapon
+    private static final SecureRandom random = new SecureRandom();
 
-
-    public Weapon(String name) {
+    public Weapon(Weapons name) {
         this.weaponName = name;
     }
+
+    public enum  Weapons { //enum of the possible murder weapons
+        CandleStick(0),
+        Dagger(1),
+        Rope(2),
+        LeadPipe(3),
+        Revolver(4),
+        Spanner(5);
+
+        private static final Map<Integer, Weapons> lookup = new HashMap<>();
+
+        static {
+            for(Weapons w : EnumSet.allOf(Weapons.class)) {
+                lookup.put(w.getCode(), w);
+            }
+        }
+        private int code;
+        Weapons(int code) {
+            this.code = code;
+        }
+        public int getCode() {
+            return code;
+        }
+        public static Weapons get(int code) {
+            return lookup.get(code);
+        }
+    }
+
     public Room getLocation() {
         return location;
     }
 
     @Override
     public String getName() {
+        return weaponName.toString();
+    }
+
+
+    public Weapons getEnum() {
         return weaponName;
     }
 
-    public String toString() {
-        return weaponName;
-    }
-    public void setLocation(Room location) {
-        this.location = location;
+    public void setWeaponName(Weapons weaponName) {
+        this.weaponName = weaponName;
     }
 
-//    public static final Weapon[] weapons = new Weapon[] {
-//            new Weapon("CandleStick"),
-//            new Weapon("Dagger"),
-//            new Weapon("Rope"),
-//            new Weapon("LeadPipe"),
-//            new Weapon("Revolver"),
-//            new Weapon("Spanner")
-//    };
-
-
-//    public static Weapon getRandom() {
-//        Random r = new Random();
-//        Weapon w = weapons[r.nextInt(weapons.length)];
-//        //System.out.println(w);
-//        return w;
-//    }
-    private static final SecureRandom random = new SecureRandom();
-
-    public static Weapons getRandom(Class clazz) {
+    public Enum<? extends Enum> getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         System.out.println(clazz.getEnumConstants()[x]);
         return (Weapons) clazz.getEnumConstants()[x];
     }
+
+    public void setLocation(Room location) {
+        this.location = location;
+    }
+
+
     public static void main(String[] args) {
-        getRandom(Weapons.class);
+        //getRandom(Weapons.class);
     }
 }

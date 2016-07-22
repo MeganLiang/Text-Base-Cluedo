@@ -6,5 +6,7 @@ package model;
 public abstract class Location {
 
     private String name;
+    private Location location;
+    public abstract Location getLocation();
 
 }

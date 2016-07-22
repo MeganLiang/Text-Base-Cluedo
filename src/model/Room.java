@@ -6,8 +6,16 @@ import java.util.Random;
 /**
  * Created by megan on 15/07/16.
  */
-public class Room extends Location {
-    public enum Rooms {
+public class Room extends Location implements Card  {
+
+    private Rooms roomType; //enum which has possible tokens for rooms
+    private static final SecureRandom random = new SecureRandom();
+
+    public Room(Rooms roomType) {
+        this.roomType = roomType;
+    }
+
+    public enum Rooms { // enum which represents 9 rooms in Cluedo game
         Kitchen,
         BallRoom,
         Conservatory,
@@ -19,7 +27,35 @@ public class Room extends Location {
         Study
     }
 
-    private Rooms roomType;
+    /**
+     * randomly generates a room
+     * @param clazz
+     * @return a enum Rooms
+     */
+    public static Enum<? extends Enum> getRandom(Class clazz) {
+        int x = random.nextInt(clazz.getEnumConstants().length);
+        System.out.println(clazz.getEnumConstants()[x]);
+        return (Rooms) clazz.getEnumConstants()[x];
+    }
+
+
+    public void setRoomName(Rooms roomType) {
+        this.roomType = roomType;
+    }
+
+    @Override
+    public Room getLocation() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return roomType.toString();
+    }
+
+    public Rooms getEnum() {
+        return roomType;
+    }
 
 //    public static final Room[] rooms = new Room[] {
 //            new Room(Rooms.BallRoom),
@@ -39,26 +75,7 @@ public class Room extends Location {
 //        return room;
 //
 //    }
-    private static final SecureRandom random = new SecureRandom();
 
-    public static Rooms getRandom(Class clazz) {
-        int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println(clazz.getEnumConstants()[x]);
-        return (Rooms) clazz.getEnumConstants()[x];
-    }
-
-
-    public Room(Rooms roomType) {
-        this.roomType = roomType;
-    }
-
-    public Rooms getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(Rooms roomType) {
-        this.roomType = roomType;
-    }
 
     public static void main(String[] args) {
         getRandom(Rooms.class);

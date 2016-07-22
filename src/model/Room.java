@@ -53,7 +53,9 @@ public class Room extends Location implements Card  {
         return roomType.toString();
     }
 
-
+    public Rooms getEnum() {
+        return roomType;
+    }
 
 //    public static final Room[] rooms = new Room[] {
 //            new Room(Rooms.BallRoom),

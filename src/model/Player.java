@@ -42,7 +42,13 @@ public class Player {
     public void printHand() {
         System.out.println(this.name + ": ");
         for(Weapon w : this.hand.getWeaponsHand()) {
-            System.out.println(w.toString());
+            System.out.println(w.getName());
+        }
+        for(Room w : this.hand.getRoomsHand()) {
+            System.out.println(w.getName());
+        }
+        for(Character w : this.hand.getCharactersHand()) {
+            System.out.println(w.getName());
         }
     }
 

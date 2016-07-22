@@ -25,4 +25,5 @@ public abstract class Envelop {
     public Character getCharacter() {
         return character;
     }
+
 }

@@ -1,6 +1,9 @@
 package model;
 
 import java.security.SecureRandom;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -18,13 +21,31 @@ public class Weapon implements Card{
     }
 
     public enum  Weapons { //enum of the possible murder weapons
-        CandleStick,
-        Dagger,
-        Rope,
-        LeadPipe,
-        Revolver,
-        Spanner
-    };
+        CandleStick(0),
+        Dagger(1),
+        Rope(2),
+        LeadPipe(3),
+        Revolver(4),
+        Spanner(5);
+
+        private static final Map<Integer, Weapons> lookup = new HashMap<>();
+
+        static {
+            for(Weapons w : EnumSet.allOf(Weapons.class)) {
+                lookup.put(w.getCode(), w);
+            }
+        }
+        private int code;
+        Weapons(int code) {
+            this.code = code;
+        }
+        public int getCode() {
+            return code;
+        }
+        public static Weapons get(int code) {
+            return lookup.get(code);
+        }
+    }
 
     public Room getLocation() {
         return location;
@@ -33,6 +54,11 @@ public class Weapon implements Card{
     @Override
     public String getName() {
         return weaponName.toString();
+    }
+
+
+    public Weapons getEnum() {
+        return weaponName;
     }
 
     public void setWeaponName(Weapons weaponName) {
@@ -45,10 +71,6 @@ public class Weapon implements Card{
         return (Weapons) clazz.getEnumConstants()[x];
     }
 
-
-    public String toString() {
-        return weaponName.toString();
-    }
     public void setLocation(Room location) {
         this.location = location;
     }

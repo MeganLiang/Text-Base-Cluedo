@@ -32,6 +32,10 @@ public class Character implements Card{
         return characterName.toString();
     }
 
+    public Character.Characters getEnum() {
+        return characterName;
+    }
+
     public void setCharacterName(Characters characterName) {
         this.characterName = characterName;
     }
@@ -42,22 +46,6 @@ public class Character implements Card{
         return (Characters) clazz.getEnumConstants()[x];
     }
 
-//    public static final Character[] characters = new Character[] {
-//            new Character(Characters.MissScarlett),
-//            new Character(Characters.ColonelMustard),
-//            new Character(Characters.MrsWhite),
-//            new Character(Characters.ReverendGreen),
-//            new Character(Characters.MrsPeacock),
-//            new Character(Characters.ProfessorPlum),
-//
-//    };
-//
-//    public static Character getRandom() {
-//        Random r = new Random();
-//        Character c = characters[r.nextInt(characters.length)];
-//        System.out.println(c.toString());
-//        return c;
-//
-//    }
+
 
 }

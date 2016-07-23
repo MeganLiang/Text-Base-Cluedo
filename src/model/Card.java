@@ -12,7 +12,5 @@ public interface Card {
      * @param clazz
      * @return
      */
-    static Enum<? extends Enum> getRandom(Class clazz) {
-        return null;
-    }
+    Enum<? extends Enum> getRandom(Class clazz);
 }

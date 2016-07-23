@@ -1,9 +1,6 @@
 package model;
 
 import java.security.SecureRandom;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A class representing the murder weapon in Cluedo. This is represented by an enum and a location

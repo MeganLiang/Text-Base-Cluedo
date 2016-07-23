@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * A class representing the murder weapon in Cluedo. This is represented by an enum and a location
@@ -21,35 +20,36 @@ public class Weapon implements Card{
     }
 
     public enum  Weapons { //enum of the possible murder weapons
-        CandleStick(0),
-        Dagger(1),
-        Rope(2),
-        LeadPipe(3),
-        Revolver(4),
-        Spanner(5);
+        CandleStick("CandleStick"),
+        Dagger("Dagger"),
+        Rope("Rope"),
+        LeadPipe("LeadPipe"),
+        Revolver("Revolver"),
+        Spanner("Spanner");
 
-        private static final Map<Integer, Weapons> lookup = new HashMap<>();
+        private String text;
 
-        static {
-            for(Weapons w : EnumSet.allOf(Weapons.class)) {
-                lookup.put(w.getCode(), w);
+        Weapons(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return this.text;
+        }
+
+        public static Weapons fromString(String text) {
+            if (text != null) {
+                for (Weapons b : Weapons.values()) {
+                    if (text.equalsIgnoreCase(b.text)) {
+                        return b;
+                    }
+                }
             }
+            return null;
         }
-        private int code;
-        Weapons(int code) {
-            this.code = code;
-        }
-        public int getCode() {
-            return code;
-        }
-        public static Weapons get(int code) {
-            return lookup.get(code);
-        }
+
     }
 
-    public Room getLocation() {
-        return location;
-    }
 
     @Override
     public String getName() {
@@ -69,11 +69,6 @@ public class Weapon implements Card{
         int x = random.nextInt(clazz.getEnumConstants().length);
         return (Weapons) clazz.getEnumConstants()[x];
     }
-
-    public void setLocation(Room location) {
-        this.location = location;
-    }
-
 
     public static void main(String[] args) {
         //getRandom(Weapons.class);

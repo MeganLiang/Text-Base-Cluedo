@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Created by megan on 19/07/16.
- */
 public class Solution extends Envelope {
 
     public Solution(Weapon weapon, Room room, Character character) {

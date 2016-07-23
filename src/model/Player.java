@@ -2,9 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-/**
- * Created by megan on 19/07/16.
- */
 public class Player {
     private String name;
     private Character.Characters character;
@@ -12,7 +9,7 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
-        this.hand = new Hand(new ArrayList<Card>());
+        this.hand = new Hand(new ArrayList<>());
     }
 
     public Hand getHand() {

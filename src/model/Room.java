@@ -1,11 +1,7 @@
 package model;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
-/**
- * Created by megan on 15/07/16.
- */
 public class Room implements Card  {
 
     private Rooms roomType; //enum which has possible tokens for rooms
@@ -16,20 +12,41 @@ public class Room implements Card  {
     }
 
     public enum Rooms { // enum which represents 9 rooms in Cluedo game
-        Kitchen,
-        BallRoom,
-        Conservatory,
-        DiningRoom,
-        BilliardRoom,
-        Library,
-        Lounge,
-        Hall,
-        Study
-    }
+        Kitchen("Kitchen"),
+        BallRoom("BallRoom"),
+        Conservatory("Conservatory"),
+        DiningRoom("DiningRoom"),
+        BilliardRoom("BilliardRoom"),
+        Library("Library"),
+        Lounge("Lounge"),
+        Hall("Hall"),
+        Study("Study");
+
+        private String text;
+
+        Rooms(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return this.text;
+        }
+
+        public static Rooms fromString(String text) {
+            if (text != null) {
+                for (Rooms b: Rooms.values()) {
+                    if (text.equalsIgnoreCase(b.text)) {
+                        return b;
+                    }
+                }
+            }
+            return null;
+        }
+
+        }
 
     /**
      * randomly generates a room
-     * @param clazz
      * @return a enum Rooms
      */
     public static Enum<? extends Enum> getRandom(Class clazz) {

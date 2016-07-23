@@ -14,10 +14,9 @@ public class Main {
     private static TextBaseCluedo textBaseCluedo;
     private static int numPlayers;
 
-    public Main() {
-        textBaseCluedo = new TextBaseCluedo();
-        //players = new PriorityQueue<>(textBaseCluedo.getNumberOfPlayers()); //in textBaseCluedo
-    }
+    private static Set<Weapon.Weapons> availableWeapons;
+    private static Set<Room.Rooms> availableRooms;
+    private static Set<Character.Characters> availableCharacters;
 
     /**
      * one character, one weapon and one room card are selected at random and is the solution
@@ -55,7 +54,6 @@ public class Main {
 
         int dealtEvenly = numCards/numPlayers;
         System.out.println("c/p: " + dealtEvenly);
-
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         weaponsList.remove(gameSolution.getWeapon().getEnum());
         List<Character.Characters> charactersList = new ArrayList<>(Arrays.asList(Character.Characters.values()));
@@ -96,9 +94,53 @@ public class Main {
 
     }
 
+    public static Accusation accusation() {
+        String s = textBaseCluedo.accuse(); //weapon room character
+        String[] splitS = s.trim().split("\\s+");
+
+        while(!availableWeapons.contains(Weapon.Weapons.fromString(splitS[0]))
+                || !availableRooms.contains(Room.Rooms.fromString(splitS[1]))
+                || !availableCharacters.contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
+            System.out.println("Unexpected input, try again");
+            s = textBaseCluedo.accuse();
+            splitS = s.trim().split("\\s+");
+        }
+        Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
+        Room r = new Room(Room.Rooms.valueOf(splitS[1]));
+        Character c = new Character(Character.Characters.valueOf(splitS[2]));
+        Accusation accusation = new Accusation(w,r,c);
+        return accusation;
+
+
+
+    }
+    public static Suggestion suggestion() {
+        String s = textBaseCluedo.suggest(); //weapon room character
+        String[] splitS = s.trim().split("\\s+");
+
+        while(!availableWeapons.contains(Weapon.Weapons.fromString(splitS[0]))
+                || !availableRooms.contains(Room.Rooms.fromString(splitS[1]))
+                || !availableCharacters.contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
+            System.out.println("Unexpected input, try again");
+            s = textBaseCluedo.suggest();
+            splitS = s.trim().split("\\s+");
+        }
+        Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
+        Room r = new Room(Room.Rooms.valueOf(splitS[1]));
+        Character c = new Character(Character.Characters.valueOf(splitS[2]));
+        Suggestion suggestion = new Suggestion(w,r,c);
+        return suggestion;
+
+
+
+    }
     public static void main(String[] args) {
-        numPlayers = textBaseCluedo.getNumberOfPlayers();
-        textBaseCluedo.chooseCharacters(numPlayers);
-        dealCards();
+//        numPlayers = textBaseCluedo.getNumberOfPlayers();
+//        textBaseCluedo.chooseCharacters(numPlayers);
+//        dealCards();
+        availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
+        availableRooms= new HashSet<>(Arrays.asList(Room.Rooms.values()));
+        availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
+        suggestion();
     }
 }

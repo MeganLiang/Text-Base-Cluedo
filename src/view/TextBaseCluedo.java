@@ -1,8 +1,8 @@
 package view;
 
 
+import model.*;
 import model.Character;
-import model.Player;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class TextBaseCluedo {//implements UserInput{
     /**
      * initialise the possible characters
      */
-    public static void addCharacterTokens() {
+    private static void addCharacterTokens() {
         availableCharacters.add("MissScarlett");
         availableCharacters.add("ColonelMustard");
         availableCharacters.add("MrsWhite");
@@ -50,7 +50,7 @@ public class TextBaseCluedo {//implements UserInput{
     /**
      * ask for player names
      */
-    public static Player getPlayers() {
+    private static Player getPlayers() {
         System.out.println("Enter your name");
         String playerName = reader.next();
         System.out.println("Your name is " + playerName);
@@ -67,7 +67,6 @@ public class TextBaseCluedo {//implements UserInput{
     }
     /**
      * User Interface for player to enter names and choose valid characters
-     * @param numOfPlayers
      * @return a set of chosen characters
      */
     public static Set<Character> chooseCharacters(int numOfPlayers) {
@@ -94,7 +93,6 @@ public class TextBaseCluedo {//implements UserInput{
 
 
             if(!chosenCharacterNames.contains(next) && availableCharacters.contains(next)) {
-                String characterName = next;
                 Character character = new Character(Character.Characters.valueOf(next));
                 chosenCharacters.add(character);
                 chosenCharacterNames.add(next);
@@ -106,6 +104,16 @@ public class TextBaseCluedo {//implements UserInput{
         return chosenCharacters;
     }
 
+    public static String suggest() {
+        System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
+        String suggestion = reader.nextLine();
+        return suggestion;
+    }
+    public static String accuse() {
+        System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]");
+        String accusation = reader.nextLine();
+        return accusation;
+    }
     private static void printHelp() {
         System.out.println("=======================================");
         for(Character.Characters c: Character.Characters.values()) {
@@ -121,3 +129,4 @@ public class TextBaseCluedo {//implements UserInput{
     }
 
 }
+

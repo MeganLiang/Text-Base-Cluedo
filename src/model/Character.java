@@ -1,13 +1,7 @@
 package model;
 
 import java.security.SecureRandom;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
-/**
- * Created by megan on 15/07/16.
- */
 public class Character implements Card{
 
     private Characters characterName;
@@ -18,13 +12,35 @@ public class Character implements Card{
     }
     
     public enum Characters {
-        MissScarlett,
-        ColonelMustard,
-        MrsWhite,
-        ReverendGreen,
-        MrsPeacock,
-        ProfessorPlum
-    }
+        MissScarlett("MissScarlett"),
+        ColonelMustard("ColonelMustard"),
+        MrsWhite("MrsWhite"),
+        ReverendGreen("ReverendGreen"),
+        MrsPeacock("MrsPeacock"),
+        ProfessorPlum("ProfessorPlum");
+
+        private String text;
+
+        Characters(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return this.text;
+        }
+
+        public static Characters fromString(String text) {
+            if (text != null) {
+                for (Characters b : Characters.values()) {
+                    if (text.equalsIgnoreCase(b.text)) {
+                        return b;
+                    }
+                }
+            }
+            return null;
+        }
+
+        }
 
     @Override
     public String getName() {

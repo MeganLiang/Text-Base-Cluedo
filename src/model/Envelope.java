@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Created by megan on 19/07/16.
- */
 public abstract class Envelope {
     protected Weapon weapon;
     protected Room room;

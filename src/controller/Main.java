@@ -11,8 +11,9 @@ import java.util.*;
  */
 public class Main {
     private static Solution gameSolution;
-    private static TextBaseCluedo textBaseCluedo;
+    private static TextBaseCluedo textBaseCluedo = new TextBaseCluedo();
     private static int numPlayers;
+    private static List<Player> playersList = new ArrayList<>();
 
     private static Set<Weapon.Weapons> availableWeapons;
     private static Set<Room.Rooms> availableRooms;
@@ -36,10 +37,10 @@ public class Main {
         return gameSolution;
     }
 
-    public static void dealCards() {
+    private static void dealCards() {
         initSolution();
         deal(Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-        for(Player p: textBaseCluedo.getPlayerList()) {
+        for(Player p: playersList) {
             System.out.println("Player's hand: ============");
             p.printHand();
         }
@@ -79,7 +80,7 @@ public class Main {
         Collections.shuffle(cardsList);
 
         int index = 0;
-        for(Player player : textBaseCluedo.getPlayerList()) {
+        for(Player player : playersList) {
             for (int i = 0; i < dealtEvenly; i++) {
                 Card c = cardsList.get(index);
                 player.getHand().addToHand(c);
@@ -88,7 +89,7 @@ public class Main {
         }
         System.out.println("Everyone can see: ");
         for(int i = index; i < cardsList.size(); i++) {
-            System.out.println(cardsList.get(i));
+            System.out.println(cardsList.get(i).getName());
         }
 
 
@@ -130,17 +131,49 @@ public class Main {
         Character c = new Character(Character.Characters.valueOf(splitS[2]));
         Suggestion suggestion = new Suggestion(w,r,c);
         return suggestion;
-
-
-
     }
+    public static Set<Character.Characters> chooseCharacters(int numOfPlayers) {
+        int count = 0;
+        Set<Character.Characters> chosenCharacters = new HashSet<>();
+        textBaseCluedo.printHelp();
+        while (count != numOfPlayers) {
+
+            String playerName = textBaseCluedo.getPlayers();
+            Player player = new Player(playerName);
+            playersList.add(player);
+            player.setName(playerName);
+
+            String next = textBaseCluedo.choosingCharacters();
+            if(next.contains("help")) {
+                textBaseCluedo.printHelp();
+                next = textBaseCluedo.choosingCharacters();
+            }
+            while(chosenCharacters.contains(Character.Characters.fromString(next)) || !availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
+                next = textBaseCluedo.invalidCharacterInput();
+            }
+            if(!chosenCharacters.contains(Character.Characters.fromString(next))  && availableCharacters.contains(Character.Characters.fromString(next))) {
+                chosenCharacters.add(Character.Characters.valueOf(next));
+                player.setCharacter(Character.Characters.valueOf(next));
+                count++;
+            }
+        }
+        System.out.println("=======================================");
+        return chosenCharacters;
+    }
+
+    public static List<Player> getPlayerList() {
+        return playersList;
+    }
+
     public static void main(String[] args) {
-//        numPlayers = textBaseCluedo.getNumberOfPlayers();
-//        textBaseCluedo.chooseCharacters(numPlayers);
-//        dealCards();
         availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
         availableRooms= new HashSet<>(Arrays.asList(Room.Rooms.values()));
         availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
-        suggestion();
+
+        numPlayers = textBaseCluedo.getNumberOfPlayers();
+        chooseCharacters(numPlayers);
+        dealCards();
+
+
     }
 }

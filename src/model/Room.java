@@ -28,10 +28,6 @@ public class Room implements Card  {
             this.text = text;
         }
 
-        public String getText() {
-            return this.text;
-        }
-
         public static Rooms fromString(String text) {
             if (text != null) {
                 for (Rooms b: Rooms.values()) {
@@ -49,7 +45,7 @@ public class Room implements Card  {
      * randomly generates a room
      * @return a enum Rooms
      */
-    public static Enum<? extends Enum> getRandom(Class clazz) {
+    public Enum<? extends Enum> getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         return (Rooms) clazz.getEnumConstants()[x];
     }
@@ -70,6 +66,6 @@ public class Room implements Card  {
     }
 
     public static void main(String[] args) {
-        getRandom(Rooms.class);
+        //getRandom(Rooms.class);
     }
 }

@@ -25,10 +25,6 @@ public class Character implements Card{
             this.text = text;
         }
 
-        public String getText() {
-            return this.text;
-        }
-
         public static Characters fromString(String text) {
             if (text != null) {
                 for (Characters b : Characters.values()) {
@@ -55,7 +51,7 @@ public class Character implements Card{
         this.characterName = characterName;
     }
 
-    public static Characters getRandom(Class clazz) {
+    public Characters getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         return (Characters) clazz.getEnumConstants()[x];
     }

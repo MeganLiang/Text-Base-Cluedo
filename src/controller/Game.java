@@ -6,10 +6,7 @@ import view.TextBaseCluedo;
 
 import java.util.*;
 
-/**
- * Created by megan on 18/07/16.
- */
-public class Main {
+public class Game {
     private static Solution gameSolution;
     private static TextBaseCluedo textBaseCluedo = new TextBaseCluedo();
     private static int numPlayers;
@@ -37,6 +34,9 @@ public class Main {
         return gameSolution;
     }
 
+    /**
+     * solution is picked, cards are dealt evenly to players
+     */
     private static void dealCards() {
         initSolution();
         deal(Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
@@ -46,6 +46,12 @@ public class Main {
         }
     }
 
+    /**
+     * the implementation for dealing the cards
+     * @param weaponClass the num class Weapons
+     * @param characterClass the enum class Characters
+     * @param roomClass the enum class Rooms
+     */
     private static void deal(Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
         int numWeapons = weaponClass.getEnumConstants().length-1; //5, number of available weapons minus the solution weapon
         int numChars = characterClass.getEnumConstants().length-1;
@@ -95,6 +101,10 @@ public class Main {
 
     }
 
+    /**
+     * player can make accusations to win the game
+     * @return Accusation
+     */
     public static Accusation accusation() {
         String s = textBaseCluedo.accuse(); //weapon room character
         String[] splitS = s.trim().split("\\s+");
@@ -109,12 +119,14 @@ public class Main {
         Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
         Room r = new Room(Room.Rooms.valueOf(splitS[1]));
         Character c = new Character(Character.Characters.valueOf(splitS[2]));
-        Accusation accusation = new Accusation(w,r,c);
-        return accusation;
-
-
+        return new Accusation(w,r,c);
 
     }
+
+    /**
+     * players can make suggestion to gather intelligence for their accusation
+     * @return Suggestion
+     */
     public static Suggestion suggestion() {
         String s = textBaseCluedo.suggest(); //weapon room character
         String[] splitS = s.trim().split("\\s+");
@@ -129,10 +141,16 @@ public class Main {
         Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
         Room r = new Room(Room.Rooms.valueOf(splitS[1]));
         Character c = new Character(Character.Characters.valueOf(splitS[2]));
-        Suggestion suggestion = new Suggestion(w,r,c);
-        return suggestion;
+        return new Suggestion(w,r,c);
     }
-    public static Set<Character.Characters> chooseCharacters(int numOfPlayers) {
+
+    /**
+     * players are asked to choose a character from the game, which determines their
+     * starting position
+     * @param numOfPlayers
+     * @return Set<Characters></>
+     */
+    private static Set<Character.Characters> chooseCharacters(int numOfPlayers) {
         int count = 0;
         Set<Character.Characters> chosenCharacters = new HashSet<>();
         textBaseCluedo.printHelp();
@@ -161,6 +179,10 @@ public class Main {
         return chosenCharacters;
     }
 
+    /**
+     * get List of players in game
+     * @return List<Player></>
+     */
     public static List<Player> getPlayerList() {
         return playersList;
     }

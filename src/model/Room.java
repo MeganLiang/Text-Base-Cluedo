@@ -57,26 +57,6 @@ public class Room extends Location implements Card  {
         return roomType;
     }
 
-//    public static final Room[] rooms = new Room[] {
-//            new Room(Rooms.BallRoom),
-//            new Room(Rooms.Conservatory),
-//            new Room(Rooms.Kitchen),
-//            new Room(Rooms.Study),
-//            new Room(Rooms.Hall),
-//            new Room(Rooms.Lounge),
-//            new Room(Rooms.Library),
-//            new Room(Rooms.DiningRoom),
-//            new Room(Rooms.BilliardRoom)
-//    };
-
-//    public static Room getRandom() {
-//        Random r = new Random();
-//        Room room = rooms[r.nextInt(rooms.length)];
-//        return room;
-//
-//    }
-
-
     public static void main(String[] args) {
         getRandom(Rooms.class);
     }

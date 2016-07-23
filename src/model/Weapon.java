@@ -67,7 +67,6 @@ public class Weapon implements Card{
 
     public Enum<? extends Enum> getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println(clazz.getEnumConstants()[x]);
         return (Weapons) clazz.getEnumConstants()[x];
     }
 

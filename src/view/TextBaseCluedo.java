@@ -12,7 +12,6 @@ public class TextBaseCluedo {//implements UserInput{
     private static Scanner reader = new Scanner(System.in);
     private static List<Player> players = new ArrayList<>();
     private static Set<String> availableCharacters = new HashSet<>();
-    private static int numP = 0;
 
     //use queue for players, fifo
 
@@ -44,13 +43,9 @@ public class TextBaseCluedo {//implements UserInput{
         }
         System.out.println("Number of players is " + numPlayers);
         System.out.println("=======================================");
-        numP = numPlayers;
         return numPlayers;
     }
 
-    public static int getNumP() {
-        return numP;
-    }
 
     /**
      * ask for player names

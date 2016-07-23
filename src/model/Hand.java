@@ -6,37 +6,19 @@ import java.util.List;
  * Created by megan on 19/07/16.
  */
 public class Hand {
-    private List<Weapon> weaponsHand;
-    private List<Character> charactersHand;
-    private List<Room> roomsHand;
+    private List<Card> cards;
 
-    public Hand(List<Weapon> weaponsHand, List<Character> charactersHand, List<Room> roomsHand) {
-        this.weaponsHand = weaponsHand;
-        this.charactersHand = charactersHand;
-        this.roomsHand = roomsHand;
+
+    public Hand(List<Card> cards) {
+        this.cards = cards;
     }
 
-    public void addToWeaponsHand(Weapon w) {
-        weaponsHand.add(w);
+    public void addToHand(Card c) {
+        cards.add(c);
     }
 
-    public void addToCharacterssHand(Character c) {
-        charactersHand.add(c);
-    }
-    public void addToRoomsHand(Room r) {
-        roomsHand.add(r);
-    }
-
-    public List<Weapon> getWeaponsHand() {
-        return weaponsHand;
-    }
-
-    public List<Character> getCharactersHand() {
-        return charactersHand;
-    }
-
-    public List<Room> getRoomsHand() {
-        return roomsHand;
+    public List<Card> getCards() {
+        return cards;
     }
 }
 

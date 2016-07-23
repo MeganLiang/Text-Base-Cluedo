@@ -10,7 +10,6 @@ import java.util.Set;
  */
 public class Character implements Card{
 
-    private Location location;
     private Characters characterName;
     private static final SecureRandom random = new SecureRandom();
     
@@ -42,7 +41,6 @@ public class Character implements Card{
 
     public static Characters getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println(clazz.getEnumConstants()[x]);
         return (Characters) clazz.getEnumConstants()[x];
     }
 

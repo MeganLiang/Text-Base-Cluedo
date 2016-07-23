@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by megan on 15/07/16.
  */
-public class Room extends Location implements Card  {
+public class Room implements Card  {
 
     private Rooms roomType; //enum which has possible tokens for rooms
     private static final SecureRandom random = new SecureRandom();
@@ -34,7 +34,6 @@ public class Room extends Location implements Card  {
      */
     public static Enum<? extends Enum> getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
-        System.out.println(clazz.getEnumConstants()[x]);
         return (Rooms) clazz.getEnumConstants()[x];
     }
 
@@ -43,10 +42,6 @@ public class Room extends Location implements Card  {
         this.roomType = roomType;
     }
 
-    @Override
-    public Room getLocation() {
-        return null;
-    }
 
     @Override
     public String getName() {

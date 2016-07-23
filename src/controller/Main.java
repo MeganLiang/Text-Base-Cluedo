@@ -10,7 +10,6 @@ import java.util.*;
  * Created by megan on 18/07/16.
  */
 public class Main {
-    private static int diceRoll;
     private static Solution gameSolution;
     private static TextBaseCluedo textBaseCluedo;
     private static int numPlayers;
@@ -23,7 +22,7 @@ public class Main {
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */
-    public static Solution initSolution() {
+    private static Solution initSolution() {
         Weapon randomWeapon = new Weapon(null);
         Room randomRoom = new Room(null);
         Character randomCharacter = new Character(null);
@@ -34,126 +33,72 @@ public class Main {
 
 
         gameSolution = new Solution(randomWeapon, randomRoom, randomCharacter);
+        gameSolution.printSolution();
         return gameSolution;
     }
 
     public static void dealCards() {
         initSolution();
-        numPlayers = textBaseCluedo.getNumP();
-        dealWeapons(Weapon.Weapons.class);
-        dealRooms(Room.Rooms.class);
-        dealCharacters(Character.Characters.class);
+        deal(Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
         for(Player p: textBaseCluedo.getPlayerList()) {
             System.out.println("Player's hand: ============");
             p.printHand();
         }
     }
 
-    private static void dealCharacters( Class<Character.Characters> charactersClass) {
-        int numChar = charactersClass.getEnumConstants().length-1; //5, number of available weapons minus the solution weapon
-
-        int dealtEvenly = numChar/numPlayers;
-        System.out.println("c/p: " + dealtEvenly);
-
-
-        List<Character.Characters> charsList = new ArrayList<>(Arrays.asList(Character.Characters.values()));
-        charsList.remove(gameSolution.getCharacter().getEnum());
-        System.out.println("_______________________________________");
-//
-//        for(Character.Characters c : charsList) {
-//            System.out.println(c);
-//        }
-        Collections.shuffle(charsList);
-
-        int index = 0;
-        for(Player player : textBaseCluedo.getPlayerList()) {
-            for (int i = 0; i < dealtEvenly; i++) {
-                Character c = new Character(charsList.get(index));
-                player.getHand().addToCharacterssHand(c);
-                index++;
-            }
-//            System.out.println("Player's hand: ============");
-//            player.printHand();
-        }
-        System.out.println("Everyone can see: ");
-        for(int i = index; i < charsList.size(); i++) {
-            System.out.println(charsList.get(i));
-        }
-
-
-    }
-    private static void dealRooms( Class<Room.Rooms> roomsClass) {
-        int numRooms = roomsClass.getEnumConstants().length-1; //5, number of available weapons minus the solution weapon
-
-        int dealtEvenly = numRooms/numPlayers;
-        System.out.println("r/p: " + dealtEvenly);
-
-
-        List<Room.Rooms> roomsList = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
-        roomsList.remove(gameSolution.getRoom().getEnum());
-        System.out.println("_______________________________________");
-//
-//        for(Room.Rooms r : roomsList) {
-//            System.out.println(r);
-//        }
-        Collections.shuffle(roomsList);
-
-        int index = 0;
-        for(Player player : textBaseCluedo.getPlayerList()) {
-            for (int i = 0; i < dealtEvenly; i++) {
-                Room r = new Room(roomsList.get(index));
-                player.getHand().addToRoomsHand(r);
-                index++;
-            }
-//            System.out.println("Player's hand: ============");
-//            player.printHand();
-        }
-        System.out.println("Everyone can see: ");
-        for(int i = index; i < roomsList.size(); i++) {
-            System.out.println(roomsList.get(i));
-        }
-
-
-    }
-    private static void dealWeapons(Class<Weapon.Weapons> weaponClass) {
+    private static void deal(Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
         int numWeapons = weaponClass.getEnumConstants().length-1; //5, number of available weapons minus the solution weapon
+        int numChars = characterClass.getEnumConstants().length-1;
+        int numRooms = roomClass.getEnumConstants().length-1;
 
-        int dealtEvenly = numWeapons/numPlayers;
-        System.out.println("w/p: " + dealtEvenly);
+        int numCards = numWeapons+numChars+numRooms;
 
+        int dealtEvenly = numCards/numPlayers;
+        System.out.println("c/p: " + dealtEvenly);
 
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         weaponsList.remove(gameSolution.getWeapon().getEnum());
+        List<Character.Characters> charactersList = new ArrayList<>(Arrays.asList(Character.Characters.values()));
+        charactersList.remove(gameSolution.getCharacter().getEnum());
+        List<Room.Rooms> roomsList = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
+        roomsList.remove(gameSolution.getRoom().getEnum());
+
+        List<Card> cardsList = new ArrayList<>();
+        for(Weapon.Weapons w: weaponsList) {
+            Weapon weapon = new Weapon(w);
+            cardsList.add(weapon);
+        }
+        for(Character.Characters c: charactersList) {
+            Character character = new Character(c);
+            cardsList.add(character);
+        }
+        for(Room.Rooms r: roomsList) {
+            Room room = new Room(r);
+            cardsList.add(room);
+        }
         System.out.println("_______________________________________");
-//
-//
-//        for(Weapon.Weapons w : weaponsList) {
-//            System.out.println(w);
-//        }
-        Collections.shuffle(weaponsList);
+
+        Collections.shuffle(cardsList);
 
         int index = 0;
         for(Player player : textBaseCluedo.getPlayerList()) {
             for (int i = 0; i < dealtEvenly; i++) {
-                Weapon w = new Weapon(weaponsList.get(index));
-                player.getHand().addToWeaponsHand(w);
+                Card c = cardsList.get(index);
+                player.getHand().addToHand(c);
                 index++;
             }
-//            System.out.println("Player's hand: ============");
-//            player.printHand();
         }
         System.out.println("Everyone can see: ");
-        for(int i = index; i < weaponsList.size(); i++) {
-            System.out.println(weaponsList.get(i));
+        for(int i = index; i < cardsList.size(); i++) {
+            System.out.println(cardsList.get(i));
         }
 
 
     }
 
     public static void main(String[] args) {
-
-        textBaseCluedo.getNumberOfPlayers();
-        textBaseCluedo.chooseCharacters(textBaseCluedo.getNumP());
+        numPlayers = textBaseCluedo.getNumberOfPlayers();
+        textBaseCluedo.chooseCharacters(numPlayers);
         dealCards();
     }
 }

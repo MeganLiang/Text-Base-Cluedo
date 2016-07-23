@@ -3,12 +3,12 @@ package model;
 /**
  * Created by megan on 19/07/16.
  */
-public abstract class Envelop {
+public abstract class Envelope {
     protected Weapon weapon;
     protected Room room;
     protected Character character;
 
-    public Envelop(Weapon weapon, Room room, Character character) {
+    public Envelope(Weapon weapon, Room room, Character character) {
         this.weapon = weapon;
         this.room = room;
         this.character = character;

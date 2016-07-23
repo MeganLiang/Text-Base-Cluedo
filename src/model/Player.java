@@ -12,7 +12,7 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
-        this.hand = new Hand(new ArrayList<Weapon>(), new ArrayList<Character>(), new ArrayList<Room>());
+        this.hand = new Hand(new ArrayList<Card>());
     }
 
     public Hand getHand() {
@@ -41,14 +41,8 @@ public class Player {
 
     public void printHand() {
         System.out.println(this.name + ": ");
-        for(Weapon w : this.hand.getWeaponsHand()) {
-            System.out.println(w.getName());
-        }
-        for(Room w : this.hand.getRoomsHand()) {
-            System.out.println(w.getName());
-        }
-        for(Character w : this.hand.getCharactersHand()) {
-            System.out.println(w.getName());
+        for(Card c : this.hand.getCards()) {
+            System.out.println(c.getName());
         }
     }
 

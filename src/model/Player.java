@@ -6,6 +6,8 @@ public class Player {
     private String name;
     private Character.Characters character;
     private Hand hand;
+    public int xPos;
+    public int yPos;
     private boolean inRoom;
 
     public Player(String name) {
@@ -44,7 +46,6 @@ public class Player {
             System.out.println(c.getName());
         }
     }
-
     public boolean isInRoom() {
         return inRoom;
     }

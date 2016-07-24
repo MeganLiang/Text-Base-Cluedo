@@ -80,4 +80,3 @@ public class TextBaseCluedo {//implements UserInput{
         System.out.println("=======================================");
     }
 }
-

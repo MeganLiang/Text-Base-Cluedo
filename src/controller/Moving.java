@@ -16,7 +16,7 @@ public class Moving {
         for(Player player : game.getPlayerList()) {
             System.out.println("Hi " + player.getName());
             Random random = new Random();
-            int diceRoll = random.nextInt(6 - 1 + 1) + 1;
+            int diceRoll = random.nextInt(12 - 1 + 1) + 1;
             System.out.println("You rolled a " + diceRoll);
             String commands = "";
             List<Move.Moves> moves = new ArrayList<>(Arrays.asList(Move.Moves.values()));

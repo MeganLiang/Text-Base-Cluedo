@@ -9,6 +9,7 @@ public class Accusation extends Envelope {
     public Accusation(Weapon weapon, Room room, Character character) {
         super(weapon, room, character);
     }
+
     @Override
     public boolean equals(Object o) {
         if(o==null) {

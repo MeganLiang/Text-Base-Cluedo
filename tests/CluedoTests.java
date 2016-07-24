@@ -11,7 +11,7 @@ public class CluedoTests {
 
     @Test
     public void testSolution() {
-        Solution solutions = game.initGame();
+        //Solution solutions = game.initGame();
 
 
     }

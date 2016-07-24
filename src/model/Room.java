@@ -1,12 +1,14 @@
 package model;
 
+import controller.Game;
+
 import java.security.SecureRandom;
+import java.util.*;
 
 public class Room implements Card  {
 
     private Rooms roomType; //enum which has possible tokens for rooms
     private static final SecureRandom random = new SecureRandom();
-    private boolean hasWeapon;
 
     public Room(Rooms roomType) {
         this.roomType = roomType;
@@ -39,8 +41,7 @@ public class Room implements Card  {
             }
             return null;
         }
-
-        }
+     }
 
     /**
      * randomly generates a room
@@ -66,15 +67,6 @@ public class Room implements Card  {
     public Rooms getEnum() {
         return roomType;
     }
-
-    public boolean hasWeapon() {
-        return hasWeapon;
-    }
-
-    public void setHasWeapon(boolean hasWeapon) {
-        this.hasWeapon = hasWeapon;
-    }
-
 
     public static void main(String[] args) {
         //getRandom(Rooms.class);

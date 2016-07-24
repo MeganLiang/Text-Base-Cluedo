@@ -73,15 +73,11 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        initGame();
-        chooseCharacters(setup.getNumPlayers());
-        setup.dealCards();
-//        Player megan = new Player("Megan");
-//        playersList.add(megan);
-//        megan.setInRoom(true);
-//        playersList.add(new Player("Tristan"));
-//        movePlayer();
+//        initGame();
+//        chooseCharacters(setup.getNumPlayers());
+//        setup.dealCards();
 
     }
+
 
 }

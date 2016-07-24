@@ -15,7 +15,7 @@ public class TextBaseCluedo {//implements UserInput{
     public int getNumberOfPlayers() {
         System.out.println("How many players?");
         int numPlayers = reader.nextInt();
-        
+
         return numPlayers;
     }
 
@@ -70,4 +70,5 @@ public class TextBaseCluedo {//implements UserInput{
         }
         System.out.println("=======================================");
     }
+
 }

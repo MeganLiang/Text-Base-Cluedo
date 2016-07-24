@@ -23,4 +23,5 @@ public abstract class Envelope {
         return character;
     }
 
+
 }

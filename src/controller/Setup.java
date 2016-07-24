@@ -13,15 +13,19 @@ public class Setup {
     private static Solution gameSolution;
     private static int numPlayers;
 
+    private static Set<Weapon.Weapons> availableWeapons;
+    private static List<Room.Rooms> availableRooms;
+    private static Set<Character.Characters> availableCharacters;
+
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */
     public static Solution initGame() {
-        game.availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
-        game.availableRooms = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
-        game.availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
+        availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
+        availableRooms = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
+        availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
 
-        numPlayers = game.textBaseCluedo.getNumberOfPlayers();
+        numPlayers = getNumberOfPlayers();
 
         Weapon randomWeapon = new Weapon(null);
         Room randomRoom = new Room(null);
@@ -36,7 +40,23 @@ public class Setup {
         gameSolution.printSolution();
         return gameSolution;
     }
-
+    /**
+     * Get the number of players
+     * @return the number of players
+     */
+    public static int getNumberOfPlayers() {
+        int numPlayers = 0;
+        while(numPlayers < 3 || numPlayers > 6) {
+            numPlayers = game.textBaseCluedo.getNumberOfPlayers();
+            if(numPlayers < 3 || numPlayers > 6) {
+                System.out.println("Please enter a number between 3-6");
+                numPlayers = game.textBaseCluedo.getNumberOfPlayers();
+            }
+        }
+        System.out.println("Number of players is " + numPlayers);
+        System.out.println("=======================================");
+        return numPlayers;
+    }
     /**
      * solution is picked, cards are dealt evenly to players
      */
@@ -123,10 +143,10 @@ public class Setup {
                 game.textBaseCluedo.printHelp();
                 next = game.textBaseCluedo.choosingCharacters();
             }
-            while(chosenCharacters.contains(Character.Characters.fromString(next)) || !game.availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
+            while(chosenCharacters.contains(Character.Characters.fromString(next)) || !availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
                 next = game.textBaseCluedo.invalidCharacterInput();
             }
-            if(!chosenCharacters.contains(Character.Characters.fromString(next))  && game.availableCharacters.contains(Character.Characters.fromString(next))) {
+            if(!chosenCharacters.contains(Character.Characters.fromString(next))  && availableCharacters.contains(Character.Characters.fromString(next))) {
                 chosenCharacters.add(Character.Characters.valueOf(next));
                 player.setCharacter(Character.Characters.valueOf(next));
                 count++;
@@ -142,5 +162,16 @@ public class Setup {
 
     public static Solution getGameSolution() {
         return gameSolution;
+    }
+
+    public static Set<Weapon.Weapons> getAvailableWeapons() {
+        return availableWeapons;
+    }
+    public static List<Room.Rooms> getAvailableRooms() {
+        return availableRooms;
+    }
+
+    public static Set<Character.Characters> getAvailableCharacters() {
+        return availableCharacters;
     }
 }

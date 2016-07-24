@@ -13,17 +13,9 @@ public class TextBaseCluedo {//implements UserInput{
      * @return the number of players
      */
     public int getNumberOfPlayers() {
-        int numPlayers = 0;
-        System.out.println("=======================================");
-        while(numPlayers < 3 || numPlayers > 7) {
-            System.out.println("How many players?");
-            numPlayers = reader.nextInt();
-            if(numPlayers < 3 || numPlayers > 7 ) {
-                System.out.println("Please enter a number between 3-6");
-            }
-        }
-        System.out.println("Number of players is " + numPlayers);
-        System.out.println("=======================================");
+        System.out.println("How many players?");
+        int numPlayers = reader.nextInt();
+        
         return numPlayers;
     }
 
@@ -33,7 +25,6 @@ public class TextBaseCluedo {//implements UserInput{
     public String getPlayers() {
         System.out.println("Enter your name");
         String playerName = reader.next();
-        System.out.println("Your name is " + playerName);
 
         return playerName;
     }

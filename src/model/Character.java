@@ -36,7 +36,7 @@ public class Character implements Card{
             return null;
         }
 
-        }
+    }
 
     @Override
     public String getName() {

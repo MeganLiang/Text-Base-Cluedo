@@ -51,12 +51,25 @@ public class TextBaseCluedo {//implements UserInput{
         System.out.println("Unexpected input, please enter a valid character");
         return reader.next();
     }
+    public String invalidArrayInput() {
+        System.out.println("Unexpected input, please enter a sequence");
+        return reader.nextLine();
+    }
     public String suggest() {
         System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
         return reader.nextLine();
     }
     public String accuse() {
         System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]");
+        return reader.nextLine();
+    }
+    public String moving() {
+        System.out.println("Where would you like to move? Enter [U] [D] [L] [R]");
+        return reader.nextLine();
+    }
+
+    public String movingInRoom() {
+        System.out.println("Where would you like to move? Enter [Exit] [U] [D] [L] [R]");
         return reader.nextLine();
     }
     public void printHelp() {

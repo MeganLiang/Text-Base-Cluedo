@@ -6,10 +6,12 @@ public class Player {
     private String name;
     private Character.Characters character;
     private Hand hand;
+    private boolean inRoom;
 
     public Player(String name) {
         this.name = name;
         this.hand = new Hand(new ArrayList<>());
+        this.inRoom = false;
     }
 
     public Hand getHand() {
@@ -43,4 +45,11 @@ public class Player {
         }
     }
 
+    public boolean isInRoom() {
+        return inRoom;
+    }
+
+    public void setInRoom(boolean inRoom) {
+        this.inRoom = inRoom;
+    }
 }

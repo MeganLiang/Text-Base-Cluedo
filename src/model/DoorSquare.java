@@ -7,7 +7,8 @@ public class DoorSquare extends Square {
     Room room;
     String direction;
 
-    public DoorSquare(Room room, String direction){
+    public DoorSquare(Room room, int x, int y){
+        super(x,y);
         this.room = room;
         this.direction = direction;
     }

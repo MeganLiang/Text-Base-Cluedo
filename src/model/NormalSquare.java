@@ -6,8 +6,8 @@ package model;
 public class NormalSquare extends Square {
     Player current = null;
 
-    public NormalSquare(){
-
+    public NormalSquare(int x,int y){
+        super(x,y);
     }
 
 }

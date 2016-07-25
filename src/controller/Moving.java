@@ -2,6 +2,7 @@ package controller;
 
 import model.Move;
 import model.Player;
+import model.Suggestion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,4 +56,6 @@ public class Moving {
 
         }
     }
+
+
 }

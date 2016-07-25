@@ -7,6 +7,11 @@ public abstract class Square{
         int xPos;
         int ypos;
 
+    public Square(int xPos, int ypos) {
+        this.xPos = xPos;
+        this.ypos = ypos;
+    }
+
     public void checkMove(){
     }
 

@@ -53,4 +53,20 @@ public class Player {
     public void setInRoom(boolean inRoom) {
         this.inRoom = inRoom;
     }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
 }

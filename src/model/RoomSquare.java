@@ -5,9 +5,8 @@ package model;
  */
 public class RoomSquare extends Square {
     private Room room;
-    private RoomSquare tunnel;
 
-    public RoomSquare(Room room){
-
+    public RoomSquare(Room room, int x, int y){
+        super(x,y);
     }
 }

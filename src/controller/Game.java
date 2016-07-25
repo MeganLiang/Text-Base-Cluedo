@@ -135,4 +135,56 @@ public class Game {
     }
 
 
+
+        }
+
+    }
+    /**
+     * Get a list of squares the player can move too
+     * @return List<int><int>
+     */
+    Set<Coordinate> avaialableMoves(Player p, int roll){
+        Coordinate playerPos = new Coordinate(p.xPos,p.yPos);
+        Set<Coordinate> visitable;
+        visitable = getNeighbours(playerPos,roll,new HashSet<Coordinate>());
+        return visitable;
+    }
+
+    Set<Coordinate> getNeighbours(Coordinate c,int remainingMoves, Set <Coordinate> visited) {
+        if (remainingMoves != 0) {
+            if(c.x + 1 < 25) {
+                if (board[c.x + 1][c.y] != null) {
+                    Coordinate toAdd = new Coordinate(c.x + 1, c.y);
+                    visited.add(toAdd);
+                    getNeighbours(toAdd, remainingMoves - 1, visited);
+                }
+            }
+            if(c.x - 1 > 0) {
+                if (board[c.x - 1][c.y] != null) {
+                    Coordinate toAdd = new Coordinate(c.x - 1, c.y);
+                    visited.add(toAdd);
+                    getNeighbours(toAdd, remainingMoves - 1, visited);
+                }
+            }
+            if(c.y + 1 < 24){
+                if (board[c.x][c.y + 1] != null) {
+                    Coordinate toAdd = new Coordinate(c.x, c.y + 1);
+                    visited.add(toAdd);
+                    getNeighbours(toAdd, remainingMoves - 1, visited);
+                }
+            }
+            if(c.y - 1 < 0){
+                if (board[c.x][c.y - 1] != null) {
+                    Coordinate toAdd = new Coordinate(c.x, c.y - 1);
+                    visited.add(toAdd);
+                    getNeighbours(toAdd, remainingMoves - 1, visited);
+                }
+            }
+        }
+        return visited;
+
+
+    }
+
+
 }

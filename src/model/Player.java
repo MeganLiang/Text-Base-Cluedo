@@ -1,13 +1,15 @@
 package model;
 
+import model.Squares.StartSquare;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
     private String name;
     private Character.Characters character;
     private Hand hand;
-    public int xPos;
-    public int yPos;
+   Point point;
     private boolean inRoom;
 
     public Player(String name) {
@@ -46,6 +48,22 @@ public class Player {
             System.out.println(c.getName());
         }
     }
+
+    public Point startingSquare(Character.Characters characterEnum) {
+        Board board = new Board();
+        for(int x=0; x<25; x++) {
+            for(int y=0; y<25; y++) {
+                if(board.board[x][y] instanceof StartSquare) {
+                    StartSquare startSquare = (StartSquare) board.board[x][y];
+                    if(startSquare.getCharacter().equals(characterEnum)) {
+                        System.out.println("this is the starting square: " + startSquare.getxPos() + " " + startSquare.getYpos());
+                        return new Point(startSquare.getxPos(), startSquare.getYpos());
+                    }
+                }
+            }
+        }
+        return null;
+    }
     public boolean isInRoom() {
         return inRoom;
     }
@@ -54,19 +72,11 @@ public class Player {
         this.inRoom = inRoom;
     }
 
-    public int getxPos() {
-        return xPos;
+    public Point getPoint() {
+        return point;
     }
 
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
+    public void setPoint(Point point) {
+        this.point = point;
     }
 }

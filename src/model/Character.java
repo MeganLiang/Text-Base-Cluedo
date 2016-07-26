@@ -1,5 +1,7 @@
 package model;
 
+import model.Squares.StartSquare;
+
 import java.security.SecureRandom;
 
 public class Character implements Card{
@@ -55,7 +57,6 @@ public class Character implements Card{
         int x = random.nextInt(clazz.getEnumConstants().length);
         return (Characters) clazz.getEnumConstants()[x];
     }
-
 
 
 }

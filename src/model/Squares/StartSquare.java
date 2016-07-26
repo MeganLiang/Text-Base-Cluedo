@@ -11,4 +11,8 @@ public class StartSquare extends Square {
         super(xPos, ypos);
         this.character = c;
     }
+
+    public Character.Characters getCharacter() {
+        return character;
+    }
 }

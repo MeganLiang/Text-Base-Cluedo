@@ -83,17 +83,23 @@ public class Game {
     }
 
     public static void main(String[] args) {
-//        initGame();
-//        chooseCharacters(setup.getNumPlayers());
-//        setup.dealCards();
-        Player megan = new Player("Megan");
-        Player tristan = new Player("Tristan");
-        megan.setInRoom(true);
-        megan.setxPos(12);
-        megan.setyPos(22); //billiardRoom
-        playersList.add(megan);
-        playersList.add(tristan);
-        suggestion();
+        initGame();
+        chooseCharacters(setup.getNumPlayers());
+        setup.dealCards();
+        setup.placePlayersAtStart();
+
+//        Player megan = new Player("Megan");
+//        Player tristan = new Player("Tristan");
+//        megan.setInRoom(true);
+//        megan.setxPos(12);
+//        megan.setyPos(22); //billiardRoom
+//        playersList.add(megan);
+//        playersList.add(tristan);
+//        suggestion();
+
+//        Player megan = new Player("Megan");
+//        megan.setCharacter(Character.Characters.ColonelMustard);
+//        megan.startingSquare(Character.Characters.ColonelMustard);
 
     }
 

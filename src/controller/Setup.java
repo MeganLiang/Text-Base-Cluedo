@@ -3,7 +3,9 @@ package controller;
 import model.*;
 import model.Character;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by liangmeij on 24/07/16.
@@ -39,6 +41,14 @@ public class Setup {
         gameSolution = new Solution(randomWeapon, randomRoom, randomCharacter);
         gameSolution.printSolution();
         return gameSolution;
+    }
+
+    public void placePlayersAtStart() {
+        List<Player> listPlayers = game.getPlayerList();
+        for(Player player: listPlayers) {
+            Point point = player.startingSquare(player.getCharacter());
+            player.setPoint(point);
+        }
     }
     /**
      * Get the number of players

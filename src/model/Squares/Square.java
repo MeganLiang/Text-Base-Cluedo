@@ -15,4 +15,11 @@ public abstract class Square{
     public void checkMove(){
     }
 
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getYpos() {
+        return ypos;
+    }
 }

@@ -1,4 +1,6 @@
-package model;
+package model.Squares;
+
+import model.Room;
 
 /**
  * Created by liangmeij on 25/07/16.

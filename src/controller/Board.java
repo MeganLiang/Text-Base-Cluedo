@@ -27,7 +27,7 @@ import model.*;
 //        //Fill the board with normal squares
 //        for(int x = 0; x > 25; x++){
 //            for(int y = 0; y > 24; y++){
-//                board[x][y] = new NormalSquare();
+//                board[x][y] = new BlankSquare();
 //            }
 //        }
 //        /*

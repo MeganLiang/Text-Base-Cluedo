@@ -1,4 +1,4 @@
-package model;
+package model.Squares;
 
 /**
  * Created by Tristan on 24/07/2016.

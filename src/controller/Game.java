@@ -46,8 +46,8 @@ public class Game {
      */
     public static void suggestion() {
         for(Player player: playersList) {
-            System.out.println(player.getName());
             if (player.isInRoom(player)) {
+                System.out.println(player.getName() + ", you are in the " + player.whatRoom(player).getName());
                 String s = textBaseCluedo.suggest(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
@@ -66,15 +66,36 @@ public class Game {
                 Character c = new Character(Character.Characters.valueOf(splitS[2]));
                 Suggestion suggestion = new Suggestion(w, r, c);
                 //return new Suggestion(w, r, c);
-                proveSuggestions(suggestion);
+                proveSuggestions(suggestion,player);
             }
         }
         //return null;
     }
 
-    private static void proveSuggestions(Suggestion suggestion) {
+    private static void proveSuggestions(Suggestion suggestion, Player excludePlayer) {
         for(Player player: playersList) {
-
+            if(player != excludePlayer) {
+                System.out.print(player.getName());
+                System.out.println("============================");
+                for (Card c : player.getHand().getCards()) {
+                    if (c instanceof Weapon) {
+                        Weapon weapon = (Weapon) c;
+                        if (weapon.getName().equals(suggestion.getWeapon().getName())) {
+                            System.out.println(weapon.getName());
+                        }
+                    } else if (c instanceof Room) {
+                        Room room = (Room) c;
+                        if (room.getName().equals(suggestion.getRoom().getName())) {
+                            System.out.println(room.getName());
+                        }
+                    } else if (c instanceof Character) {
+                        Character character = (Character) c;
+                        if (character.getName().equals(suggestion.getCharacter().getName())) {
+                            System.out.println(character.getName());
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -97,10 +118,17 @@ public class Game {
 //        setup.placePlayersAtStart();
 
         Player megan = new Player("Megan");
-        //Player tristan = new Player("Tristan");
+        Player tristan = new Player("Tristan");
         megan.setPositionPoint(new Point(12,22)); //Hall
+        tristan.setPositionPoint(new Point(12,22));
         playersList.add(megan);
-        //playersList.add(tristan);
+        playersList.add(tristan);
+
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Weapon(Weapon.Weapons.Spanner));
+        cards.add(new Room(Room.Rooms.Study));
+        Hand hand = new Hand(cards);
+        tristan.setHand(hand);
         suggestion();
 
 

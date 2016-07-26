@@ -15,17 +15,17 @@ public class Setup {
     private static Solution gameSolution;
     private static int numPlayers;
 
-    private static Set<Weapon.Weapons> availableWeapons;
-    private static List<Room.Rooms> availableRooms;
-    private static Set<Character.Characters> availableCharacters;
+    private static Set<Weapon.Weapons> availableWeapons= new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
+    private static List<Room.Rooms> availableRooms= new ArrayList<>(Arrays.asList(Room.Rooms.values()));
+    private static Set<Character.Characters> availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
 
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */
     public static Solution initGame() {
-        availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
-        availableRooms = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
-        availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
+//        availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
+//        availableRooms = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
+//        availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
 
         numPlayers = getNumberOfPlayers();
 
@@ -47,7 +47,7 @@ public class Setup {
         List<Player> listPlayers = game.getPlayerList();
         for(Player player: listPlayers) {
             Point point = player.startingSquare(player.getCharacter());
-            player.setPoint(point);
+            player.setPositionPoint(point);
         }
     }
     /**

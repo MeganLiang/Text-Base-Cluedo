@@ -1,5 +1,6 @@
 package model;
 
+import model.Squares.RoomSquare;
 import model.Squares.StartSquare;
 
 import java.awt.*;
@@ -9,7 +10,7 @@ public class Player {
     private String name;
     private Character.Characters character;
     private Hand hand;
-   Point point;
+    private Point point;
     private boolean inRoom;
 
     public Player(String name) {
@@ -64,7 +65,17 @@ public class Player {
         }
         return null;
     }
-    public boolean isInRoom() {
+    public boolean isInRoom(Player player) {
+        Board board = new Board();
+        for(int x=0; x<25; x++) {
+            for (int y = 0; y < 25; y++) {
+                if (board.board[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
+                    inRoom = true;
+                    return inRoom;
+                }
+            }
+        }
+        inRoom = false;
         return inRoom;
     }
 
@@ -72,11 +83,11 @@ public class Player {
         this.inRoom = inRoom;
     }
 
-    public Point getPoint() {
+    public Point getPositionPoint() {
         return point;
     }
 
-    public void setPoint(Point point) {
+    public void setPositionPoint(Point point) {
         this.point = point;
     }
 }

@@ -4,7 +4,9 @@ import model.*;
 import model.Character;
 import view.TextBaseCluedo;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import static controller.Setup.*;
 
@@ -42,36 +44,33 @@ public class Game {
      * players can make suggestion to gather intelligence for their accusation
      * @return Suggestion
      */
-    public static void suggestion() {
+    public static Suggestion suggestion() {
         for(Player player: playersList) {
             System.out.println(player.getName());
-            if (player.isInRoom()) {
+            if (player.isInRoom(player)) {
                 String s = textBaseCluedo.suggest(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
-                while (!Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
+                while (splitS.length != 3
+                        || !Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
                         || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
                         || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
                     System.out.println("Unexpected input, try again");
                     s = textBaseCluedo.suggest();
                     splitS = s.trim().split("\\s+");
                 }
-//                while(board[5][6] ) {
-//
-//                }
                 Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
                 Room r = new Room(Room.Rooms.valueOf(splitS[1]));
                 Character c = new Character(Character.Characters.valueOf(splitS[2]));
-                Suggestion suggestion = new Suggestion(w, r, c);
-                //return new Suggestion(w, r, c);
+                //Suggestion suggestion = new Suggestion(w, r, c);
+                return new Suggestion(w, r, c);
             }
         }
-        //return null;
+        return null;
     }
 
     public static void addToPlayersList(Player player) {
         playersList.add(player);
-        //
     }
 
     /**
@@ -83,23 +82,18 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        initGame();
-        chooseCharacters(setup.getNumPlayers());
-        setup.dealCards();
-        setup.placePlayersAtStart();
+//        initGame();
+//        chooseCharacters(setup.getNumPlayers());
+//        setup.dealCards();
+//        setup.placePlayersAtStart();
 
-//        Player megan = new Player("Megan");
-//        Player tristan = new Player("Tristan");
-//        megan.setInRoom(true);
-//        megan.setxPos(12);
-//        megan.setyPos(22); //billiardRoom
-//        playersList.add(megan);
-//        playersList.add(tristan);
-//        suggestion();
+        Player megan = new Player("Megan");
+        Player tristan = new Player("Tristan");
+        megan.setPositionPoint(new Point(12,22)); //billiardRoom
+        playersList.add(megan);
+        playersList.add(tristan);
+        suggestion();
 
-//        Player megan = new Player("Megan");
-//        megan.setCharacter(Character.Characters.ColonelMustard);
-//        megan.startingSquare(Character.Characters.ColonelMustard);
 
     }
 

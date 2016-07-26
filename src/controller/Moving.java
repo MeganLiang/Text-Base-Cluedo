@@ -21,7 +21,7 @@ public class Moving {
             System.out.println("You rolled a " + diceRoll);
             String commands = "";
             List<Move.Moves> moves = new ArrayList<>(Arrays.asList(Move.Moves.values()));
-            if(player.isInRoom()) {
+            if(player.isInRoom(player)) {
                 System.out.println("You are in a room");
                 commands = game.textBaseCluedo.movingInRoom();
                 String[] commandArray = commands.trim().split("\\s+");

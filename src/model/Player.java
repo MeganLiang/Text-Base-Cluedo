@@ -78,7 +78,19 @@ public class Player {
         inRoom = false;
         return inRoom;
     }
-
+    public Room whatRoom(Player player) {
+        Board board = new Board();
+        for(int x=0; x<25; x++) {
+            for (int y = 0; y < 25; y++) {
+                if (board.board[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
+                    RoomSquare roomSquare = (RoomSquare)board.board[player.getPositionPoint().x][player.getPositionPoint().y];
+                    Room room = roomSquare.getRoom();
+                    return room;
+                }
+            }
+        }
+        return null;
+    }
     public void setInRoom(boolean inRoom) {
         this.inRoom = inRoom;
     }

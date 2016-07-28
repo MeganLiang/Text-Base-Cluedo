@@ -44,29 +44,59 @@ public class Game {
      * players can make suggestion to gather intelligence for their accusation
      * @return Suggestion
      */
-    public static Suggestion suggestion() {
+    public static void suggestion() {
         for(Player player: playersList) {
-            System.out.println(player.getName());
             if (player.isInRoom(player)) {
+                System.out.println(player.getName() + ", you are in the " + player.whatRoom(player).getName());
                 String s = textBaseCluedo.suggest(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
                 while (splitS.length != 3
                         || !Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
                         || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
-                        || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
-                    System.out.println("Unexpected input, try again");
+                        || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
+                        || !player.whatRoom(player).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
+                    System.out.println("Unexpected input, try again. You can only make suggestions about the room");
                     s = textBaseCluedo.suggest();
                     splitS = s.trim().split("\\s+");
                 }
+
                 Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
                 Room r = new Room(Room.Rooms.valueOf(splitS[1]));
                 Character c = new Character(Character.Characters.valueOf(splitS[2]));
-                //Suggestion suggestion = new Suggestion(w, r, c);
-                return new Suggestion(w, r, c);
+                Suggestion suggestion = new Suggestion(w, r, c);
+                //return new Suggestion(w, r, c);
+                proveSuggestions(suggestion,player);
             }
         }
-        return null;
+        //return null;
+    }
+
+    private static void proveSuggestions(Suggestion suggestion, Player excludePlayer) {
+        for(Player player: playersList) {
+            if(player != excludePlayer) {
+                System.out.print(player.getName());
+                System.out.println("============================");
+                for (Card c : player.getHand().getCards()) {
+                    if (c instanceof Weapon) {
+                        Weapon weapon = (Weapon) c;
+                        if (weapon.getName().equals(suggestion.getWeapon().getName())) {
+                            System.out.println(weapon.getName());
+                        }
+                    } else if (c instanceof Room) {
+                        Room room = (Room) c;
+                        if (room.getName().equals(suggestion.getRoom().getName())) {
+                            System.out.println(room.getName());
+                        }
+                    } else if (c instanceof Character) {
+                        Character character = (Character) c;
+                        if (character.getName().equals(suggestion.getCharacter().getName())) {
+                            System.out.println(character.getName());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static void addToPlayersList(Player player) {
@@ -89,9 +119,16 @@ public class Game {
 
         Player megan = new Player("Megan");
         Player tristan = new Player("Tristan");
-        megan.setPositionPoint(new Point(12,22)); //billiardRoom
+        megan.setPositionPoint(new Point(12,22)); //Hall
+        tristan.setPositionPoint(new Point(12,22));
         playersList.add(megan);
         playersList.add(tristan);
+
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Weapon(Weapon.Weapons.Spanner));
+        cards.add(new Room(Room.Rooms.Study));
+        Hand hand = new Hand(cards);
+        tristan.setHand(hand);
         suggestion();
 
 

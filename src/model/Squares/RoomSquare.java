@@ -10,8 +10,13 @@ public class RoomSquare extends Square {
 
     public RoomSquare(Room room, int x, int y){
         super(x,y);
+        this.room = room;
     }
     public String toString() {
         return "R";
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }

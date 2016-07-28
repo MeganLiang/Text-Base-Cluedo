@@ -47,7 +47,6 @@ public class TextBaseCluedo {//implements UserInput{
         return reader.nextLine();
     }
     public String suggest() {
-        System.out.println("You are in a room, please make your suggestion");
         System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
         return reader.nextLine();
     }

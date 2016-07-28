@@ -143,39 +143,53 @@ public class Game {
      * Get a list of squares the player can move too
      * @return List<int><int>
      */
-    Set<Coordinate> avaialableMoves(Player p, int roll){
-        Coordinate playerPos = new Coordinate(p.xPos,p.yPos);
-        Set<Coordinate> visitable;
-        visitable = getNeighbours(playerPos,roll,new HashSet<Coordinate>());
+    public boolean move(Point point, Player player, int roll){
+        Set<Point> avaiableSquares = avaialableMoves(player, roll);
+
+        if(avaiableSquares.contains(point)){
+            board.board[player.getPoint().x][player.getPoint().y].setNull();
+            player.setPosition(point);
+            board.board[point.x][point.y].setCurrent(player);
+            return true;
+        }
+        //square cannot be moved too
+        return false;
+
+    }
+
+    Set<Point> avaialableMoves(Player p, int roll){
+        Point playerPos = player.getPoint();
+        Set<Point> visitable;
+        visitable = getNeighbours(playerPos,roll,new HashSet<Point>());
         return visitable;
     }
 
-    Set<Coordinate> getNeighbours(Coordinate c,int remainingMoves, Set <Coordinate> visited) {
+    Set<Point> getNeighbours(Point c,int remainingMoves, Set <Point> visited) {
         if (remainingMoves != 0) {
             if(c.x + 1 < 25) {
-                if (board[c.x + 1][c.y] != null) {
-                    Coordinate toAdd = new Coordinate(c.x + 1, c.y);
+                if (board[c.x + 1][c.y] != null && board[c.x + 1][c.y].isFree() == true) {
+                    Point toAdd = new Point(c.x + 1, c.y);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
-            if(c.x - 1 > 0) {
-                if (board[c.x - 1][c.y] != null) {
-                    Coordinate toAdd = new Coordinate(c.x - 1, c.y);
+            if(c.x - 1 >= 0) {
+                if (board[c.x - 1][c.y] != null  && board[c.x - 1][c.y].isFree() == true) {
+                    Point toAdd = new Point(c.x - 1, c.y);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
             if(c.y + 1 < 24){
-                if (board[c.x][c.y + 1] != null) {
-                    Coordinate toAdd = new Coordinate(c.x, c.y + 1);
+                if (board[c.x][c.y + 1] != null && board[c.x][c.y + 1].isFree() == true) {
+                    Point toAdd = new Point(c.x, c.y + 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
-            if(c.y - 1 < 0){
-                if (board[c.x][c.y - 1] != null) {
-                    Coordinate toAdd = new Coordinate(c.x, c.y - 1);
+            if(c.y - 1 <= 0){
+                if (board[c.x][c.y - 1] != null && board[c.x][c.y - 1].isFree() == true) {
+                    Point toAdd = new Point(c.x, c.y - 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }

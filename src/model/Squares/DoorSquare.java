@@ -1,5 +1,6 @@
 package model.Squares;
 
+import model.Player;
 import model.Room;
 
 /**
@@ -14,7 +15,6 @@ public class DoorSquare extends Square {
         this.room = room;
         this.direction = direction;
     }
-    public String toString() {
-        return "D";
-    }
+
+
 }

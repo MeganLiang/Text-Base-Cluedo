@@ -3,16 +3,16 @@ package model.Squares;
 /**
  * Created by Tristan on 24/07/2016.
  */
-public abstract class Square{
-        int xPos;
-        int ypos;
+public abstract class Square {
+    int xPos;
+    int yPos;
 
-    public Square(int xPos, int ypos) {
+    public Square(int xPos, int yPos) {
         this.xPos = xPos;
-        this.ypos = ypos;
+        this.yPos = yPos;
     }
 
-    public void checkMove(){
+    public void checkMove() {
     }
 
     public int getxPos() {
@@ -20,6 +20,10 @@ public abstract class Square{
     }
 
     public int getYpos() {
-        return ypos;
+        return yPos;
     }
+
+
 }
+
+

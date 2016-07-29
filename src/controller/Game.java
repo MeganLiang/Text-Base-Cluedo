@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Character;
+import model.Squares.NullSquare;
 import view.TextBaseCluedo;
 
 import java.awt.*;
@@ -133,23 +134,26 @@ public class Game {
 
 
     }
-
-
-
-        }
-
-    }
     /**
      * Get a list of squares the player can move too
      * @return List<int><int>
      */
     public boolean move(Point point, Player player, int roll){
+        //Get List of Availabe Squares
         Set<Point> avaiableSquares = avaialableMoves(player, roll);
 
+        //Remove Squares that Players are in
+        for(Player p:playersList){
+            Point checkPoint = p.getPositionPoint();
+            if(avaiableSquares.contains(checkPoint)){
+                avaiableSquares.remove(checkPoint);
+            }
+        }
+
+        //CHeck if inteded movement is possible
         if(avaiableSquares.contains(point)){
-            board.board[player.getPoint().x][player.getPoint().y].setNull();
-            player.setPosition(point);
-            board.board[point.x][point.y].setCurrent(player);
+            //Move players point to that position
+            player.setPositionPoint(point);
             return true;
         }
         //square cannot be moved too
@@ -158,7 +162,7 @@ public class Game {
     }
 
     Set<Point> avaialableMoves(Player p, int roll){
-        Point playerPos = player.getPoint();
+        Point playerPos = p.getPositionPoint();
         Set<Point> visitable;
         visitable = getNeighbours(playerPos,roll,new HashSet<Point>());
         return visitable;
@@ -167,28 +171,28 @@ public class Game {
     Set<Point> getNeighbours(Point c,int remainingMoves, Set <Point> visited) {
         if (remainingMoves != 0) {
             if(c.x + 1 < 25) {
-                if (board[c.x + 1][c.y] != null && board[c.x + 1][c.y].isFree() == true) {
+                if (!(board.board[c.x + 1][c.y] instanceof NullSquare) ) {
                     Point toAdd = new Point(c.x + 1, c.y);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
             if(c.x - 1 >= 0) {
-                if (board[c.x - 1][c.y] != null  && board[c.x - 1][c.y].isFree() == true) {
+                if (!(board.board[c.x - 1][c.y] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x - 1, c.y);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
             if(c.y + 1 < 24){
-                if (board[c.x][c.y + 1] != null && board[c.x][c.y + 1].isFree() == true) {
+                if (!(board.board[c.x][c.y + 1] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x, c.y + 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
             if(c.y - 1 <= 0){
-                if (board[c.x][c.y - 1] != null && board[c.x][c.y - 1].isFree() == true) {
+                if (!(board.board[c.x][c.y - 1] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x, c.y - 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);

@@ -46,7 +46,7 @@ public class Setup {
     public void placePlayersAtStart() {
         List<Player> listPlayers = game.getPlayerList();
         for(Player player: listPlayers) {
-            Point point = player.startingSquare(player.getCharacter());
+            Point point = player.startingSquare(player.getCharacter(),game.getBoard());
             player.setPositionPoint(point);
         }
     }

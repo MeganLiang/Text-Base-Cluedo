@@ -44,8 +44,8 @@ public class Guessing {
      */
     public static void suggestion() {
         for(Player player: Game.getPlayerList()) {
-            if (player.isInRoom(player, Game.board)) {
-                System.out.println(player.getName() + ", you are in the " + player.whatRoom(player, Game.board).getName());
+            if (player.isInRoom(player, Game.getBoard())) {
+                System.out.println(player.getName() + ", you are in the " + player.whatRoom(player, Game.getBoard()).getName());
                 String s = Game.textBaseCluedo.suggest(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
@@ -53,7 +53,7 @@ public class Guessing {
                         || !Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
                         || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
                         || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
-                        || !player.whatRoom(player, Game.board).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
+                        || !player.whatRoom(player, Game.getBoard()).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
                     System.out.println("Unexpected input, try again. You can only make suggestions about the room");
                     s = Game.textBaseCluedo.suggest();
                     splitS = s.trim().split("\\s+");

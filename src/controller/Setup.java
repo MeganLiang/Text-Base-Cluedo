@@ -10,7 +10,6 @@ import java.util.List;
 import static controller.Game.getPlayerList;
 
 public class Setup {
-    private static Game game = new Game();
     private static Solution gameSolution;
     private static int numPlayers;
 
@@ -22,9 +21,6 @@ public class Setup {
      * one character, one weapon and one room card are selected at random and is the solution
      */
     static Solution initGame() {
-//        availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
-//        availableRooms = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
-//        availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
 
         numPlayers = getNumberOfPlayers();
 
@@ -45,7 +41,7 @@ public class Setup {
     void placePlayersAtStart() {
         List<Player> listPlayers = Game.getPlayerList();
         for(Player player: listPlayers) {
-            Point point = player.startingSquare(player.getCharacter(), Game.board);
+            Point point = player.startingSquare(player.getCharacter(), Game.getBoard());
             player.setPositionPoint(point);
         }
     }
@@ -55,9 +51,9 @@ public class Setup {
      */
     private static int getNumberOfPlayers() {
         int numPlayers = 0;
-        while(numPlayers < 3 || numPlayers > 6) {
+        while(numPlayers < 2 || numPlayers > 6) {
             numPlayers = Game.textBaseCluedo.getNumberOfPlayers();
-            if(numPlayers < 3 || numPlayers > 6) {
+            if(numPlayers < 2 || numPlayers > 6) {
                 System.out.println("Please enter a number between 3-6");
                 numPlayers = Game.textBaseCluedo.getNumberOfPlayers();
             }

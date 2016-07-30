@@ -2,15 +2,23 @@ package model;
 
 public class Move {
     public enum Moves {
-        U("U"),
+        W("W"),
+        A("A"),
+        S("S"),
         D("D"),
-        L("L"),
-        R("R");
+        w("w"),
+        a("a"),
+        s("s"),
+        d("d");
 
         private String text;
 
         Moves(String text) {
             this.text = text;
+        }
+
+        public String getText() {
+            return text;
         }
 
         public static Moves fromString(String text) {

@@ -4,7 +4,7 @@ import model.Character;
 
 import java.util.*;
 
-public class TextBaseCluedo {//implements UserInput{
+public class TextBaseCluedo implements UserInput{
 
     private Scanner reader = new Scanner(System.in);
 
@@ -14,6 +14,10 @@ public class TextBaseCluedo {//implements UserInput{
      */
     public int getNumberOfPlayers() {
         System.out.println("How many players?");
+        while(!reader.hasNextInt()) {
+            System.out.println("Invalid! Please enter an integer");
+            reader.next();
+        }
         int numPlayers = reader.nextInt();
 
         return numPlayers;
@@ -48,19 +52,23 @@ public class TextBaseCluedo {//implements UserInput{
     }
     public String suggest() {
         System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
+        System.out.println("=======================================");
         return reader.nextLine();
     }
     public String accuse() {
         System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]");
+        System.out.println("=======================================");
         return reader.nextLine();
     }
     public String moving() {
-        System.out.println("Where would you like to move? Enter [U] [D] [L] [R]");
+        System.out.println("Where would you like to move? Enter [W] [A] [S] [D]");
+        System.out.println("=======================================");
         return reader.nextLine();
     }
 
     public String movingInRoom() {
-        System.out.println("Where would you like to move? Enter [Exit] [U] [D] [L] [R]");
+        System.out.println("Where would you like to move? Enter [Exit] [W] [A] [S] [D]");
+        System.out.println("=======================================");
         return reader.nextLine();
     }
     public void printHelp() {
@@ -71,4 +79,10 @@ public class TextBaseCluedo {//implements UserInput{
         System.out.println("=======================================");
     }
 
+    public String accusationOption() {
+
+        System.out.println("Would you like to make an accusation?");
+        System.out.println("=======================================");
+        return reader.next();
+    }
 }

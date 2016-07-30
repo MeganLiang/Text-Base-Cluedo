@@ -18,10 +18,36 @@ public interface UserInput {
      * Get the player names
      * @return the list of names of the players
      */
-    List<String> getPlayerNames();
+    String getPlayers();
 
-    //Character chooseCharacter(String playerName, List<Character.Character> allCharacters, List<Character.Character> avaliableCharacters);
+    /**
+     * Allow for players to choose a character
+     * @return character choice
+     */
+    String choosingCharacters();
 
+    /**
+     * Allow for players to make a suggestion
+     * @return Suggestion
+     */
+    String suggest();
 
+    /**
+     * Allow for players to make an accusation
+     * @return Accusation
+     */
+    String accuse();
+
+    /**
+     * Allow for players to input a move using WASD key strokes
+     * @return
+     */
+    String moving();
+
+    /**
+     * Allow for players to input what exit to take after being in a room
+     * @return
+     */
+    String movingInRoom();
 
 }

@@ -43,6 +43,7 @@ public class Game {
         setup.placePlayersAtStart();
         System.out.println("Game is ready to play!!");
 
+<<<<<<< HEAD
         Player megan = new Player("Megan");
         Player tristan = new Player("Tristan");
         megan.setPositionPoint(new Point(12,22)); //Hall
@@ -85,6 +86,12 @@ public class Game {
                         }
                     }
                 }
+=======
+        for(Player player: getPlayerList()) {
+            Guessing.chooseAccusation(player);
+            if(!player.hasMadeAccusation()) { //player has not made an accusation
+                Moving.movePlayer(player);
+>>>>>>> 8094d584b67bb373d4bca11efe15c4a214f94cb2
             }
             System.out.println(availableSquares.size());
             if (availableSquares.contains(point)) {
@@ -110,6 +117,7 @@ public class Game {
             return false;
 
 
+<<<<<<< HEAD
         }
         //Player is not in room square
         else {
@@ -197,6 +205,8 @@ public class Game {
         return visited;
 
 
+=======
+>>>>>>> 8094d584b67bb373d4bca11efe15c4a214f94cb2
     }
 
 

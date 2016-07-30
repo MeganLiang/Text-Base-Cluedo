@@ -22,22 +22,23 @@ public class CluedoTests {
 
     @Test
     public void getCharacterStartPosition1() {
-        Board b = new Board();
+
+        Board board = new Board();
         Player megan = new Player("Megan");
         megan.setCharacter(Character.Characters.ColonelMustard);
-        megan.startingSquare(Character.Characters.ColonelMustard,b);
+        megan.startingSquare(Character.Characters.ColonelMustard, board);
         // coordinates returned
-        assertEquals(megan.startingSquare(Character.Characters.ColonelMustard,b), new Point(0,17));
+        assertEquals(megan.startingSquare(Character.Characters.ColonelMustard, board), new Point(0,17));
     }
 
     @Test
     public void getCharacterStartPosition2() {
-        Board b = new Board();
+        Board board = new Board();
         Player megan = new Player("Megan");
         megan.setCharacter(Character.Characters.ReverendGreen);
-        megan.startingSquare(Character.Characters.ReverendGreen,b);
+        megan.startingSquare(Character.Characters.ReverendGreen, board);
         // coordinates returned
-        assertEquals(megan.startingSquare(Character.Characters.ReverendGreen,b), new Point(14,0));
+        assertEquals(megan.startingSquare(Character.Characters.ReverendGreen,board), new Point(14,0));
     }
 
     @Test
@@ -46,17 +47,6 @@ public class CluedoTests {
         Player megan = new Player("Megan");
         megan.setPositionPoint(new Point(1, 1));
         assertEquals(megan.isInRoom(megan,b), true);
-    }
-
-    @Test
-    public void testPlayerMoveBasic1() {
-        Game g = new Game();
-        Player megan = new Player("Megan");
-        megan.setPositionPoint(new Point(1,8));
-        Point moveTo = new Point(1,9);
-        //System.out.println(g.move(moveTo,megan,1));
-        assertEquals(g.move(moveTo,megan,1),true);
-        assertEquals(megan.getPositionPoint(),moveTo);
     }
 
     @Test
@@ -162,6 +152,28 @@ public class CluedoTests {
         Point moveTo = new Point(6,5);
         assertEquals(g.move(moveTo,megan,5),true);
         //assertEquals(megan.getPositionPoint(),new Point(0,8));
+
+    }
+    @Test
+    public void testPlayerInRoom2() {
+        Board board = new Board();
+        Player megan = new Player("Megan");
+        megan.setPositionPoint(new Point(0,17)); //starting square 6
+        if(megan.isInRoom(megan,board)) {
+            assertFalse("Player not in room", megan.isInRoom(megan,board));
+        }
+
+    }
+    @Test
+    public void testPlayerMoveBasic1() {
+        Game g = new Game();
+        Player megan = new Player("Megan");
+        megan.setPositionPoint(new Point(0,7));
+        Point moveTo = new Point(1,7);
+        boolean m = moveCheck(moveTo,megan,6);
+        System.out.println(m);
+        assertEquals(m,true);
+        assertEquals(megan.getPositionPoint(),moveTo);
     }
 
     @Test

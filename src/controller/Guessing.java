@@ -2,14 +2,18 @@ package controller;
 
 import model.*;
 import model.Character;
-
+import static controller.Game.getTextBaseCluedo;
 import static controller.Setup.getAvailableCharacters;
 import static controller.Setup.getAvailableRooms;
 
 public class Guessing {
+    /**
+     * calls textBaseCluedo to ask for player input for accusation
+     * @param player player
+     */
     public static void chooseAccusation(Player player) {
         System.out.println(player.getName() + "'s turn");
-        String choice = Game.textBaseCluedo.accusationOption();
+        String choice = getTextBaseCluedo().accusationOption();
         if(choice.equals("Yes") || choice.equals("yes") || choice.equals("y")) {
             player.setMadeAccusation(true);
             accusation();
@@ -21,14 +25,14 @@ public class Guessing {
      * @return Accusation
      */
     public static Accusation accusation() {
-        String s = Game.textBaseCluedo.accuse(); //weapon room character
+        String s = getTextBaseCluedo().accuse(); //weapon room character
         String[] splitS = s.trim().split("\\s+");
 
         while(!Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
                 || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
                 || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
             System.out.println("Unexpected input, try again");
-            s = Game.textBaseCluedo.accuse();
+            s = getTextBaseCluedo().accuse();
             splitS = s.trim().split("\\s+");
         }
         Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
@@ -40,13 +44,13 @@ public class Guessing {
 
     /**
      * players can make suggestion to gather intelligence for their accusation
-     * @return Suggestion
+     *
      */
     public static void suggestion() {
         for(Player player: Game.getPlayerList()) {
             if (player.isInRoom(player, Game.getBoard())) {
                 System.out.println(player.getName() + ", you are in the " + player.whatRoom(player, Game.getBoard()).getName());
-                String s = Game.textBaseCluedo.suggest(); //weapon room character
+                String s = getTextBaseCluedo().suggest(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
                 while (splitS.length != 3
@@ -55,7 +59,7 @@ public class Guessing {
                         || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
                         || !player.whatRoom(player, Game.getBoard()).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
                     System.out.println("Unexpected input, try again. You can only make suggestions about the room");
-                    s = Game.textBaseCluedo.suggest();
+                    s = getTextBaseCluedo().suggest();
                     splitS = s.trim().split("\\s+");
                 }
 
@@ -70,6 +74,12 @@ public class Guessing {
         //return null;
     }
 
+    /**
+     * players show their hand if they have a mentioned suggestion. If more the one card is mentioned
+     * the first card found in the list Hand is printed
+     * @param suggestion player's suggestion
+     * @param excludePlayer player
+     */
     private static void proveSuggestions(Suggestion suggestion, Player excludePlayer) {
         for(Player player: Game.getPlayerList()) {
             if(player != excludePlayer) {

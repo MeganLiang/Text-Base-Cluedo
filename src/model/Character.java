@@ -1,7 +1,5 @@
 package model;
 
-import model.Squares.StartSquare;
-
 import java.security.SecureRandom;
 
 public class Character implements Card{

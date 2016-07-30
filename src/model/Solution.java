@@ -11,6 +11,12 @@ public class Solution extends Envelope {
         System.out.println(character.getName());
         System.out.println(room.getName());
     }
+
+    /**
+     * compares the solution to the player accusation
+     * @param o can be suggestion or accusation
+     * @return true if they are the same
+     */
     @Override
     public boolean equals(Object o) {
         if(o==null) {

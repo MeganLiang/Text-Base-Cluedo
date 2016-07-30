@@ -2,9 +2,6 @@ package model;
 
 import java.util.List;
 
-/**
- * Created by megan on 19/07/16.
- */
 public class Hand {
     private List<Card> cards;
 

@@ -1,10 +1,13 @@
 package model;
 
 /**
- * Created by megan on 17/07/16.
  * interface is used by the Weapon, Room and Character classes to represent physical cards in the game
  */
 public interface Card {
+    /**
+     * getName of card
+     * @return
+     */
     String getName();
 
     /**

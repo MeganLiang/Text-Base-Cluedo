@@ -51,6 +51,12 @@ public class Player {
         }
     }
 
+    /**
+     * starting point for player determined by board
+     * @param characterEnum character the player has chosen
+     * @param board board of game
+     * @return point of start point
+     */
     public Point startingSquare(Character.Characters characterEnum, Board board) {
         for(int x=0; x<25; x++) {
             for(int y=0; y<25; y++) {
@@ -65,6 +71,13 @@ public class Player {
         }
         return null;
     }
+
+    /**
+     * returns if player is in a room
+     * @param player the player
+     * @param board the game board
+     * @return true if player is in room
+     */
     public boolean isInRoom(Player player, Board board) {
 
         for(int x=0; x<25; x++) {
@@ -78,6 +91,13 @@ public class Player {
         inRoom = false;
         return inRoom;
     }
+
+    /**
+     * returns the room that the player is in
+     * @param player player
+     * @param board game board
+     * @return room of player
+     */
     public Room whatRoom(Player player, Board board) {
         for(int x=0; x<25; x++) {
             for (int y = 0; y < 25; y++) {

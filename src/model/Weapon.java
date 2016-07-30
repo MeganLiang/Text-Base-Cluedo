@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 
 /**
  * A class representing the murder weapon in Cluedo. This is represented by an enum and a location
- * Created by megan on 15/07/16.
  */
 public class Weapon implements Card{
 

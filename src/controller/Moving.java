@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import static controller.Game.getTextBaseCluedo;
 import static model.Board.*;
 
 
@@ -199,12 +200,12 @@ public class Moving {
                 boolean validMove = false;
                 Point newPosition;
                 while(!validMove) {
-                    commands = Game.textBaseCluedo.moving();
+                    commands = getTextBaseCluedo().moving();
                     String[] commandArray = commands.trim().split("\\s+");
 
                     for(int i=0; i<commandArray.length; i++) { //error checking
                         while(!moves.contains(Move.Moves.fromString(commandArray[i]))) {
-                            commands = Game.textBaseCluedo.invalidArrayInput();
+                            commands = getTextBaseCluedo().invalidArrayInput();
                             commandArray = commands.trim().split("\\s+");
                         }
                     }

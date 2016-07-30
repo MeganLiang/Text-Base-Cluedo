@@ -7,9 +7,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by liangmeij on 24/07/16.
- */
+import static controller.Game.getPlayerList;
+
 public class Setup {
     private static Game game = new Game();
     private static Solution gameSolution;
@@ -22,7 +21,7 @@ public class Setup {
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */
-    public static Solution initGame() {
+    static Solution initGame() {
 //        availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
 //        availableRooms = new ArrayList<>(Arrays.asList(Room.Rooms.values()));
 //        availableWeapons = new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
@@ -43,10 +42,10 @@ public class Setup {
         return gameSolution;
     }
 
-    public void placePlayersAtStart() {
-        List<Player> listPlayers = game.getPlayerList();
+    void placePlayersAtStart() {
+        List<Player> listPlayers = Game.getPlayerList();
         for(Player player: listPlayers) {
-            Point point = player.startingSquare(player.getCharacter());
+            Point point = player.startingSquare(player.getCharacter(), Game.board);
             player.setPositionPoint(point);
         }
     }
@@ -54,13 +53,13 @@ public class Setup {
      * Get the number of players
      * @return the number of players
      */
-    public static int getNumberOfPlayers() {
+    private static int getNumberOfPlayers() {
         int numPlayers = 0;
         while(numPlayers < 3 || numPlayers > 6) {
-            numPlayers = game.textBaseCluedo.getNumberOfPlayers();
+            numPlayers = Game.textBaseCluedo.getNumberOfPlayers();
             if(numPlayers < 3 || numPlayers > 6) {
                 System.out.println("Please enter a number between 3-6");
-                numPlayers = game.textBaseCluedo.getNumberOfPlayers();
+                numPlayers = Game.textBaseCluedo.getNumberOfPlayers();
             }
         }
         System.out.println("Number of players is " + numPlayers);
@@ -70,9 +69,9 @@ public class Setup {
     /**
      * solution is picked, cards are dealt evenly to players
      */
-    public static void dealCards() {
+    static void dealCards() {
         deal(Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-        for(Player p: game.getPlayerList()) {
+        for(Player p: getPlayerList()) {
             System.out.println("Player's hand: ============");
             p.printHand();
         }
@@ -118,7 +117,7 @@ public class Setup {
         Collections.shuffle(cardsList);
 
         int index = 0;
-        for(Player player : game.getPlayerList()) {
+        for(Player player : getPlayerList()) {
             for (int i = 0; i < dealtEvenly; i++) {
                 Card c = cardsList.get(index);
                 player.getHand().addToHand(c);
@@ -134,27 +133,28 @@ public class Setup {
     /**
      * players are asked to choose a character from the game, which determines their
      * starting position
-     * @param numOfPlayers
+     * @param numOfPlayers number of players
      * @return Set<Characters></>
      */
     public static Set<Character.Characters> chooseCharacters(int numOfPlayers) {
         int count = 0;
         Set<Character.Characters> chosenCharacters = new HashSet<>();
-        game.textBaseCluedo.printHelp();
+        System.out.println("List of characters:");
+        Game.textBaseCluedo.printHelp();
         while (count != numOfPlayers) {
 
-            String playerName = game.textBaseCluedo.getPlayers();
+            String playerName = Game.textBaseCluedo.getPlayers();
             Player player = new Player(playerName);
-            game.addToPlayersList(player);
+            Game.addToPlayersList(player);
             player.setName(playerName);
 
-            String next = game.textBaseCluedo.choosingCharacters();
+            String next = Game.textBaseCluedo.choosingCharacters();
             if(next.contains("help")) {
-                game.textBaseCluedo.printHelp();
-                next = game.textBaseCluedo.choosingCharacters();
+                Game.textBaseCluedo.printHelp();
+                next = Game.textBaseCluedo.choosingCharacters();
             }
             while(chosenCharacters.contains(Character.Characters.fromString(next)) || !availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
-                next = game.textBaseCluedo.invalidCharacterInput();
+                next = Game.textBaseCluedo.invalidCharacterInput();
             }
             if(!chosenCharacters.contains(Character.Characters.fromString(next))  && availableCharacters.contains(Character.Characters.fromString(next))) {
                 chosenCharacters.add(Character.Characters.valueOf(next));

@@ -12,6 +12,7 @@ public class Player {
     private Hand hand;
     private Point point;
     private boolean inRoom;
+    private boolean madeAccusation = false;
 
     public Player(String name) {
         this.name = name;
@@ -50,8 +51,7 @@ public class Player {
         }
     }
 
-    public Point startingSquare(Character.Characters characterEnum) {
-        Board board = new Board();
+    public Point startingSquare(Character.Characters characterEnum, Board board) {
         for(int x=0; x<25; x++) {
             for(int y=0; y<25; y++) {
                 if(board.board[x][y] instanceof StartSquare) {
@@ -65,8 +65,8 @@ public class Player {
         }
         return null;
     }
-    public boolean isInRoom(Player player) {
-        Board board = new Board();
+    public boolean isInRoom(Player player, Board board) {
+
         for(int x=0; x<25; x++) {
             for (int y = 0; y < 25; y++) {
                 if (board.board[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
@@ -78,8 +78,7 @@ public class Player {
         inRoom = false;
         return inRoom;
     }
-    public Room whatRoom(Player player) {
-        Board board = new Board();
+    public Room whatRoom(Player player, Board board) {
         for(int x=0; x<25; x++) {
             for (int y = 0; y < 25; y++) {
                 if (board.board[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
@@ -101,5 +100,13 @@ public class Player {
 
     public void setPositionPoint(Point point) {
         this.point = point;
+    }
+
+    public boolean hasMadeAccusation() {
+        return madeAccusation;
+    }
+
+    public void setMadeAccusation(boolean madeAccusation) {
+        this.madeAccusation = madeAccusation;
     }
 }

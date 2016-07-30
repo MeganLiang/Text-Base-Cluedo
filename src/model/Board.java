@@ -206,17 +206,6 @@ public class Board {
 
     }
 
-    public static void print() {
-        for(int x=0; x<24; x++) {
-            for(int y=0; y<24; y++) {
-                if(board[x][y] instanceof RoomSquare) {
-                    //System.out.print(board[x][y]);
-                }
-
-            }
-            System.out.println();
-        }
-    }
     public static void main(String[] args) {
         new Board();
        // print();

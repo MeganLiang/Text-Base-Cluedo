@@ -3,9 +3,10 @@ import model.*;
 import model.Character;
 import org.junit.Test;
 import java.awt.*;
-import static controller.Game.addToPlayersList;
-import static controller.Game.suggestion;
+
+import static controller.Moving.moveCheck;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CluedoTests {

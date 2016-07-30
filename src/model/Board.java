@@ -2,6 +2,7 @@ package model;
 
 import model.Squares.*;
 
+import java.awt.*;
 import java.io.*;
 
 public class Board {
@@ -220,6 +221,10 @@ public class Board {
     public static void main(String[] args) {
         new Board();
        // print();
+    }
+
+    public Square returnSquare(Point p){
+        return board[(int)p.getX()][(int)p.getY()];
     }
 
 }

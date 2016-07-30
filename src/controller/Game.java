@@ -2,7 +2,10 @@ package controller;
 
 import model.*;
 import model.Character;
+import model.Squares.DoorSquare;
 import model.Squares.NullSquare;
+import model.Squares.RoomSquare;
+import model.Squares.Square;
 import view.TextBaseCluedo;
 
 import java.awt.*;
@@ -47,8 +50,8 @@ public class Game {
      */
     public static void suggestion() {
         for(Player player: playersList) {
-            if (player.isInRoom(player)) {
-                System.out.println(player.getName() + ", you are in the " + player.whatRoom(player).getName());
+            if (player.isInRoom(player,board)) {
+                System.out.println(player.getName() + ", you are in the " + player.whatRoom(player,board).getName());
                 String s = textBaseCluedo.suggest(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
@@ -56,7 +59,7 @@ public class Game {
                         || !Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
                         || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
                         || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
-                        || !player.whatRoom(player).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
+                        || !player.whatRoom(player,board).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
                     System.out.println("Unexpected input, try again. You can only make suggestions about the room");
                     s = textBaseCluedo.suggest();
                     splitS = s.trim().split("\\s+");
@@ -139,30 +142,97 @@ public class Game {
      * @return List<int><int>
      */
     public boolean move(Point point, Player player, int roll){
-        //Get List of Availabe Squares
-        Set<Point> avaiableSquares = avaialableMoves(player, roll);
+        //Create List of Availabe Squares
+        Set<Point> availableSquares;
 
-        //Remove Squares that Players are in
-        for(Player p:playersList){
-            Point checkPoint = p.getPositionPoint();
-            if(avaiableSquares.contains(checkPoint)){
-                avaiableSquares.remove(checkPoint);
+
+        //If player is in a room square
+        if(board.returnSquare(player.getPositionPoint())instanceof RoomSquare){
+            System.out.println("In Room");
+            availableSquares = new HashSet<>();
+            Room current = ((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom();
+            System.out.println(current.toString());
+            Set<Square> doorSquares = new HashSet<Square>();
+            for(int x = 0; x < 25; x++){
+                for(int y = 0; y < 25; y++){
+                    if(board.board[x][y] instanceof DoorSquare){
+                        DoorSquare rs = (DoorSquare) board.board[x][y];
+                        System.out.println(rs.getRoom().getName());
+                        if(rs.getRoom().getName().equals(current.getName())){
+                            availableSquares.addAll(avaialableMoves(new Point(x,y),roll-1));
+                        }
+                    }
+                }
             }
-        }
+            System.out.println(availableSquares.size());
+            if (availableSquares.contains(point)) {
+                //If movement is a room sqaure
+                if (board.returnSquare(point) instanceof RoomSquare) {
+                    Room room = ((RoomSquare) board.returnSquare(point)).getRoom();
+                    for (Point rsPoint : availableSquares) {
+                        Square rs = board.board[(int) rsPoint.getX()][(int) rsPoint.getY()];
+                        if (rs instanceof RoomSquare) {
+                            if (((RoomSquare) rs).getRoom().equals(room)) {
+                                player.setPositionPoint(point);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                //Move players point to that position
+                player.setPositionPoint(point);
+                return true;
+            }
+            //square cannot be moved too
+            return false;
 
-        //CHeck if inteded movement is possible
-        if(avaiableSquares.contains(point)){
-            //Move players point to that position
-            player.setPositionPoint(point);
-            return true;
+
         }
-        //square cannot be moved too
-        return false;
+        //Player is not in room square
+        else {
+            availableSquares = avaialableMoves(player.getPositionPoint(), roll);
+            //Remove Squares that Players are in
+            for (Player p : playersList) {
+                Point checkPoint = p.getPositionPoint();
+                if (availableSquares.contains(checkPoint)) {
+                    availableSquares.remove(checkPoint);
+                }
+            }
+            //CHeck if inteded movement is possible
+            if (availableSquares.contains(point)) {
+                System.out.println("Hi");
+                //If movement is a room sqaure
+                if (board.returnSquare(point) instanceof RoomSquare) {
+                    System.out.println("Hi");
+                    Room room = ((RoomSquare) board.returnSquare(point)).getRoom();
+                    for (Point rsPoint : availableSquares) {
+                        Square rs = board.board[(int) rsPoint.getX()][(int) rsPoint.getY()];
+                        if (rs instanceof RoomSquare) {
+                            if (((RoomSquare) rs).getRoom().equals(room)) {
+                                player.setPositionPoint(point);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                //Move players point to that position
+                player.setPositionPoint(point);
+                return true;
+            }
+            //square cannot be moved too
+            return false;
+        }
 
     }
 
-    Set<Point> avaialableMoves(Player p, int roll){
-        Point playerPos = p.getPositionPoint();
+    public Board getBoard(){
+        return this.board;
+    }
+
+    Set<Point> avaialableMoves(Point p, int roll){
+        Point playerPos = p;
         Set<Point> visitable;
         visitable = getNeighbours(playerPos,roll,new HashSet<Point>());
         return visitable;
@@ -170,6 +240,9 @@ public class Game {
 
     Set<Point> getNeighbours(Point c,int remainingMoves, Set <Point> visited) {
         if (remainingMoves != 0) {
+            if(c.getX() < 0 || c.getY() > 24){
+                return null;
+            }
             if(c.x + 1 < 25) {
                 if (!(board.board[c.x + 1][c.y] instanceof NullSquare) ) {
                     Point toAdd = new Point(c.x + 1, c.y);
@@ -184,14 +257,14 @@ public class Game {
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
-            if(c.y + 1 < 24){
+            if(c.y + 1 < 25){
                 if (!(board.board[c.x][c.y + 1] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x, c.y + 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
-            if(c.y - 1 <= 0){
+            if(c.y - 1 >= 0){
                 if (!(board.board[c.x][c.y - 1] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x, c.y - 1);
                     visited.add(toAdd);

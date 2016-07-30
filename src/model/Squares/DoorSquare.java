@@ -16,5 +16,7 @@ public class DoorSquare extends Square {
         this.direction = direction;
     }
 
-
+    public Room getRoom() {
+        return room;
+    }
 }

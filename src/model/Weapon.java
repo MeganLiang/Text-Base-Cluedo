@@ -36,7 +36,7 @@ public class Weapon implements Card{
         public static Weapons fromString(String text) {
             if (text != null) {
                 for (Weapons b : Weapons.values()) {
-                    if (text.equalsIgnoreCase(b.text)) {
+                    if (text.equals(b.text)) {
                         return b;
                     }
                 }

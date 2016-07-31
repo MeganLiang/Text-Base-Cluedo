@@ -37,7 +37,7 @@ public class Room implements Card  {
         public static Rooms fromString(String text) {
             if (text != null) {
                 for (Rooms b: Rooms.values()) {
-                    if (text.equalsIgnoreCase(b.text)) {
+                    if (text.equals(b.text)) {
                         return b;
                     }
                 }

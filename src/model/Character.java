@@ -28,7 +28,7 @@ public class Character implements Card{
         public static Characters fromString(String text) {
             if (text != null) {
                 for (Characters b : Characters.values()) {
-                    if (text.equalsIgnoreCase(b.text)) {
+                    if (text.equals(b.text)) {
                         return b;
                     }
                 }

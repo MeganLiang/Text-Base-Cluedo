@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Board {
     private File file = new File("data/board.txt");
-    private final int WIDTH = 25;
+    private final int WIDTH = 24;
     private final int HEIGHT = 25;
     private Square[][] board = new Square[WIDTH][HEIGHT];
 

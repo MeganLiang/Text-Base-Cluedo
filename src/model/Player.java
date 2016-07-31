@@ -129,4 +129,5 @@ public class Player {
     public void setMadeAccusation(boolean madeAccusation) {
         this.madeAccusation = madeAccusation;
     }
+
 }

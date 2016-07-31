@@ -80,6 +80,7 @@ public class Guessing {
                 Suggestion suggestion = new Suggestion(w, r, c);
                 justEnteredRoom = false;
                 //return new Suggestion(w, r, c);
+                System.out.println("Refuting the suggestion: ");
                 proveSuggestions(suggestion,player);
             }
         }
@@ -92,7 +93,7 @@ public class Guessing {
      * @param suggestion player's suggestion
      * @param excludePlayer player
      */
-    private static void proveSuggestions(Suggestion suggestion, Player excludePlayer) {
+    public static void proveSuggestions(Suggestion suggestion, Player excludePlayer) {
         for(Player player: Game.getPlayerList()) {
             if(player != excludePlayer) {
                 System.out.print(player.getName());

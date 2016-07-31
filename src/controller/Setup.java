@@ -55,9 +55,9 @@ public class Setup {
      */
     private static int getNumberOfPlayers() {
         int numPlayers = 0;
-        while(numPlayers < 2 || numPlayers > 6) {
+        while(numPlayers < 1 || numPlayers > 6) {
             numPlayers = getTextBaseCluedo().getNumberOfPlayers();
-            if(numPlayers < 2 || numPlayers > 6) {
+            if(numPlayers < 1 || numPlayers > 6) {
                 System.out.println("Please enter a number between 3-6");
                 numPlayers = getTextBaseCluedo().getNumberOfPlayers();
             }

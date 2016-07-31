@@ -1,6 +1,5 @@
 package controller;
 
-import model.Board;
 import model.Move;
 import model.Player;
 import model.Room;
@@ -11,9 +10,7 @@ import model.Squares.Square;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
 import static controller.Game.getTextBaseCluedo;
-import static model.Board.*;
 
 
 public class Moving {
@@ -63,10 +60,10 @@ public class Moving {
             Room current = ((RoomSquare) Game.getBoard().returnSquare(player.getPositionPoint())).getRoom();
             System.out.println(current.toString());
             Set<Square> doorSquares = new HashSet<>();
-            for(int x = 0; x < 25; x++) {
-                for (int y = 0; y < 25; y++) {
-                    if (board[x][y] instanceof DoorSquare) {
-                        DoorSquare rs = (DoorSquare) board[x][y];
+            for(int x = 0; x < Game.getBoard().getWIDTH(); x++) {
+                for (int y = 0; y < Game.getBoard().getHEIGHT(); y++) {
+                    if (Game.getBoard().getBoard()[x][y] instanceof DoorSquare) {
+                        DoorSquare rs = (DoorSquare) Game.getBoard().getBoard()[x][y];
                         System.out.println(rs.getRoom().getName());
                         if (rs.getRoom().getName().equals(current.getName())) {
                             availableSquares.addAll(availableMoves(new Point(x, y), roll - 1));
@@ -74,19 +71,14 @@ public class Moving {
                     }
                 }
             }
-            for(Player p: Game.getPlayerList()) {
-                Guessing.chooseAccusation(player);
-                if (!player.hasMadeAccusation()) { //player has not made an accusation
-                    Moving.movePlayer(p);
-                }
-            }
+
             System.out.println(availableSquares.size());
             if (availableSquares.contains(point)) {
                 //If movement is a room sqaure
                 if (Game.getBoard().returnSquare(point) instanceof RoomSquare) {
                     Room room = ((RoomSquare) Game.getBoard().returnSquare(point)).getRoom();
                     for (Point rsPoint : availableSquares) {
-                        Square rs = board[(int) rsPoint.getX()][(int) rsPoint.getY()];
+                        Square rs = Game.getBoard().getBoard()[(int) rsPoint.getX()][(int) rsPoint.getY()];
                         if (rs instanceof RoomSquare) {
                             if (((RoomSquare) rs).getRoom().equals(room)) {
                                 player.setPositionPoint(point);
@@ -122,7 +114,7 @@ public class Moving {
                     System.out.println("Hi");
                     Room room = ((RoomSquare) Game.getBoard().returnSquare(point)).getRoom();
                     for (Point rsPoint : availableSquares) {
-                        Square rs = board[(int) rsPoint.getX()][(int) rsPoint.getY()];
+                        Square rs = Game.getBoard().getBoard()[(int) rsPoint.getX()][(int) rsPoint.getY()];
                         if (rs instanceof RoomSquare) {
                             if (((RoomSquare) rs).getRoom().equals(room)) {
                                 player.setPositionPoint(point);
@@ -150,32 +142,32 @@ public class Moving {
 
     private static Set<Point> getNeighbours(Point c, int remainingMoves, Set<Point> visited) {
         if (remainingMoves != 0) {
-            if(c.getX() < 0 || c.getY() > 24){
+            if(c.getX() < 0 || c.getX() > Game.getBoard().getWIDTH()-1 || c.getY() < 0 || c.getY() > Game.getBoard().getHEIGHT()){
                 return null;
             }
-            if(c.x + 1 < 25) {
-                if (!(board[c.x + 1][c.y] instanceof NullSquare) ) {
+            if(c.x + 1 < Game.getBoard().getWIDTH()) {
+                if (!(Game.getBoard().getBoard()[c.x + 1][c.y] instanceof NullSquare) ) {
                     Point toAdd = new Point(c.x + 1, c.y);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
             if(c.x - 1 >= 0) {
-                if (!(board[c.x - 1][c.y] instanceof NullSquare)) {
+                if (!(Game.getBoard().getBoard()[c.x - 1][c.y] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x - 1, c.y);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
-            if(c.y + 1 < 25){
-                if (!(board[c.x][c.y + 1] instanceof NullSquare)) {
+            if(c.y + 1 < Game.getBoard().getHEIGHT()){
+                if (!(Game.getBoard().getBoard()[c.x][c.y + 1] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x, c.y + 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);
                 }
             }
             if(c.y - 1 >= 0){
-                if (!(board[c.x][c.y - 1] instanceof NullSquare)) {
+                if (!(Game.getBoard().getBoard()[c.x][c.y - 1] instanceof NullSquare)) {
                     Point toAdd = new Point(c.x, c.y - 1);
                     visited.add(toAdd);
                     getNeighbours(toAdd, remainingMoves - 1, visited);

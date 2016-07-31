@@ -1,5 +1,6 @@
 package model;
 
+import controller.Game;
 import model.Squares.RoomSquare;
 import model.Squares.StartSquare;
 
@@ -58,10 +59,10 @@ public class Player {
      * @return point of start point
      */
     public Point startingSquare(Character.Characters characterEnum, Board board) {
-        for(int x=0; x<25; x++) {
-            for(int y=0; y<25; y++) {
-                if(board.board[x][y] instanceof StartSquare) {
-                    StartSquare startSquare = (StartSquare) board.board[x][y];
+        for(int x = 0; x< Game.getBoard().getWIDTH(); x++) {
+            for(int y=0; y<Game.getBoard().getHEIGHT(); y++) {
+                if(board.getBoard()[x][y] instanceof StartSquare) {
+                    StartSquare startSquare = (StartSquare) board.getBoard()[x][y];
                     if(startSquare.getCharacter().equals(characterEnum)) {
                         System.out.println("this is the starting square: " + startSquare.getxPos() + " " + startSquare.getYpos());
                         return new Point(startSquare.getxPos(), startSquare.getYpos());
@@ -80,9 +81,9 @@ public class Player {
      */
     public boolean isInRoom(Player player, Board board) {
 
-        for(int x=0; x<25; x++) {
-            for (int y = 0; y < 25; y++) {
-                if (board.board[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
+        for(int x=0; x<Game.getBoard().getWIDTH(); x++) {
+            for (int y = 0; y < Game.getBoard().getHEIGHT(); y++) {
+                if (board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
                     inRoom = true;
                     return inRoom;
                 }
@@ -98,13 +99,12 @@ public class Player {
      * @param board game board
      * @return room of player
      */
-    public Room whatRoom(Player player, Board board) {
+    public Room findRoom(Player player, Board board) {
         for(int x=0; x<25; x++) {
             for (int y = 0; y < 25; y++) {
-                if (board.board[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
-                    RoomSquare roomSquare = (RoomSquare)board.board[player.getPositionPoint().x][player.getPositionPoint().y];
-                    Room room = roomSquare.getRoom();
-                    return room;
+                if (board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
+                    RoomSquare roomSquare = (RoomSquare)board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y];
+                    return roomSquare.getRoom();
                 }
             }
         }
@@ -129,4 +129,5 @@ public class Player {
     public void setMadeAccusation(boolean madeAccusation) {
         this.madeAccusation = madeAccusation;
     }
+
 }

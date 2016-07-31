@@ -29,14 +29,10 @@ public class Weapon implements Card{
             this.text = text;
         }
 
-        public String getText() {
-            return this.text;
-        }
-
         public static Weapons fromString(String text) {
             if (text != null) {
                 for (Weapons b : Weapons.values()) {
-                    if (text.equalsIgnoreCase(b.text)) {
+                    if (text.equals(b.text)) {
                         return b;
                     }
                 }

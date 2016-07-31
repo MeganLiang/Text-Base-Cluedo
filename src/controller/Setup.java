@@ -43,8 +43,7 @@ public class Setup {
      * initialise player in starting positions
      */
     void placePlayersAtStart() {
-        List<Player> listPlayers = Game.getPlayerList();
-        for(Player player: listPlayers) {
+        for(Player player: Game.getPlayerList()) {
             Point point = player.startingSquare(player.getCharacter(), Game.getBoard());
             player.setPositionPoint(point);
         }
@@ -55,9 +54,9 @@ public class Setup {
      */
     private static int getNumberOfPlayers() {
         int numPlayers = 0;
-        while(numPlayers < 2 || numPlayers > 6) {
+        while(numPlayers < 1 || numPlayers > 6) {
             numPlayers = getTextBaseCluedo().getNumberOfPlayers();
-            if(numPlayers < 2 || numPlayers > 6) {
+            if(numPlayers < 1 || numPlayers > 6) {
                 System.out.println("Please enter a number between 3-6");
                 numPlayers = getTextBaseCluedo().getNumberOfPlayers();
             }
@@ -84,14 +83,13 @@ public class Setup {
      * @param roomClass the enum class Rooms
      */
     private static void deal(Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
-        int numWeapons = weaponClass.getEnumConstants().length-1; //5, number of available weapons minus the solution weapon
+        int numWeapons = weaponClass.getEnumConstants().length-1; //number of available weapons minus the solution weapon
         int numChars = characterClass.getEnumConstants().length-1;
         int numRooms = roomClass.getEnumConstants().length-1;
 
         int numCards = numWeapons+numChars+numRooms;
 
         int dealtEvenly = numCards/numPlayers;
-        System.out.println("c/p: " + dealtEvenly);
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         weaponsList.remove(gameSolution.getWeapon().getEnum());
         List<Character.Characters> charactersList = new ArrayList<>(Arrays.asList(Character.Characters.values()));
@@ -127,6 +125,7 @@ public class Setup {
         System.out.println("Everyone can see: ");
         for(int i = index; i < cardsList.size(); i++) {
             System.out.println(cardsList.get(i).getName());
+            System.out.println();
         }
 
     }
@@ -153,10 +152,12 @@ public class Setup {
                 getTextBaseCluedo().printHelp();
                 next = getTextBaseCluedo().choosingCharacters();
             }
-            while(chosenCharacters.contains(Character.Characters.fromString(next)) || !availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
+            while(chosenCharacters.contains(Character.Characters.fromString(next))
+                    || !availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
                 next = getTextBaseCluedo().invalidCharacterInput();
             }
-            if(!chosenCharacters.contains(Character.Characters.fromString(next))  && availableCharacters.contains(Character.Characters.fromString(next))) {
+            if(!chosenCharacters.contains(Character.Characters.fromString(next))
+                    && availableCharacters.contains(Character.Characters.fromString(next))) {
                 chosenCharacters.add(Character.Characters.valueOf(next));
                 player.setCharacter(Character.Characters.valueOf(next));
                 count++;

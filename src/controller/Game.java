@@ -51,12 +51,23 @@ public class Game {
         dealCards();
         setup.placePlayersAtStart();
         System.out.println("Game is ready to play!!");
-        for(Player player: getPlayerList()) {
-            Guessing.chooseAccusation(player);
-            if(!player.hasMadeAccusation()) {
-                Moving.movePlayer(player);
-                if(player.isInRoom(player,board)) {
-                    Guessing.suggestion();
+        while (!Guessing.isGameWon()) {
+            for (Player player : getPlayerList()) {
+                if (!player.hasMadeAccusation()) {
+                    Guessing.chooseAccusation(player);
+                    if (Guessing.isGameWon()) {
+                        return; //game won
+                    }
+                    if (!player.hasMadeAccusation()) {
+                        if (player.isInRoom(player, board) && Guessing.isJustEnteredRoom()) { //is in room and needs to suggest
+                            Guessing.suggestion();
+                        } else if (player.isInRoom(player, board)) { // is still in room and needs to pick an exit
+                            player.findRoom(player, board).printExits(player, board);
+                            Moving.movePlayer(player);
+                        } else { //not in room
+                            Moving.movePlayer(player);
+                        }
+                    }
                 }
             }
         }

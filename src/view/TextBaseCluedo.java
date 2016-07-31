@@ -48,27 +48,31 @@ public class TextBaseCluedo implements UserInput{
     }
     public String invalidArrayInput() {
         System.out.println("Unexpected input, please enter a sequence");
-        return reader.nextLine();
+        return reader.nextLine().trim();
     }
     public String suggest() {
-        System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
         System.out.println("=======================================");
-        return reader.nextLine();
+        System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
+
+        return reader.nextLine().trim();
     }
     public String accuse() {
-        System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]");
         System.out.println("=======================================");
-        return reader.nextLine();
+        System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]");
+
+        return reader.nextLine().trim();
     }
     public String moving() {
-        System.out.println("Where would you like to move? Enter [W] [A] [S] [D]");
         System.out.println("=======================================");
-        return reader.nextLine();
+        System.out.println("Where would you like to move? Enter [W] [A] [S] [D]");
+
+        return reader.nextLine().trim();
     }
 
     public String movingInRoom() {
-        System.out.println("Where would you like to move? Enter [Exit] [W] [A] [S] [D]");
         System.out.println("=======================================");
+        System.out.println("Where would you like to move? Enter [Exit] [W] [A] [S] [D]");
+
         return reader.nextLine();
     }
     public void printHelp() {
@@ -83,6 +87,6 @@ public class TextBaseCluedo implements UserInput{
 
         System.out.println("Would you like to make an accusation?");
         System.out.println("=======================================");
-        return reader.next();
+        return reader.next().trim();
     }
 }

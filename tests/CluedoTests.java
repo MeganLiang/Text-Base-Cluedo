@@ -1,9 +1,12 @@
 import controller.Game;
+import controller.Guessing;
 import controller.Moving;
 import model.*;
 import model.Character;
 import org.junit.Test;
 import java.awt.*;
+import java.awt.List;
+import java.util.*;
 
 import static controller.Moving.moveCheck;
 import static org.junit.Assert.assertEquals;
@@ -11,8 +14,27 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CluedoTests {
-    private Game game = new Game();
 
+    @Test
+    public void testRefutingSuggestions() {
+        Player megan = new Player("Megan");
+        Player tristan = new Player("Tristan");
+        Game.addToPlayersList(megan);
+        Game.addToPlayersList(tristan);
+        java.util.List<Card> cardsM = new ArrayList<>();
+        cardsM.add(new Weapon(Weapon.Weapons.Revolver));
+        java.util.List<Card> cardsT = new ArrayList<>();
+        cardsT.add(new Room(Room.Rooms.Study));
+        cardsT.add(new Weapon(Weapon.Weapons.Spanner));
+        megan.setHand(new Hand(cardsM));
+        tristan.setHand(new Hand(cardsT));
+        megan.setInRoom(true);
+        megan.setPositionPoint(new Point(23,24));//study
+        tristan.setInRoom(false);
+        tristan.setPositionPoint(new Point(9,0));
+        Suggestion s = new Suggestion(new Weapon(Weapon.Weapons.Spanner), new Room(Room.Rooms.Study), new Character(Character.Characters.MrsWhite));
+        Guessing.proveSuggestions(s, megan);
+    }
 
     @Test
     public void testingSolutionEqualsAccusation() {
@@ -129,8 +151,8 @@ public class CluedoTests {
     public void testPlayerLeavingBoard() {
         Game g = new Game();
         Player megan = new Player("Megan");
-        megan.setPositionPoint(new Point(24,1));
-        Point moveTo = new Point(25,1);
+        megan.setPositionPoint(new Point(23,1));
+        Point moveTo = new Point(24,1);
         assertEquals(Moving.moveCheck(moveTo,megan,6),false);
         //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }

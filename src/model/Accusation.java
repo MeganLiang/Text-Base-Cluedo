@@ -25,4 +25,8 @@ public class Accusation extends Envelope {
         }
         return false;
     }
+
+    public void printAccusation() {
+        System.out.println("I accused " + character.getName() + " of committing the crime in the " + room.getName() + " with the " + weapon.getName());
+    }
 }

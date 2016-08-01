@@ -2,25 +2,21 @@ package controller;
 
 import model.*;
 import model.Character;
-import static controller.Game.getTextBaseCluedo;
-import static controller.Setup.getAvailableCharacters;
-import static controller.Setup.getAvailableRooms;
 
 public class Guessing {
-
-    private static boolean gameWon;
-    private static boolean justEnteredRoom = true;
+    private boolean gameWon;
+    private boolean justEnteredRoom = true;
     /**
      * calls textBaseCluedo to ask for player input for accusation
      * @param player player
      */
-    public static void chooseAccusation(Player player) {
+    public void chooseAccusation(Player player, Game cluedo) {
         System.out.println(player.getName() + "'s turn");
-        String choice = getTextBaseCluedo().accusationOption();
+        String choice = cluedo.getTextBaseCluedo().accusationOption();
         if(choice.equals("Yes") || choice.equals("yes") || choice.equals("y")) {
             player.setMadeAccusation(true);
-            Accusation accusation = accusation();
-            if(accusation.equals(Setup.getGameSolution())) { //winning or losing determined
+            Accusation accusation = accusation(cluedo);
+            if(accusation.equals(cluedo.getSetup().getGameSolution())) { //winning or losing determined
                 System.out.println(player.getName() + ", you have won Cluedo!");
                 System.out.println("Solution: ");
                 accusation.printAccusation();
@@ -35,15 +31,15 @@ public class Guessing {
      * player can make accusations to win the game
      * @return Accusation
      */
-    public static Accusation accusation() {
-        String s = getTextBaseCluedo().accuse().trim(); //weapon room character
+    public Accusation accusation(Game cluedo) {
+        String s = cluedo.getTextBaseCluedo().accuse().trim(); //weapon room character
         String[] splitS = s.trim().split("\\s+");
 
-        while(!Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
-                || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
-                || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
+        while(!cluedo.getSetup().getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
+                || !cluedo.getSetup().getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
+                || !cluedo.getSetup().getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
             System.out.println("Unexpected input, try again");
-            s = getTextBaseCluedo().accuse().trim();
+            s = cluedo.getTextBaseCluedo().accuse().trim();
             splitS = s.trim().split("\\s+");
         }
         Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
@@ -57,20 +53,20 @@ public class Guessing {
      * players can make suggestion to gather intelligence for their accusation
      *
      */
-    public static void suggestion() {
-        for(Player player: Game.getPlayerList()) {
-            if (player.isInRoom(player, Game.getBoard())) {
-                System.out.println(player.getName() + ", you are in the " + player.findRoom(player, Game.getBoard()).getName());
-                String s = getTextBaseCluedo().suggest().trim(); //weapon room character
+    public void suggestion(Game cluedo) {
+        for(Player player: cluedo.getPlayerList()) {
+            if (player.isInRoom(player, cluedo.getBoard(), cluedo)) {
+                System.out.println(player.getName() + ", you are in the " + player.findRoom(player, cluedo.getBoard(), cluedo).getName());
+                String s = cluedo.getTextBaseCluedo().suggest().trim(); //weapon room character
                 String[] splitS = s.trim().split("\\s+");
 
                 while (splitS.length != 3
-                        || !Setup.getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
-                        || !getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
-                        || !getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
-                        || !player.findRoom(player, Game.getBoard()).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
+                        || !cluedo.getSetup().getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
+                        || !cluedo.getSetup().getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
+                        || !cluedo.getSetup().getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
+                        || !player.findRoom(player, cluedo.getBoard(), cluedo).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
                     System.out.println("Unexpected input, try again. You can only make suggestions about the room");
-                    s = getTextBaseCluedo().suggest().trim();
+                    s = cluedo.getTextBaseCluedo().suggest().trim();
                     splitS = s.trim().split("\\s+");
                 }
 
@@ -81,7 +77,7 @@ public class Guessing {
                 justEnteredRoom = false;
                 //return new Suggestion(w, r, c);
                 System.out.println("Refuting the suggestion: ");
-                proveSuggestions(suggestion,player);
+                proveSuggestions(suggestion,player, cluedo);
             }
         }
         //return null;
@@ -93,8 +89,8 @@ public class Guessing {
      * @param suggestion player's suggestion
      * @param excludePlayer player
      */
-    public static void proveSuggestions(Suggestion suggestion, Player excludePlayer) {
-        for(Player player: Game.getPlayerList()) {
+    public static void proveSuggestions(Suggestion suggestion, Player excludePlayer, Game cluedo) {
+        for(Player player: cluedo.getPlayerList()) {
             if(player != excludePlayer) {
                 System.out.print(player.getName());
                 System.out.println("============================");
@@ -122,19 +118,19 @@ public class Guessing {
             }
         }
     }
-    public static boolean isGameWon() {
+    public boolean isGameWon() {
         return gameWon;
     }
 
-    public static void setGameWon(boolean gameWon) {
-        Guessing.gameWon = gameWon;
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
-    public static boolean isJustEnteredRoom() {
+    public boolean isJustEnteredRoom() {
         return justEnteredRoom;
     }
 
-    public static void setJustEnteredRoom(boolean justEnteredRoom) {
-        Guessing.justEnteredRoom = justEnteredRoom;
+    public void setJustEnteredRoom(boolean justEnteredRoom) {
+        this.justEnteredRoom = justEnteredRoom;
     }
 
 }

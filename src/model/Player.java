@@ -58,9 +58,9 @@ public class Player {
      * @param board board of game
      * @return point of start point
      */
-    public Point startingSquare(Character.Characters characterEnum, Board board) {
-        for(int x = 0; x< Game.getBoard().getWIDTH(); x++) {
-            for(int y=0; y<Game.getBoard().getHEIGHT(); y++) {
+    public Point startingSquare(Character.Characters characterEnum, Board board, Game cluedo) {
+        for(int x = 0; x< cluedo.getBoard().getWIDTH(); x++) {
+            for(int y=0; y<cluedo.getBoard().getHEIGHT(); y++) {
                 if(board.getBoard()[x][y] instanceof StartSquare) {
                     StartSquare startSquare = (StartSquare) board.getBoard()[x][y];
                     if(startSquare.getCharacter().equals(characterEnum)) {
@@ -79,10 +79,10 @@ public class Player {
      * @param board the game board
      * @return true if player is in room
      */
-    public boolean isInRoom(Player player, Board board) {
+    public boolean isInRoom(Player player, Board board, Game cluedo) {
 
-        for(int x=0; x<Game.getBoard().getWIDTH(); x++) {
-            for (int y = 0; y < Game.getBoard().getHEIGHT(); y++) {
+        for(int x=0; x<cluedo.getBoard().getWIDTH(); x++) {
+            for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
                 if (board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
                     inRoom = true;
                     return inRoom;
@@ -99,9 +99,9 @@ public class Player {
      * @param board game board
      * @return room of player
      */
-    public Room findRoom(Player player, Board board) {
-        for(int x=0; x<25; x++) {
-            for (int y = 0; y < 25; y++) {
+    public Room findRoom(Player player, Board board, Game cluedo) {
+        for(int x=0; x<cluedo.getBoard().getWIDTH(); x++) {
+            for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
                 if (board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
                     RoomSquare roomSquare = (RoomSquare)board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y];
                     return roomSquare.getRoom();

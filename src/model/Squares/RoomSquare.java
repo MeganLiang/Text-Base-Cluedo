@@ -16,6 +16,7 @@ public class RoomSquare extends Square {
         super(x,y);
         this.room = room;
     }
+
     public String toString() {
         return "R";
     }

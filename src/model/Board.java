@@ -175,22 +175,22 @@ public class Board {
                             x++;
                             break;
                         case 'W':
-                            StairwaySquare kitchenStairway = new StairwaySquare(new Room(Room.Rooms.Kitchen), x, y);
+                            StairwaySquare kitchenStairway = new StairwaySquare(new Room(Room.Rooms.Kitchen), new Room(Room.Rooms.Study),x, y);
                             board[x][y] = kitchenStairway;
                             x++;
                             break;
                         case 'X':
-                            StairwaySquare conservStairway = new StairwaySquare(new Room(Room.Rooms.Conservatory), x, y);
+                            StairwaySquare conservStairway = new StairwaySquare(new Room(Room.Rooms.Conservatory),new Room(Room.Rooms.Lounge), x, y);
                             board[x][y] = conservStairway;
                             x++;
                             break;
                         case 'Y':
-                            StairwaySquare studyStairway = new StairwaySquare(new Room(Room.Rooms.Study), x, y);
+                            StairwaySquare studyStairway = new StairwaySquare(new Room(Room.Rooms.Study),new Room(Room.Rooms.Kitchen), x, y);
                             board[x][y] = studyStairway;
                             x++;
                             break;
                         case 'Z':
-                            StairwaySquare libraryStairway = new StairwaySquare(new Room(Room.Rooms.Library), x, y);
+                            StairwaySquare libraryStairway = new StairwaySquare(new Room(Room.Rooms.Lounge),new Room(Room.Rooms.Conservatory), x, y);
                             board[x][y] = libraryStairway;
                             x++;
                             break;

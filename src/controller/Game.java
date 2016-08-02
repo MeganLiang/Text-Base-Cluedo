@@ -2,10 +2,7 @@ package controller;
 
 import model.*;
 import model.Character;
-import model.Squares.DoorSquare;
-import model.Squares.NullSquare;
-import model.Squares.RoomSquare;
-import model.Squares.Square;
+import model.Squares.*;
 import view.TextBaseCluedo;
 
 import java.awt.*;
@@ -139,21 +136,68 @@ public class Game {
     }
     /**
      * Get a list of squares the player can move too
-     * @return List<int><int>
+     * @return List<point>
      */
     public boolean move(Point point, Player player, int roll){
+        if(point.getX() < 0 || point.getX() > 23 || point.getY() < 0 || point.getY() > 24){
+            return false;
+        }
+
         //Create List of Availabe Squares
         Set<Point> availableSquares;
+        //If moving to stairway square
+        if(board.returnSquare(point)instanceof StairwaySquare) {
+            System.out.println("In stairway");
+            //make sure player is in a room
+            if(!(board.returnSquare(player.getPositionPoint())instanceof RoomSquare)){
+                System.out.println("In room check failed");
+                return false;
+            }
+            StairwaySquare st = (StairwaySquare) board.returnSquare(point);
+            //if in same room as chosen staircase
+            String playerLRoom = ((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom().getName();
+            String stairwayRoom = st.inRoom.getName();
+            //System.out.println(((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom().getName());
+            //System.out.println(st.inRoom.getName());
 
+            if(playerLRoom.equals(stairwayRoom)){
+                System.out.println("Room names equal");
+                Room goingTo = st.outRoom;
+                System.out.println("Room going to: " + goingTo.getName());
+                for(int x = 0; x < 24; x++) {
+                    for (int y = 0; y < 25; y++) {
+                        if (board.board[x][y] instanceof RoomSquare) {
+                            RoomSquare rs = (RoomSquare) board.board[x][y];
+                            //System.out.println("Looking at room: " + rs.getRoom().getName());
+                            if(rs.getRoom().getName().equals(goingTo.getName())){
+                                System.out.println("Names equal");
+                                if(!(playerAtPoint(new Point(x,y)))){
+                                    System.out.println("No player here");
+                                    player.setPositionPoint(new Point(x,y));
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            //not in same room as staircase
+            else{
+                return false;
+            }
+
+
+        }
 
         //If player is in a room square
-        if(board.returnSquare(player.getPositionPoint())instanceof RoomSquare){
+        else if(board.returnSquare(player.getPositionPoint())instanceof RoomSquare){
             System.out.println("In Room");
             availableSquares = new HashSet<>();
             Room current = ((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom();
             System.out.println(current.toString());
             Set<Square> doorSquares = new HashSet<Square>();
-            for(int x = 0; x < 25; x++){
+            for(int x = 0; x < 24; x++){
                 for(int y = 0; y < 25; y++){
                     if(board.board[x][y] instanceof DoorSquare){
                         DoorSquare rs = (DoorSquare) board.board[x][y];
@@ -240,10 +284,10 @@ public class Game {
 
     Set<Point> getNeighbours(Point c,int remainingMoves, Set <Point> visited) {
         if (remainingMoves != 0) {
-            if(c.getX() < 0 || c.getY() > 24){
+            if(c.getX() < 0 || c.getY() > 24 || c.getX() > 23 || c.getY() < 0){
                 return null;
             }
-            if(c.x + 1 < 25) {
+            if(c.x + 1 < 24) {
                 if (!(board.board[c.x + 1][c.y] instanceof NullSquare) ) {
                     Point toAdd = new Point(c.x + 1, c.y);
                     visited.add(toAdd);
@@ -275,6 +319,16 @@ public class Game {
         return visited;
 
 
+    }
+
+    public boolean playerAtPoint(Point p){
+        for (Player player : playersList) {
+            Point checkPoint = player.getPositionPoint();
+            if (checkPoint.equals(p)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

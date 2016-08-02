@@ -1,6 +1,7 @@
 import controller.Game;
 import model.*;
 import model.Character;
+import model.Squares.RoomSquare;
 import org.junit.Test;
 import java.awt.*;
 import static controller.Game.addToPlayersList;
@@ -171,6 +172,24 @@ public class CluedoTests {
         Point moveTo = new Point(6,5);
         assertEquals(g.move(moveTo,megan,5),true);
         //assertEquals(megan.getPositionPoint(),new Point(0,8));
+    }
+
+    @Test
+    public void testPlayerMoveStaircase() {
+        Game g = new Game();
+        Player megan = new Player("Megan");
+        //megan.setPositionPoint(new Point(0,8));
+        g.addToPlayersList(megan);
+        megan.setPositionPoint(new Point(0,24));
+        Point moveTo = new Point(0,19);
+        assertEquals(g.move(moveTo,megan,6),true);
+
+        if(g.getBoard().returnSquare(megan.getPositionPoint()) instanceof RoomSquare) {
+            //System.out.println("In room part");
+            String rn = ((RoomSquare) g.getBoard().returnSquare(megan.getPositionPoint())).getRoom().getName();
+            //System.out.println(rn);
+            assertEquals(rn,"Conservatory");
+        }
     }
 
 }

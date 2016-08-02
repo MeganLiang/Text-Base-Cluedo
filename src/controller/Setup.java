@@ -7,23 +7,21 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import static controller.Game.getPlayerList;
-import static controller.Game.getTextBaseCluedo;
 
 public class Setup {
-    private static Solution gameSolution;
-    private static int numPlayers;
+    private Solution gameSolution;
+    private int numPlayers;
 
-    private static Set<Weapon.Weapons> availableWeapons= new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
-    private static List<Room.Rooms> availableRooms= new ArrayList<>(Arrays.asList(Room.Rooms.values()));
-    private static Set<Character.Characters> availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
+    private Set<Weapon.Weapons> availableWeapons= new HashSet<>(Arrays.asList(Weapon.Weapons.values()));
+    private List<Room.Rooms> availableRooms= new ArrayList<>(Arrays.asList(Room.Rooms.values()));
+    private Set<Character.Characters> availableCharacters = new HashSet<>(Arrays.asList(Character.Characters.values()));
 
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */
-    static Solution initGame() {
+    public Solution initGame(Game cluedo) {
 
-        numPlayers = getNumberOfPlayers();
+        numPlayers = getNumberOfPlayers(cluedo);
 
         Weapon randomWeapon = new Weapon(null);
         Room randomRoom = new Room(null);
@@ -36,15 +34,16 @@ public class Setup {
 
         gameSolution = new Solution(randomWeapon, randomRoom, randomCharacter);
         gameSolution.printSolution();
+
         return gameSolution;
     }
 
     /**
      * initialise player in starting positions
      */
-    void placePlayersAtStart() {
-        for(Player player: Game.getPlayerList()) {
-            Point point = player.startingSquare(player.getCharacter(), Game.getBoard());
+    private void placePlayersAtStart(Game cluedo) {
+        for(Player player: cluedo.getPlayerList()) {
+            Point point = player.startingSquare(player.getCharacter(), cluedo.getBoard(), cluedo);
             player.setPositionPoint(point);
         }
     }
@@ -52,13 +51,13 @@ public class Setup {
      * Get the number of players
      * @return the number of players
      */
-    private static int getNumberOfPlayers() {
+    private int getNumberOfPlayers(Game cluedo) {
         int numPlayers = 0;
         while(numPlayers < 1 || numPlayers > 6) {
-            numPlayers = getTextBaseCluedo().getNumberOfPlayers();
+            numPlayers = cluedo.getTextBaseCluedo().getNumberOfPlayers();
             if(numPlayers < 1 || numPlayers > 6) {
                 System.out.println("Please enter a number between 3-6");
-                numPlayers = getTextBaseCluedo().getNumberOfPlayers();
+                numPlayers = cluedo.getTextBaseCluedo().getNumberOfPlayers();
             }
         }
         System.out.println("Number of players is " + numPlayers);
@@ -68,12 +67,13 @@ public class Setup {
     /**
      * solution is picked, cards are dealt evenly to players
      */
-    static void dealCards() {
-        deal(Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-        for(Player p: getPlayerList()) {
+     public void dealCards(Game cluedo) {
+        deal(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
+        for(Player p: cluedo.getPlayerList()) {
             System.out.println("Player's hand: ============");
             p.printHand();
         }
+        placePlayersAtStart(cluedo);
     }
 
     /**
@@ -82,7 +82,7 @@ public class Setup {
      * @param characterClass the enum class Characters
      * @param roomClass the enum class Rooms
      */
-    private static void deal(Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
+    private void deal(Game cluedo, Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
         int numWeapons = weaponClass.getEnumConstants().length-1; //number of available weapons minus the solution weapon
         int numChars = characterClass.getEnumConstants().length-1;
         int numRooms = roomClass.getEnumConstants().length-1;
@@ -115,7 +115,7 @@ public class Setup {
         Collections.shuffle(cardsList);
 
         int index = 0;
-        for(Player player : getPlayerList()) {
+        for(Player player : cluedo.getPlayerList()) {
             for (int i = 0; i < dealtEvenly; i++) {
                 Card c = cardsList.get(index);
                 player.getHand().addToHand(c);
@@ -135,26 +135,26 @@ public class Setup {
      * @param numOfPlayers number of players
      * @return Set<Characters></>
      */
-    public static Set<Character.Characters> chooseCharacters(int numOfPlayers) {
+    public Set<Character.Characters> chooseCharacters(int numOfPlayers, Game cluedo) {
         int count = 0;
         Set<Character.Characters> chosenCharacters = new HashSet<>();
         System.out.println("List of characters:");
-        getTextBaseCluedo().printHelp();
+        cluedo.getTextBaseCluedo().printHelp();
         while (count != numOfPlayers) {
 
-            String playerName = getTextBaseCluedo().getPlayers();
+            String playerName = cluedo.getTextBaseCluedo().getPlayers();
             Player player = new Player(playerName);
-            Game.addToPlayersList(player);
+            cluedo.addToPlayersList(player);
             player.setName(playerName);
 
-            String next = getTextBaseCluedo().choosingCharacters();
+            String next = cluedo.getTextBaseCluedo().choosingCharacters();
             if(next.contains("help")) {
-                getTextBaseCluedo().printHelp();
-                next = getTextBaseCluedo().choosingCharacters();
+                cluedo.getTextBaseCluedo().printHelp();
+                next = cluedo.getTextBaseCluedo().choosingCharacters();
             }
             while(chosenCharacters.contains(Character.Characters.fromString(next))
                     || !availableCharacters.contains(Character.Characters.fromString(next))) { //invalid input, can be duplicate character or not a token
-                next = getTextBaseCluedo().invalidCharacterInput();
+                next = cluedo.getTextBaseCluedo().invalidCharacterInput();
             }
             if(!chosenCharacters.contains(Character.Characters.fromString(next))
                     && availableCharacters.contains(Character.Characters.fromString(next))) {
@@ -167,22 +167,22 @@ public class Setup {
         return chosenCharacters;
     }
 
-    public static int getNumPlayers() {
+    public int getNumPlayers() {
         return numPlayers;
     }
 
-    public static Solution getGameSolution() {
+    public Solution getGameSolution() {
         return gameSolution;
     }
 
-    public static Set<Weapon.Weapons> getAvailableWeapons() {
+    public Set<Weapon.Weapons> getAvailableWeapons() {
         return availableWeapons;
     }
-    public static List<Room.Rooms> getAvailableRooms() {
+    public List<Room.Rooms> getAvailableRooms() {
         return availableRooms;
     }
 
-    public static Set<Character.Characters> getAvailableCharacters() {
+    public Set<Character.Characters> getAvailableCharacters() {
         return availableCharacters;
     }
 }

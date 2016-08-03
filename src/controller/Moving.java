@@ -52,72 +52,27 @@ public class Moving {
 
         //Create List of Availabe Squares
         Set<Point> availableSquares;
-        //If moving to stairway square
-        if(cluedo.getBoard().returnSquare(point)instanceof StairwaySquare) {
-            System.out.println("In stairway");
-            //make sure player is in a room
-            if(!(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare)){
-                System.out.println("In room check failed");
-                return false;
-            }
-            StairwaySquare st = (StairwaySquare) cluedo.getBoard().returnSquare(point);
-            //if in same room as chosen staircase
-            String playerLRoom = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom().getName();
-            String stairwayRoom = st.inRoom.getName();
-            //System.out.println(((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom().getName());
-            //System.out.println(st.inRoom.getName());
 
-            if(playerLRoom.equals(stairwayRoom)){
-                System.out.println("Room names equal");
-                Room goingTo = st.outRoom;
-                System.out.println("Room going to: " + goingTo.getName());
-                for(int x = 0; x < 24; x++) {
-                    for (int y = 0; y < 25; y++) {
-                        if (cluedo.getBoard().getBoard()[x][y] instanceof RoomSquare) {
-                            RoomSquare rs = (RoomSquare) cluedo.getBoard().getBoard()[x][y];
-                            //System.out.println("Looking at room: " + rs.getRoom().getName());
-                            if(rs.getRoom().getName().equals(goingTo.getName())){
-                                System.out.println("Names equal");
-                                if(!(playerAtPoint(new Point(x,y), cluedo))){
-                                    System.out.println("No player here");
-                                    player.setPreviousPoint(player.getPositionPoint());
-                                    player.setPositionPoint(new Point(x,y));
-                                    cluedo.getPaintBoard().repaint(player,cluedo);
-                                    System.out.println();
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-                return false;
-            }
-            //not in same room as staircase
-            else{
-                return false;
-            }
-
-
-        }
 
         //If player is in a room square
-        else if(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare){
+        if(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare){
             System.out.println("In Room");
             availableSquares = new HashSet<>();
             Room current = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom();
             System.out.println(current.toString());
-            Set<Square> doorSquares = new HashSet<Square>();
-            for(int x = 0; x < 24; x++){
-                for(int y = 0; y < 25; y++){
-                    if(cluedo.getBoard().getBoard()[x][y] instanceof DoorSquare){
+            Set<Square> doorSquares = new HashSet<>();
+            for(int x = 0; x < cluedo.getBoard().getWIDTH(); x++) {
+                for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
+                    if (cluedo.getBoard().getBoard()[x][y] instanceof DoorSquare) {
                         DoorSquare rs = (DoorSquare) cluedo.getBoard().getBoard()[x][y];
                         System.out.println(rs.getRoom().getName());
-                        if(rs.getRoom().getName().equals(current.getName())){
-                            availableSquares.addAll(avaialableMoves(new Point(x,y),roll-1, cluedo));
+                        if (rs.getRoom().getName().equals(current.getName())) {
+                            availableSquares.addAll(availableMoves(new Point(x, y), roll - 1, cluedo));
                         }
                     }
                 }
             }
+
             System.out.println(availableSquares.size());
             if (availableSquares.contains(point)) {
                 //If movement is a room sqaure
@@ -147,11 +102,10 @@ public class Moving {
             //square cannot be moved too
             return false;
 
-
         }
         //Player is not in room square
         else {
-            availableSquares = avaialableMoves(player.getPositionPoint(), roll, cluedo);
+            availableSquares = availableMoves(player.getPositionPoint(), roll, cluedo);
             //Remove Squares that Players are in
             for (Player p : cluedo.getPlayerList()) {
                 Point checkPoint = p.getPositionPoint();
@@ -159,18 +113,18 @@ public class Moving {
                     availableSquares.remove(checkPoint);
                 }
             }
-            //CHeck if inteded movement is possible
+            //CHeck if intended movement is possible
             if (availableSquares.contains(point)) {
                 System.out.println("Hi");
                 //If movement is a room sqaure
-                if (cluedo.getBoard().returnSquare(point) instanceof RoomSquare) {
+                if (cluedo.getBoard().returnSquare(point) instanceof RoomSquare ) {
                     System.out.println("Hi");
                     Room room = ((RoomSquare) cluedo.getBoard().returnSquare(point)).getRoom();
                     for (Point rsPoint : availableSquares) {
-                        Square rs = cluedo.getBoard().getBoard()[(int) rsPoint.getX()][(int) rsPoint.getY()];
-                        if (rs instanceof RoomSquare) {
-                            if (((RoomSquare) rs).getRoom().equals(room)) {
-                                player.setPreviousPoint(player.getPositionPoint());
+                        Square rs = cluedo.getBoard().returnSquare(rsPoint);
+                        if (rs instanceof DoorSquare) {
+                            System.out.println("Hi2");
+                            if (((DoorSquare) rs).getRoom().getName().equals(room.getName())) {
                                 player.setPositionPoint(point);
                                 cluedo.getPaintBoard().repaint(player,cluedo);
                                 System.out.println();
@@ -192,53 +146,49 @@ public class Moving {
         }
 
     }
-
-    Set<Point> avaialableMoves(Point p, int roll, Game cluedo){
-        Point playerPos = p;
-        Set<Point> visitable;
-        visitable = getNeighbours(playerPos,roll,new HashSet<Point>(), cluedo);
-        return visitable;
-    }
-
-
     private Set<Point> availableMoves(Point p, int roll, Game cluedo){
+        Set<Point> playerLocations = new HashSet<Point>();
+        for (Player play : cluedo.getPlayerList()) {
+            Point checkPoint = play.getPositionPoint();
+            playerLocations.add(checkPoint);
+        }
         Point playerPos = p;
         Set<Point> visitable;
-        visitable = getNeighbours(playerPos,roll,new HashSet<Point>(), cluedo);
+        visitable = getNeighbours(playerPos,roll,new HashSet<Point>(), playerLocations, cluedo);
         return visitable;
     }
 
-    private Set<Point> getNeighbours(Point c, int remainingMoves, Set<Point> visited, Game cluedo) {
+    private Set<Point> getNeighbours(Point c, int remainingMoves, Set<Point> visited, Set<Point> playerLocations, Game cluedo) {
         if (remainingMoves != 0) {
             if(c.getX() < 0 || c.getX() > cluedo.getBoard().getWIDTH()-1 || c.getY() < 0 || c.getY() > cluedo.getBoard().getHEIGHT()){
                 return null;
             }
             if(c.x + 1 < cluedo.getBoard().getWIDTH()) {
-                if (!(cluedo.getBoard().getBoard()[c.x + 1][c.y] instanceof NullSquare) ) {
+                if (!(cluedo.getBoard().getBoard()[c.x + 1][c.y] instanceof NullSquare) || !(cluedo.getBoard().getBoard()[c.x + 1][c.y] instanceof StairwaySquare) || playerLocations.contains(new Point(c.x+1,c.y))) {
                     Point toAdd = new Point(c.x + 1, c.y);
                     visited.add(toAdd);
-                    getNeighbours(toAdd, remainingMoves - 1, visited, cluedo);
+                    getNeighbours(toAdd, remainingMoves - 1, visited, playerLocations, cluedo);
                 }
             }
             if(c.x - 1 >= 0) {
-                if (!(cluedo.getBoard().getBoard()[c.x - 1][c.y] instanceof NullSquare)) {
+                if (!(cluedo.getBoard().getBoard()[c.x - 1][c.y] instanceof NullSquare)|| !(cluedo.getBoard().getBoard()[c.x - 1][c.y] instanceof StairwaySquare)|| playerLocations.contains(new Point(c.x-1,c.y))) {
                     Point toAdd = new Point(c.x - 1, c.y);
                     visited.add(toAdd);
-                    getNeighbours(toAdd, remainingMoves - 1, visited, cluedo);
+                    getNeighbours(toAdd, remainingMoves - 1, visited, playerLocations, cluedo);
                 }
             }
             if(c.y + 1 < cluedo.getBoard().getHEIGHT()){
-                if (!(cluedo.getBoard().getBoard()[c.x][c.y + 1] instanceof NullSquare)) {
+                if (!(cluedo.getBoard().getBoard()[c.x][c.y + 1] instanceof NullSquare)|| !(cluedo.getBoard().getBoard()[c.x][c.y + 1] instanceof StairwaySquare)|| playerLocations.contains(new Point(c.x,c.y + 1))) {
                     Point toAdd = new Point(c.x, c.y + 1);
                     visited.add(toAdd);
-                    getNeighbours(toAdd, remainingMoves - 1, visited, cluedo);
+                    getNeighbours(toAdd, remainingMoves - 1, visited, playerLocations, cluedo);
                 }
             }
             if(c.y - 1 >= 0){
-                if (!(cluedo.getBoard().getBoard()[c.x][c.y - 1] instanceof NullSquare)) {
+                if (!(cluedo.getBoard().getBoard()[c.x][c.y - 1] instanceof NullSquare)|| !(cluedo.getBoard().getBoard()[c.x][c.y - 1] instanceof StairwaySquare)|| playerLocations.contains(new Point(c.x,c.y - 1))) {
                     Point toAdd = new Point(c.x, c.y - 1);
                     visited.add(toAdd);
-                    getNeighbours(toAdd, remainingMoves - 1, visited, cluedo);
+                    getNeighbours(toAdd, remainingMoves - 1, visited, playerLocations, cluedo);
                 }
             }
         }

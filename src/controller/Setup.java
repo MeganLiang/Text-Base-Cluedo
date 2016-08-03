@@ -149,6 +149,7 @@ public class Setup {
      * players are asked to choose a character from the game, which determines their
      * starting position
      * @param numOfPlayers number of players
+     * @return Set<Characters></>
      */
     public void chooseCharacters(int numOfPlayers, Game cluedo) {
         int count = 0;

@@ -84,11 +84,21 @@ public class CluedoTests {
     }
 
     @Test
+    public void testPlayerMoveBasic4() {
+        Game g = new Game();
+        Player megan = new Player("Megan");
+        megan.setPositionPoint(new Point(6,2));
+        Point moveTo = new Point(5,2);
+        assertEquals(g.getMoving().moveCheck(moveTo, megan, 6, g),false);
+        //assertEquals(megan.getPositionPoint(),new Point(9,2));
+    }
+
+    @Test
     public void testPlayerMoveBasic3() {
         Game g = new Game();
         Player megan = new Player("Megan");
-        megan.setPositionPoint(new Point(0,8));
-        Point moveTo = new Point(3,9);
+        megan.setPositionPoint(new Point(15,6));
+        Point moveTo = new Point(19,6);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,5,g),true);
         assertEquals(megan.getPositionPoint(),moveTo);
     }
@@ -118,12 +128,22 @@ public class CluedoTests {
         assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
-    @Test
-    public void testPlayerMoveIncorrectRoom() {
+    /*@Test
+    public void testPlayerMoveIncorrectRoom1() {
         Game g = new Game();
         Player megan = new Player("Megan");
-        megan.setPositionPoint(new Point(0,8));
+        megan.setPositionPoint(new Point(0,7));
         Point moveTo = new Point(0,6);
+        assertEquals(g.getMoving().moveCheck(moveTo,megan,3,g),false);
+        //assertEquals(megan.getPositionPoint(),new Point(0,8));
+    }*/
+
+    @Test
+    public void testPlayerMoveIncorrectRoom2() {
+        Game g = new Game();
+        Player megan = new Player("Megan");
+        megan.setPositionPoint(new Point(8,1));
+        Point moveTo = new Point(10,1);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,3,g),false);
         //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
@@ -132,8 +152,8 @@ public class CluedoTests {
     public void testPlayerMoveCorrectRoom() {
         Game g = new Game();
         Player megan = new Player("Megan");
-        megan.setPositionPoint(new Point(2,7));
-        Point moveTo = new Point(3,6);
+        megan.setPositionPoint(new Point(7,5));
+        Point moveTo = new Point(9,5);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,6,g),true);
         //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }

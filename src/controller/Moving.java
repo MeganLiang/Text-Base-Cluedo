@@ -3,10 +3,8 @@ package controller;
 import model.Move;
 import model.Player;
 import model.Room;
-import model.Squares.DoorSquare;
-import model.Squares.NullSquare;
-import model.Squares.RoomSquare;
-import model.Squares.Square;
+import model.Squares.*;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -47,30 +45,76 @@ public class Moving {
      * Get a list of squares the player can move to
      * @return List<int><int>
      */
-    public boolean moveCheck(Point point, Player player, int roll,Game cluedo){
-        //Create List of Available Squares
-        Set<Point> availableSquares;
+    public boolean moveCheck(Point point, Player player, int roll, Game cluedo){
+        if(point.getX() < 0 || point.getX() > 23 || point.getY() < 0 || point.getY() > 24){
+            return false;
+        }
 
+        //Create List of Availabe Squares
+        Set<Point> availableSquares;
+        //If moving to stairway square
+        if(cluedo.getBoard().returnSquare(point)instanceof StairwaySquare) {
+            System.out.println("In stairway");
+            //make sure player is in a room
+            if(!(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare)){
+                System.out.println("In room check failed");
+                return false;
+            }
+            StairwaySquare st = (StairwaySquare) cluedo.getBoard().returnSquare(point);
+            //if in same room as chosen staircase
+            String playerLRoom = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom().getName();
+            String stairwayRoom = st.inRoom.getName();
+            //System.out.println(((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom().getName());
+            //System.out.println(st.inRoom.getName());
+
+            if(playerLRoom.equals(stairwayRoom)){
+                System.out.println("Room names equal");
+                Room goingTo = st.outRoom;
+                System.out.println("Room going to: " + goingTo.getName());
+                for(int x = 0; x < 24; x++) {
+                    for (int y = 0; y < 25; y++) {
+                        if (cluedo.getBoard().getBoard()[x][y] instanceof RoomSquare) {
+                            RoomSquare rs = (RoomSquare) cluedo.getBoard().getBoard()[x][y];
+                            //System.out.println("Looking at room: " + rs.getRoom().getName());
+                            if(rs.getRoom().getName().equals(goingTo.getName())){
+                                System.out.println("Names equal");
+                                if(!(playerAtPoint(new Point(x,y), cluedo))){
+                                    System.out.println("No player here");
+                                    player.setPositionPoint(new Point(x,y));
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            //not in same room as staircase
+            else{
+                return false;
+            }
+
+
+        }
 
         //If player is in a room square
-        if(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare){
+        else if(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare){
             System.out.println("In Room");
             availableSquares = new HashSet<>();
             Room current = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom();
             System.out.println(current.toString());
-            Set<Square> doorSquares = new HashSet<>();
-            for(int x = 0; x < cluedo.getBoard().getWIDTH(); x++) {
-                for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
-                    if (cluedo.getBoard().getBoard()[x][y] instanceof DoorSquare) {
+            Set<Square> doorSquares = new HashSet<Square>();
+            for(int x = 0; x < 24; x++){
+                for(int y = 0; y < 25; y++){
+                    if(cluedo.getBoard().getBoard()[x][y] instanceof DoorSquare){
                         DoorSquare rs = (DoorSquare) cluedo.getBoard().getBoard()[x][y];
                         System.out.println(rs.getRoom().getName());
-                        if (rs.getRoom().getName().equals(current.getName())) {
-                            availableSquares.addAll(availableMoves(new Point(x, y), roll - 1, cluedo));
+                        if(rs.getRoom().getName().equals(current.getName())){
+                            availableSquares.addAll(avaialableMoves(new Point(x,y),roll-1, cluedo));
                         }
                     }
                 }
             }
-
             System.out.println(availableSquares.size());
             if (availableSquares.contains(point)) {
                 //If movement is a room sqaure
@@ -94,10 +138,11 @@ public class Moving {
             //square cannot be moved too
             return false;
 
+
         }
         //Player is not in room square
         else {
-            availableSquares = availableMoves(player.getPositionPoint(), roll, cluedo);
+            availableSquares = avaialableMoves(player.getPositionPoint(), roll, cluedo);
             //Remove Squares that Players are in
             for (Player p : cluedo.getPlayerList()) {
                 Point checkPoint = p.getPositionPoint();
@@ -105,7 +150,7 @@ public class Moving {
                     availableSquares.remove(checkPoint);
                 }
             }
-            //CHeck if intended movement is possible
+            //CHeck if inteded movement is possible
             if (availableSquares.contains(point)) {
                 System.out.println("Hi");
                 //If movement is a room sqaure
@@ -132,6 +177,15 @@ public class Moving {
         }
 
     }
+
+    Set<Point> avaialableMoves(Point p, int roll, Game cluedo){
+        Point playerPos = p;
+        Set<Point> visitable;
+        visitable = getNeighbours(playerPos,roll,new HashSet<Point>(), cluedo);
+        return visitable;
+    }
+
+
     private Set<Point> availableMoves(Point p, int roll, Game cluedo){
         Point playerPos = p;
         Set<Point> visitable;
@@ -180,7 +234,7 @@ public class Moving {
 
     public void movePlayer(Player player, Game cluedo) {
             Random random = new Random();
-            int diceRoll = random.nextInt(6 - 1 + 1) + 1;
+            int diceRoll = random.nextInt(12 - 1) + 1;
             //int diceRoll = 6;
             System.out.println("You rolled a " + diceRoll);
             System.out.println("Player location: x="+ player.getPositionPoint().getX() + " y=" + player.getPositionPoint().getY());
@@ -232,6 +286,15 @@ public class Moving {
         System.out.println(point.toString());
         return point;
 
+    }
+    public boolean playerAtPoint(Point p, Game cluedo){
+        for (Player player : cluedo.getPlayerList()) {
+            Point checkPoint = player.getPositionPoint();
+            if (checkPoint.equals(p)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

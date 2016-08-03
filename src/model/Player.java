@@ -85,12 +85,12 @@ public class Player {
             for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
                 if (board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
                     inRoom = true;
-                    return inRoom;
+                    return true;
                 }
             }
         }
         inRoom = false;
-        return inRoom;
+        return false;
     }
 
     /**

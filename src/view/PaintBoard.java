@@ -173,6 +173,7 @@ public class PaintBoard {
     }
 
     public void printBoard() {
+
         for(int x=0; x<HEIGHT; x++) {
             for(int y=0; y<WIDTH; y++) {
                 System.out.print(cluedoBoard[y][x]);

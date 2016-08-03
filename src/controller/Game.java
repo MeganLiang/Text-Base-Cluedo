@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import view.TextBaseCluedo;
+
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -63,25 +65,42 @@ public class Game {
         System.out.println("Game is ready to play!!");
         while (!cluedo.guessing.isGameWon()) {
             for (Player player : cluedo.playersList) {
+
+                // move
+                // if in room, make suggestion
+                // if want to make accusation, do so
+
                 if (!player.hasMadeAccusation()) {
                     cluedo.guessing.chooseAccusation(player, cluedo);
                     if (cluedo.guessing.isGameWon()) {
                         return; //game won
                     }
                     if (!player.hasMadeAccusation()) {
-                        if (player.isInRoom(player, cluedo.board, cluedo) && cluedo.guessing.isJustEnteredRoom()) { //is in room and needs to suggest
-                            cluedo.guessing.suggestion(cluedo);
-                        } else if (player.isInRoom(player, cluedo.board, cluedo)) { // is still in room and needs to pick an exit
-                            player.findRoom(player, cluedo.board, cluedo).printExits(player, cluedo.board, cluedo);
-                            cluedo.moving.movePlayer(player,cluedo);
-                        } else { //not in room
+//                        if (player.isInRoom(player, cluedo.board, cluedo) && cluedo.guessing.isJustEnteredRoom()) { //is in room and needs to suggest
+//                            cluedo.guessing.suggestion(cluedo);
+//                        } else if (player.isInRoom(player, cluedo.board, cluedo)) { // is still in room and needs to pick an exit
+//                            player.findRoom(player, cluedo.board, cluedo).printExits(player, cluedo.board, cluedo);
+//                            cluedo.moving.movePlayer(player,cluedo);
+//                        } else { //not in room
+//                            cluedo.moving.movePlayer(player,cluedo);
+//                        }
+                        if(player.isInRoom(player, cluedo.board, cluedo)) {
+                            if(cluedo.guessing.isJustEnteredRoom()) {
+                                cluedo.guessing.suggestion(cluedo);
+                            }else {
+                                cluedo.moving.movePlayer(player,cluedo);
+                            }
+                        }else {//not in room
                             cluedo.moving.movePlayer(player,cluedo);
                         }
                     }
                 }
             }
         }
-
     }
+//        Game g = new Game();
+//        Player megan = new Player("Megan");
+//        megan.setPositionPoint(new Point(9, 1));
+//        g.moving.movePlayer(megan, g);
 
 }

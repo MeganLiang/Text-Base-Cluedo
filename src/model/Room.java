@@ -85,7 +85,7 @@ public class Room implements Card  {
                         }
                     } else if (cluedo.getBoard().getBoard()[x][y] instanceof StairwaySquare) { //stairway exit
                         StairwaySquare stairwaySquare = (StairwaySquare) cluedo.getBoard().getBoard()[x][y];
-                        if (stairwaySquare.getRoom().getName().equals(currentRoom.getName())) {
+                        if (stairwaySquare.getInRoom().getName().equals(currentRoom.getName())) {
                             exits.add(stairwaySquare);
                         }
                     }

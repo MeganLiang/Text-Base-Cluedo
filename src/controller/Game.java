@@ -71,8 +71,6 @@ public class Game {
                 if (!player.hasMadeAccusation()) {
                     cluedo.getPaintBoard().repaint(player,cluedo);
                     System.out.println();
-                    System.out.println("Player's hand: ============");
-                    player.printHand();
                     if (player.isInRoom(player, cluedo.board, cluedo) && !cluedo.guessing.isJustEnteredRoom()) { // is still in room and needs to pick an exit
                         player.findRoom(player, cluedo.board,cluedo).printExits(player, cluedo.board, cluedo);
                         cluedo.moving.movePlayer(player,cluedo);
@@ -81,6 +79,8 @@ public class Game {
                     }
 
                     if (player.isInRoom(player, cluedo.board,cluedo) && cluedo.guessing.isJustEnteredRoom()) { //is in room and needs to suggest
+                        System.out.println("Player's hand: ============");
+                        player.printHand();
                         cluedo.guessing.suggestion(cluedo);
                     }
                     cluedo.guessing.chooseAccusation(player,cluedo);

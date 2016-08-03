@@ -36,6 +36,8 @@ public class Setup {
         gameSolution.printSolution();
         chooseCharacters(numPlayers,cluedo);
         dealCards(cluedo);
+        placePlayersAtStart(cluedo);
+
     }
 
     /**
@@ -69,11 +71,11 @@ public class Setup {
      */
      public void dealCards(Game cluedo) {
         dealCards(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-//        for(Player p: cluedo.getPlayerList()) {
-//            System.out.println("Player's hand: ============");
-//            p.printHand();
-//        }
-        placePlayersAtStart(cluedo);
+        for(Player p: cluedo.getPlayerList()) {
+            System.out.println("Player's hand: ============");
+            p.printHand();
+        }
+         dealWeaponsAtStart();
     }
 
     /**
@@ -133,18 +135,16 @@ public class Setup {
     /**
      * deals weapons to rooms randomly
      */
-    public void dealWeapons() {
+    public void dealWeaponsAtStart() {
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         Collections.shuffle(weaponsList); //randomise the weapons
-        int i=0;
-        for(Room.Rooms r : availableRooms) {
-            Room room = new Room(r);
-            room.addWeapon(new Weapon(weaponsList.get(i)));
-            i++;
+        Collections.shuffle(availableRooms); //randomise the rooms
+        for(int index = 0; index < 6; index++) {
+            Room room = new Room(availableRooms.get(index));
+            room.addWeapon(new Weapon(weaponsList.get(index)));
         }
-
-
     }
+
     /**
      * players are asked to choose a character from the game, which determines their
      * starting position

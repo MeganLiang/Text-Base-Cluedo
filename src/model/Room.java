@@ -110,6 +110,10 @@ public class Room implements Card  {
         }
     }
 
+    public List<Weapon> getWeaponList() {
+        return weaponList;
+    }
+
     public static void main(String[] args) {
         //getRandom(Rooms.class);
     }

@@ -65,8 +65,6 @@ public class Game {
     public static void main(String[] args) {
         Game cluedo = new Game();
         cluedo.setup.initGame(cluedo);
-        cluedo.setup.chooseCharacters(cluedo.setup.getNumPlayers(),cluedo);
-        cluedo.setup.dealCards(cluedo);
         System.out.println("Game is ready to play!!");
         while (!cluedo.guessing.isGameWon()) {
             for (Player player : cluedo.playersList) {

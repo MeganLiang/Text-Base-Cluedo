@@ -69,10 +69,10 @@ public class Setup {
      */
      public void dealCards(Game cluedo) {
         deal(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-        for(Player p: cluedo.getPlayerList()) {
-            System.out.println("Player's hand: ============");
-            p.printHand();
-        }
+//        for(Player p: cluedo.getPlayerList()) {
+//            System.out.println("Player's hand: ============");
+//            p.printHand();
+//        }
         placePlayersAtStart(cluedo);
     }
 

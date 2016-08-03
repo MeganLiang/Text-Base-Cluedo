@@ -80,7 +80,10 @@ public class Moving {
                                 System.out.println("Names equal");
                                 if(!(playerAtPoint(new Point(x,y), cluedo))){
                                     System.out.println("No player here");
+                                    player.setPreviousPoint(player.getPositionPoint());
                                     player.setPositionPoint(new Point(x,y));
+                                    cluedo.getPaintBoard().repaint(player,cluedo);
+                                    System.out.println();
                                     return true;
                                 }
                             }
@@ -124,7 +127,10 @@ public class Moving {
                         Square rs = cluedo.getBoard().getBoard()[(int) rsPoint.getX()][(int) rsPoint.getY()];
                         if (rs instanceof RoomSquare) {
                             if (((RoomSquare) rs).getRoom().equals(room)) {
+                                player.setPreviousPoint(player.getPositionPoint());
                                 player.setPositionPoint(point);
+                                cluedo.getPaintBoard().repaint(player,cluedo);
+                                System.out.println();
                                 return true;
                             }
                         }
@@ -132,7 +138,10 @@ public class Moving {
                     return false;
                 }
                 //Move players point to that position
+                player.setPreviousPoint(player.getPositionPoint());
                 player.setPositionPoint(point);
+                cluedo.getPaintBoard().repaint(player,cluedo);
+                System.out.println();
                 return true;
             }
             //square cannot be moved too
@@ -161,7 +170,10 @@ public class Moving {
                         Square rs = cluedo.getBoard().getBoard()[(int) rsPoint.getX()][(int) rsPoint.getY()];
                         if (rs instanceof RoomSquare) {
                             if (((RoomSquare) rs).getRoom().equals(room)) {
+                                player.setPreviousPoint(player.getPositionPoint());
                                 player.setPositionPoint(point);
+                                cluedo.getPaintBoard().repaint(player,cluedo);
+                                System.out.println();
                                 return true;
                             }
                         }
@@ -169,7 +181,10 @@ public class Moving {
                     return false;
                 }
                 //Move players point to that position
+                player.setPreviousPoint(player.getPositionPoint());
                 player.setPositionPoint(point);
+                cluedo.getPaintBoard().repaint(player,cluedo);
+                System.out.println();
                 return true;
             }
             //square cannot be moved too
@@ -233,38 +248,35 @@ public class Moving {
 
 
     public void movePlayer(Player player, Game cluedo) {
-            Random random = new Random();
-            int diceRoll = random.nextInt(12 - 1) + 1;
-            //int diceRoll = 6;
-            System.out.println("You rolled a " + diceRoll);
-            System.out.println("Player location: x="+ player.getPositionPoint().getX() + " y=" + player.getPositionPoint().getY());
-            String commands = "";
-            List<Move.Moves> moves = new ArrayList<>(Arrays.asList(Move.Moves.values()));
-
-
-                boolean validMove = false;
-                Point newPosition;
-                while(!validMove) {
-                    commands = cluedo.getTextBaseCluedo().moving();
-                    String[] commandArray = commands.trim().split("\\s+");
-
-                    for(int i=0; i<commandArray.length; i++) { //error checking
-                        while(!moves.contains(Move.Moves.fromString(commandArray[i]))) {
-                            commands = cluedo.getTextBaseCluedo().invalidArrayInput();
-                            commandArray = commands.trim().split("\\s+");
-                        }
-                    }
+        System.out.println("=============================");
+        System.out.println(player.getName() + "'s turn");
+        Random random = new Random();
+        int diceRoll = random.nextInt(12 - 1) + 1;
+        //int diceRoll = 6;
+        System.out.println("You rolled a " + diceRoll);
+        System.out.println("Your location: x="+ player.getPositionPoint().getX() + " y=" + player.getPositionPoint().getY());
+        String commands = "";
+        List<Move.Moves> moves = new ArrayList<>(Arrays.asList(Move.Moves.values()));
+        boolean validMove = false;
+        Point newPosition;
+        while(!validMove) {
+            commands = cluedo.getTextBaseCluedo().moving(player);
+            String[] commandArray = commands.trim().split("\\s+");
+             for(int i=0; i<commandArray.length; i++) { //error checking
+                 while(!moves.contains(Move.Moves.fromString(commandArray[i]))) {
+                     commands = cluedo.getTextBaseCluedo().invalidArrayInput();
+                     commandArray = commands.trim().split("\\s+");
+                 }
+             }
 //                    while(commandArray.length != diceRoll) { //error checking
 //                        commands = Game.textBaseCluedo.invalidArrayInput();
 //                        commandArray = commands.trim().split("\\s+");
 //                    }
                     //convert commandArray to point coordinates
-                    newPosition = convertArrayToPoint(commandArray, player);
-                    validMove =  moveCheck(newPosition, player, diceRoll, cluedo); //check if valid move
-                    System.out.println("IS this a valid move " + validMove);
-                }
-
-
+            newPosition = convertArrayToPoint(commandArray, player);
+            validMove =  moveCheck(newPosition, player, diceRoll, cluedo); //check if valid move
+            System.out.println("Your move is " + validMove);
+        }
     }
 
     private Point convertArrayToPoint(String[] commandArray, Player player) {

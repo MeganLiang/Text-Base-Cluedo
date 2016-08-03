@@ -1,9 +1,12 @@
 package view;
 
+import controller.Game;
 import model.Character;
+import model.Player;
 import model.Room;
 import model.Squares.*;
 
+import java.awt.*;
 import java.io.*;
 
 public class PaintBoard {
@@ -36,12 +39,10 @@ public class PaintBoard {
         while ((r = reader.read()) != -1) {
 
             char ch = (char) r;
-            // System.out.println(ch);
 
             switch (ch) {
                 case 'N':
                     cluedoBoard[x][y] = "|#";
-                    //  System.out.println("N " + x +" "+ y);
                     x++;
                     break;
                 case 'B':
@@ -172,17 +173,92 @@ public class PaintBoard {
 
     }
 
-    public void printBoard() {
+    public void paintBoard() {
 
-        for(int x=0; x<HEIGHT; x++) {
-            for(int y=0; y<WIDTH; y++) {
-                System.out.print(cluedoBoard[y][x]);
+        for(int y=0; y<HEIGHT; y++) {
+            for(int x=0; x<WIDTH; x++) {
+                System.out.print(cluedoBoard[x][y]);
             }
             System.out.println();
         }
+        System.out.println();
+    }
+    public void repaint(Player player, Game cluedo) {
+        Point playerPosition = player.getPositionPoint();
+        Point playerPrev = player.getPreviousPoint();
+        for(int y=0; y<HEIGHT; y++) {
+            for(int x=0; x<WIDTH; x++) {
+                if(playerPosition.getY()==y && playerPosition.getX()==x) {
+                    cluedoBoard[x][y] = "|" + player.getCharacter().ordinal();
+                }
+                if(playerPrev != null) {
+                    if (playerPrev.getX() == x && playerPrev.getY() == y) { //fix the previous square to its original state
+                        if (cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()] instanceof RoomSquare) {
+                            RoomSquare room = (RoomSquare) cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()];
+                            if (room.getRoom().getName().equals("Kitchen")) {
+                                cluedoBoard[x][y] = "|K";
+                            } else if (room.getRoom().getName().equals("BallRoom")) {
+                                cluedoBoard[x][y] = "|A";
+                            } else if (room.getRoom().getName().equals("Conservatory")) {
+                                cluedoBoard[x][y] = "|C";
+                            } else if (room.getRoom().getName().equals("DiningRoom")) {
+                                cluedoBoard[x][y] = "|D";
+                            } else if (room.getRoom().getName().equals("BilliardRoom")) {
+                                cluedoBoard[x][y] = "|I";
+                            } else if (room.getRoom().getName().equals("Library")) {
+                                cluedoBoard[x][y] = "|L";
+                            } else if (room.getRoom().getName().equals("Lounge")) {
+                                cluedoBoard[x][y] = "|O";
+                            } else if (room.getRoom().getName().equals("Hall")) {
+                                cluedoBoard[x][y] = "|H";
+                            } else if (room.getRoom().getName().equals("Study")) {
+                                cluedoBoard[x][y] = "|S";
+                            }
+                        } else if (cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()] instanceof DoorSquare) {
+                            DoorSquare door = (DoorSquare) cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()];
+                            if (door.getRoom().getName().equals("Kitchen")) {
+                                cluedoBoard[x][y] = "|k";
+                            } else if (door.getRoom().getName().equals("BallRoom")) {
+                                cluedoBoard[x][y] = "|a";
+                            } else if (door.getRoom().getName().equals("Conservatory")) {
+                                cluedoBoard[x][y] = "|c";
+                            } else if (door.getRoom().getName().equals("DiningRoom")) {
+                                cluedoBoard[x][y] = "|d";
+                            } else if (door.getRoom().getName().equals("BilliardRoom")) {
+                                cluedoBoard[x][y] = "|i";
+                            } else if (door.getRoom().getName().equals("Library")) {
+                                cluedoBoard[x][y] = "|l";
+                            } else if (door.getRoom().getName().equals("Lounge")) {
+                                cluedoBoard[x][y] = "|o";
+                            } else if (door.getRoom().getName().equals("Hall")) {
+                                cluedoBoard[x][y] = "|h";
+                            } else if (door.getRoom().getName().equals("Study")) {
+                                cluedoBoard[x][y] = "|s";
+                            }
+                        } else if (cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()] instanceof BlankSquare
+                                || cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()] instanceof StartSquare) {
+                            cluedoBoard[x][y] = "|_";
+                        } else if (cluedo.getBoard().getBoard()[(int) playerPrev.getX()][(int) playerPrev.getY()] instanceof StairwaySquare) {
+                            cluedoBoard[x][y] = "|=";
+                        }
+                    }
+                }
+            }
+        }
+        paintBoard();
     }
     public static void main(String [] args) {
+        Game cluedo = new Game();
         PaintBoard p = new PaintBoard();
-        p.printBoard();
+//        p.paintBoard();
+        Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsPeacock);
+        megan.setPreviousPoint(null);
+        megan.setPositionPoint(new Point(1,1));
+        p.repaint(megan,cluedo);
+        System.out.println();
+        megan.setPreviousPoint(new Point(1,1));
+        megan.setPositionPoint(new Point(5,1));
+        p.repaint(megan,cluedo);
     }
 }

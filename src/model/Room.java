@@ -12,6 +12,7 @@ public class Room implements Card  {
 
     private Rooms roomType; //enum which has possible tokens for rooms
     private static final SecureRandom random = new SecureRandom();
+    private List<Weapon> weaponList = new ArrayList<>();
 
     public Room(Rooms roomType) {
         this.roomType = roomType;
@@ -44,8 +45,15 @@ public class Room implements Card  {
             }
             return null;
         }
-     }
+    }
 
+    /**
+     * Weapons are teleported to different rooms
+     * @param weapon
+     */
+    public void addWeapon(Weapon weapon) {
+        this.weaponList.add(weapon);
+    }
     /**
      * randomly generates a room
      * @return a enum Rooms
@@ -100,6 +108,10 @@ public class Room implements Card  {
         for (Square square: roomExits) {
             System.out.println("x= " + square.getxPos() + ", y= " + square.getYpos());
         }
+    }
+
+    public List<Weapon> getWeaponList() {
+        return weaponList;
     }
 
     public static void main(String[] args) {

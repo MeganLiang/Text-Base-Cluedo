@@ -33,14 +33,11 @@ public class Board {
         int y=0;
 
         while ((r = reader.read()) != -1) {
-
             char ch = (char) r;
-            // System.out.println(ch);
 
             switch (ch) {
                 case 'N':
                     board[x][y] = new NullSquare(x, y);
-                    //  System.out.println("N " + x +" "+ y);
                     x++;
                     break;
                 case 'B':

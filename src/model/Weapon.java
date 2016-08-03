@@ -1,5 +1,4 @@
 package model;
-
 import java.security.SecureRandom;
 
 /**
@@ -8,7 +7,6 @@ import java.security.SecureRandom;
 public class Weapon implements Card{
 
     private Weapons weaponName; //enum representing all the possible weapons
-    private Room location; // location of the weapon
     private static final SecureRandom random = new SecureRandom();
 
     public Weapon(Weapons name) {
@@ -63,6 +61,7 @@ public class Weapon implements Card{
     }
 
     public static void main(String[] args) {
-        //getRandom(Weapons.class);
+        Weapon w = new Weapon(Weapons.Revolver); // instance of class, for testing purposes
+        w.getRandom(Weapons.class);
     }
 }

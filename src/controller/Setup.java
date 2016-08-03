@@ -19,7 +19,7 @@ public class Setup {
     /**
      * one character, one weapon and one room card are selected at random and is the solution
      */
-    public Solution initGame(Game cluedo) {
+    public void initGame(Game cluedo) {
 
         numPlayers = getNumberOfPlayers(cluedo);
 
@@ -34,8 +34,10 @@ public class Setup {
 
         gameSolution = new Solution(randomWeapon, randomRoom, randomCharacter);
         gameSolution.printSolution();
+        chooseCharacters(numPlayers,cluedo);
+        dealCards(cluedo);
+        placePlayersAtStart(cluedo);
 
-        return gameSolution;
     }
 
     /**
@@ -68,21 +70,21 @@ public class Setup {
      * solution is picked, cards are dealt evenly to players
      */
      public void dealCards(Game cluedo) {
-        deal(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-//        for(Player p: cluedo.getPlayerList()) {
-//            System.out.println("Player's hand: ============");
-//            p.printHand();
-//        }
-        placePlayersAtStart(cluedo);
+        dealCards(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
+        for(Player p: cluedo.getPlayerList()) {
+            System.out.println("Player's hand: ============");
+            p.printHand();
+        }
+         dealWeaponsAtStart();
     }
 
     /**
-     * the implementation for dealing the cards
+     * the implementation for dealing the cards, this is done randomly
      * @param weaponClass the num class Weapons
      * @param characterClass the enum class Characters
      * @param roomClass the enum class Rooms
      */
-    private void deal(Game cluedo, Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
+    private void dealCards(Game cluedo, Class<Weapon.Weapons> weaponClass, Class<Character.Characters> characterClass, Class<Room.Rooms> roomClass) {
         int numWeapons = weaponClass.getEnumConstants().length-1; //number of available weapons minus the solution weapon
         int numChars = characterClass.getEnumConstants().length-1;
         int numRooms = roomClass.getEnumConstants().length-1;
@@ -129,13 +131,26 @@ public class Setup {
         }
 
     }
+
+    /**
+     * deals weapons to rooms randomly
+     */
+    public void dealWeaponsAtStart() {
+        List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
+        Collections.shuffle(weaponsList); //randomise the weapons
+        Collections.shuffle(availableRooms); //randomise the rooms
+        for(int index = 0; index < 6; index++) {
+            Room room = new Room(availableRooms.get(index));
+            room.addWeapon(new Weapon(weaponsList.get(index)));
+        }
+    }
+
     /**
      * players are asked to choose a character from the game, which determines their
      * starting position
      * @param numOfPlayers number of players
-     * @return Set<Characters></>
      */
-    public Set<Character.Characters> chooseCharacters(int numOfPlayers, Game cluedo) {
+    public void chooseCharacters(int numOfPlayers, Game cluedo) {
         int count = 0;
         Set<Character.Characters> chosenCharacters = new HashSet<>();
         System.out.println("List of characters:");
@@ -164,7 +179,7 @@ public class Setup {
             }
         }
         System.out.println("=======================================");
-        return chosenCharacters;
+
     }
 
     public int getNumPlayers() {

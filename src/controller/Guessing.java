@@ -11,7 +11,6 @@ public class Guessing {
      * @param player player
      */
     public void chooseAccusation(Player player, Game cluedo) {
-        System.out.println(player.getName() + "'s turn");
         String choice = cluedo.getTextBaseCluedo().accusationOption();
         if(choice.equals("Yes") || choice.equals("yes") || choice.equals("y")) {
             player.setMadeAccusation(true);
@@ -32,15 +31,13 @@ public class Guessing {
      * @return Accusation
      */
     public Accusation accusation(Game cluedo) {
-        String s = cluedo.getTextBaseCluedo().accuse().trim(); //weapon room character
-        String[] splitS = s.trim().split("\\s+");
+        String[] splitS = cluedo.getTextBaseCluedo().accuse(); //weapon room character
 
         while(!cluedo.getSetup().getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
                 || !cluedo.getSetup().getAvailableRooms().contains(Room.Rooms.fromString(splitS[1]))
                 || !cluedo.getSetup().getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))) { //invalid input, can be duplicate character or not a token
             System.out.println("Unexpected input, try again");
-            s = cluedo.getTextBaseCluedo().accuse().trim();
-            splitS = s.trim().split("\\s+");
+            splitS = cluedo.getTextBaseCluedo().accuse();
         }
         Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));
         Room r = new Room(Room.Rooms.valueOf(splitS[1]));
@@ -57,8 +54,8 @@ public class Guessing {
         for(Player player: cluedo.getPlayerList()) {
             if (player.isInRoom(player, cluedo.getBoard(), cluedo)) {
                 System.out.println(player.getName() + ", you are in the " + player.findRoom(player, cluedo.getBoard(), cluedo).getName());
-                String s = cluedo.getTextBaseCluedo().suggest().trim(); //weapon room character
-                String[] splitS = s.trim().split("\\s+");
+                String[] splitS = cluedo.getTextBaseCluedo().suggest(); //weapon room character
+
 
                 while (splitS.length != 3
                         || !cluedo.getSetup().getAvailableWeapons().contains(Weapon.Weapons.fromString(splitS[0]))
@@ -66,8 +63,7 @@ public class Guessing {
                         || !cluedo.getSetup().getAvailableCharacters().contains(Character.Characters.fromString(splitS[2]))
                         || !player.findRoom(player, cluedo.getBoard(), cluedo).getName().equals(new Room(Room.Rooms.valueOf(splitS[1])).getName())) { //invalid input, can be duplicate character or not a token
                     System.out.println("Unexpected input, try again. You can only make suggestions about the room");
-                    s = cluedo.getTextBaseCluedo().suggest().trim();
-                    splitS = s.trim().split("\\s+");
+                    splitS = cluedo.getTextBaseCluedo().suggest();
                 }
 
                 Weapon w = new Weapon(Weapon.Weapons.valueOf(splitS[0]));

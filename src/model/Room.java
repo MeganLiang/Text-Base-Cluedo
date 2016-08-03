@@ -75,7 +75,7 @@ public class Room implements Card  {
         Set<Square> exits = new HashSet<>();
         if (cluedo.getBoard().returnSquare(player.getPositionPoint()) instanceof RoomSquare) { //player in room
             Room currentRoom = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom();
-            System.out.println(player + ", you are in the " + currentRoom.toString());
+            System.out.println(player.getName() + ", you are in the " + currentRoom.getName());
             for (int x = 0; x < cluedo.getBoard().getWIDTH(); x++) {
                 for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
                     if (cluedo.getBoard().getBoard()[x][y] instanceof DoorSquare) { //Door exit
@@ -85,7 +85,7 @@ public class Room implements Card  {
                         }
                     } else if (cluedo.getBoard().getBoard()[x][y] instanceof StairwaySquare) { //stairway exit
                         StairwaySquare stairwaySquare = (StairwaySquare) cluedo.getBoard().getBoard()[x][y];
-                        if (stairwaySquare.getRoom().getName().equals(currentRoom.getName())) {
+                        if (stairwaySquare.getInRoom().getName().equals(currentRoom.getName())) {
                             exits.add(stairwaySquare);
                         }
                     }
@@ -98,7 +98,7 @@ public class Room implements Card  {
         Set<Square> roomExits = player.findRoom(player,board,cluedo).findExits(player, cluedo);
         System.out.println("Here are the coordinates of your exits: ");
         for (Square square: roomExits) {
-            System.out.println("x= " + square.getxPos() + " y= " + square.getYpos());
+            System.out.println("x= " + square.getxPos() + ", y= " + square.getYpos());
         }
     }
 

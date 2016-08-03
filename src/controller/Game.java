@@ -1,16 +1,20 @@
 package controller;
 
 import model.*;
+import view.PaintBoard;
 import view.TextBaseCluedo;
+
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
 import static controller.Setup.*;
 
 public class Game {
-    private  Setup setup = new Setup();
-    private  Moving moving = new Moving();
-    private  TextBaseCluedo textBaseCluedo = new TextBaseCluedo();
+    private Setup setup = new Setup();
+    private Moving moving = new Moving();
+    private TextBaseCluedo textBaseCluedo = new TextBaseCluedo();
+    private PaintBoard paintBoard = new PaintBoard();
     private List<Player> playersList = new ArrayList<>();
     private Board board = new Board();
     private Guessing guessing = new Guessing();
@@ -54,34 +58,39 @@ public class Game {
         return moving;
     }
 
+    public PaintBoard getPaintBoard() {
+        return paintBoard;
+    }
+
     public static void main(String[] args) {
         Game cluedo = new Game();
         cluedo.setup.initGame(cluedo);
         cluedo.setup.chooseCharacters(cluedo.setup.getNumPlayers(),cluedo);
         cluedo.setup.dealCards(cluedo);
-
         System.out.println("Game is ready to play!!");
         while (!cluedo.guessing.isGameWon()) {
             for (Player player : cluedo.playersList) {
                 if (!player.hasMadeAccusation()) {
-                    cluedo.guessing.chooseAccusation(player, cluedo);
+                    cluedo.getPaintBoard().repaint(player,cluedo);
+                    System.out.println();
+                    System.out.println("Player's hand: ============");
+                    player.printHand();
+                    if (player.isInRoom(player, cluedo.board, cluedo) && !cluedo.guessing.isJustEnteredRoom()) { // is still in room and needs to pick an exit
+                        player.findRoom(player, cluedo.board,cluedo).printExits(player, cluedo.board, cluedo);
+                        cluedo.moving.movePlayer(player,cluedo);
+                    }else {
+                        cluedo.moving.movePlayer(player, cluedo);
+                    }
+
+                    if (player.isInRoom(player, cluedo.board,cluedo) && cluedo.guessing.isJustEnteredRoom()) { //is in room and needs to suggest
+                        cluedo.guessing.suggestion(cluedo);
+                    }
+                    cluedo.guessing.chooseAccusation(player,cluedo);
                     if (cluedo.guessing.isGameWon()) {
                         return; //game won
-                    }
-                    if (!player.hasMadeAccusation()) {
-                        if (player.isInRoom(player, cluedo.board, cluedo) && cluedo.guessing.isJustEnteredRoom()) { //is in room and needs to suggest
-                            cluedo.guessing.suggestion(cluedo);
-                        } else if (player.isInRoom(player, cluedo.board, cluedo)) { // is still in room and needs to pick an exit
-                            player.findRoom(player, cluedo.board, cluedo).printExits(player, cluedo.board, cluedo);
-                            cluedo.moving.movePlayer(player,cluedo);
-                        } else { //not in room
-                            cluedo.moving.movePlayer(player,cluedo);
-                        }
                     }
                 }
             }
         }
-
     }
-
 }

@@ -1,6 +1,7 @@
 package view;
 
 import model.Character;
+import model.Player;
 
 import java.util.List;
 
@@ -30,24 +31,18 @@ public interface UserInput {
      * Allow for players to make a suggestion
      * @return Suggestion
      */
-    String suggest();
+    String [] suggest();
 
     /**
      * Allow for players to make an accusation
      * @return Accusation
      */
-    String accuse();
+    String [] accuse();
 
     /**
      * Allow for players to input a move using WASD key strokes
      * @return
      */
-    String moving();
-
-    /**
-     * Allow for players to input what exit to take after being in a room
-     * @return
-     */
-    String movingInRoom();
+    String moving(Player player);
 
 }

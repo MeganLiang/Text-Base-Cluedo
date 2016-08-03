@@ -12,6 +12,7 @@ public class Player {
     private Character.Characters character;
     private Hand hand;
     private Point point;
+    private Point previousPoint;
     private boolean inRoom;
     private boolean madeAccusation = false;
 
@@ -64,7 +65,6 @@ public class Player {
                 if(board.getBoard()[x][y] instanceof StartSquare) {
                     StartSquare startSquare = (StartSquare) board.getBoard()[x][y];
                     if(startSquare.getCharacter().equals(characterEnum)) {
-                        System.out.println("this is the starting square: " + startSquare.getxPos() + " " + startSquare.getYpos());
                         return new Point(startSquare.getxPos(), startSquare.getYpos());
                     }
                 }
@@ -85,12 +85,12 @@ public class Player {
             for (int y = 0; y < cluedo.getBoard().getHEIGHT(); y++) {
                 if (board.getBoard()[player.getPositionPoint().x][player.getPositionPoint().y] instanceof RoomSquare) {
                     inRoom = true;
-                    return inRoom;
+                    return true;
                 }
             }
         }
         inRoom = false;
-        return inRoom;
+        return false;
     }
 
     /**
@@ -130,4 +130,11 @@ public class Player {
         this.madeAccusation = madeAccusation;
     }
 
+    public Point getPreviousPoint() {
+        return previousPoint;
+    }
+
+    public void setPreviousPoint(Point previousPoint) {
+        this.previousPoint = previousPoint;
+    }
 }

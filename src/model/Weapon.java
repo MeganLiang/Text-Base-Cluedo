@@ -7,7 +7,8 @@ import java.security.SecureRandom;
 public class Weapon implements Card{
 
     private Weapons weaponName; //enum representing all the possible weapons
-    private static final SecureRandom random = new SecureRandom();
+    private final SecureRandom random = new SecureRandom();
+    private Room inRoom;
 
     public Weapon(Weapons name) {
         this.weaponName = name;
@@ -40,7 +41,10 @@ public class Weapon implements Card{
 
     }
 
-
+    public String WeaponSymbol(Weapons w) {
+        String toreturn = w.toString().substring(0,2);
+        return toreturn;
+    }
     @Override
     public String getName() {
         return weaponName.toString();
@@ -49,6 +53,14 @@ public class Weapon implements Card{
 
     public Weapons getEnum() {
         return weaponName;
+    }
+
+    public Room getInRoom() {
+        return inRoom;
+    }
+
+    public void setInRoom(Room inRoom) {
+        this.inRoom = inRoom;
     }
 
     public void setWeaponName(Weapons weaponName) {
@@ -60,8 +72,4 @@ public class Weapon implements Card{
         return (Weapons) clazz.getEnumConstants()[x];
     }
 
-    public static void main(String[] args) {
-        Weapon w = new Weapon(Weapons.Revolver); // instance of class, for testing purposes
-        w.getRandom(Weapons.class);
-    }
 }

@@ -12,36 +12,6 @@ import java.util.List;
 
 public class Moving {
     /**
-     * Get a list of squares the player can move too
-     * @return List<int><int>
-     */
-//    public static boolean moveCheck(Point point, Player player, int roll){
-//        //Get List of Available Squares
-//        Set<Point> availableSquares = availableMoves(player, roll);
-//        System.out.println("available squares");
-//        for(Point p: availableSquares) {
-//            System.out.println(p.toString());
-//        }
-//
-//        //Remove Squares that Players are in
-//        for(Player p: Game.getPlayerList()){
-//            Point checkPoint = p.getPositionPoint();
-//            if(availableSquares.contains(checkPoint)){
-//                availableSquares.remove(checkPoint);
-//            }
-//        }
-//
-//        //CHeck if intended movement is possible
-//        if(availableSquares.contains(point)){
-//            //Move players point to that position
-//            player.setPositionPoint(point);
-//            return true;
-//        }
-//        //square cannot be moved too
-//        return false;
-//
-//    }
-    /**
      * Get a list of squares the player can move to
      * @return List<int><int>
      */
@@ -50,7 +20,7 @@ public class Moving {
             return false;
         }
 
-        //Create List of Availabe Squares
+        //Create List of Available Squares
         Set<Point> availableSquares;
 
 
@@ -84,7 +54,7 @@ public class Moving {
                             if (((RoomSquare) rs).getRoom().equals(room)) {
                                 player.setPreviousPoint(player.getPositionPoint());
                                 player.setPositionPoint(point);
-                                cluedo.getPaintBoard().repaint(player,cluedo);
+                                cluedo.getPaintBoard().repaint(player,cluedo,null);
                                 System.out.println();
                                 return true;
                             }
@@ -95,7 +65,7 @@ public class Moving {
                 //Move players point to that position
                 player.setPreviousPoint(player.getPositionPoint());
                 player.setPositionPoint(point);
-                cluedo.getPaintBoard().repaint(player,cluedo);
+                cluedo.getPaintBoard().repaint(player,cluedo,null);
                 System.out.println();
                 return true;
             }
@@ -113,20 +83,20 @@ public class Moving {
                     availableSquares.remove(checkPoint);
                 }
             }
-            //CHeck if intended movement is possible
+            //Check if intended movement is possible
             if (availableSquares.contains(point)) {
-                System.out.println("Hi");
-                //If movement is a room sqaure
+                //If movement is a room square
                 if (cluedo.getBoard().returnSquare(point) instanceof RoomSquare ) {
-                    System.out.println("Hi");
                     Room room = ((RoomSquare) cluedo.getBoard().returnSquare(point)).getRoom();
                     for (Point rsPoint : availableSquares) {
                         Square rs = cluedo.getBoard().returnSquare(rsPoint);
+
                         if (rs instanceof DoorSquare) {
-                            System.out.println("Hi2");
                             if (((DoorSquare) rs).getRoom().getName().equals(room.getName())) {
+                                player.setPreviousPoint(player.getPositionPoint());
                                 player.setPositionPoint(point);
-                                cluedo.getPaintBoard().repaint(player,cluedo);
+                                System.out.println("Your are passing through a door");
+                                cluedo.getPaintBoard().repaint(player,cluedo,null);
                                 System.out.println();
                                 return true;
                             }
@@ -137,7 +107,7 @@ public class Moving {
                 //Move players point to that position
                 player.setPreviousPoint(player.getPositionPoint());
                 player.setPositionPoint(point);
-                cluedo.getPaintBoard().repaint(player,cluedo);
+                cluedo.getPaintBoard().repaint(player,cluedo,null);
                 System.out.println();
                 return true;
             }

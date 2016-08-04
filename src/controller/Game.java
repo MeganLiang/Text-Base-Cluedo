@@ -69,7 +69,7 @@ public class Game {
         while (!cluedo.guessing.isGameWon()) {
             for (Player player : cluedo.playersList) {
                 if (!player.hasMadeAccusation()) {
-                    cluedo.getPaintBoard().repaint(player,cluedo);
+                    cluedo.getPaintBoard().repaint(player,cluedo, null);
                     System.out.println();
                     if (player.isInRoom(player, cluedo.board, cluedo) && !cluedo.guessing.isJustEnteredRoom()) { // is still in room and needs to pick an exit
                         player.findRoom(player, cluedo.board,cluedo).printExits(player, cluedo.board, cluedo);

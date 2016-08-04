@@ -72,13 +72,15 @@ public class Guessing {
                 Suggestion suggestion = new Suggestion(w, r, c);
                 justEnteredRoom = false;
 
-//                for(Room.Rooms roomEnum : cluedo.getSetup().getAvailableRooms()) { //teleport the suggested weapon to the room
-//                    Room oldRoom = new Room(roomEnum);
-//                    if(oldRoom.getWeaponList().contains(w)) {
-//                        oldRoom.getWeaponList().remove(w);
-//                    }
-//                }
-                //r.addWeapon(w);
+                for(Room.Rooms roomEnum : cluedo.getSetup().getAvailableRooms()) { //teleport the suggested weapon to the room
+                    Room oldRoom = new Room(roomEnum);
+                    if(oldRoom.getWeaponList().contains(w)) {
+                        oldRoom.getWeaponList().remove(w); //remove the weapon from previous position
+                    }
+                }
+                r.addWeapon(w);
+                w.setInRoom(r);
+                cluedo.getPaintBoard().repaint(null, cluedo,w);
 
                 System.out.println("Refuting the suggestion: ");
                 proveSuggestions(suggestion,player, cluedo);

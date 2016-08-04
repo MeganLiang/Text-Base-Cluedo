@@ -75,7 +75,7 @@ public class Setup {
             System.out.println("Player's hand: ============");
             p.printHand();
         }
-         dealWeaponsAtStart();
+         dealWeaponsAtStart(cluedo);
     }
 
     /**
@@ -135,13 +135,17 @@ public class Setup {
     /**
      * deals weapons to rooms randomly
      */
-    public void dealWeaponsAtStart() {
+    public void dealWeaponsAtStart(Game cluedo) {
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         Collections.shuffle(weaponsList); //randomise the weapons
         Collections.shuffle(availableRooms); //randomise the rooms
         for(int index = 0; index < 6; index++) {
             Room room = new Room(availableRooms.get(index));
             room.addWeapon(new Weapon(weaponsList.get(index)));
+            Weapon.Weapons enumW = weaponsList.get(index);
+            Weapon weapon = new Weapon(enumW);
+            weapon.setInRoom(room);
+            cluedo.getPaintBoard().paintBoard();
         }
     }
 

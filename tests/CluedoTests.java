@@ -77,6 +77,7 @@ public class CluedoTests {
     public void testPlayerMoveBasic2() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(0,8));
         Point moveTo = new Point(5,8);
         assertEquals(g.getMoving().moveCheck(moveTo, megan, 5, g),true);
@@ -97,6 +98,7 @@ public class CluedoTests {
     public void testPlayerMoveBasic3() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(15,6));
         Point moveTo = new Point(19,6);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,5,g),true);
@@ -128,15 +130,6 @@ public class CluedoTests {
         assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
-    /*@Test
-    public void testPlayerMoveIncorrectRoom1() {
-        Game g = new Game();
-        Player megan = new Player("Megan");
-        megan.setPositionPoint(new Point(0,7));
-        Point moveTo = new Point(0,6);
-        assertEquals(g.getMoving().moveCheck(moveTo,megan,3,g),false);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
-    }*/
 
     @Test
     public void testPlayerMoveIncorrectRoom2() {
@@ -145,27 +138,26 @@ public class CluedoTests {
         megan.setPositionPoint(new Point(8,1));
         Point moveTo = new Point(10,1);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,3,g),false);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
     @Test
     public void testPlayerMoveCorrectRoom() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(7,5));
         Point moveTo = new Point(9,5);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,6,g),true);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
     @Test
     public void testPlayerMoveLeaveRoomCorrect1() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(3,6));
         Point moveTo = new Point(2,7);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,6,g),true);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
     @Test
@@ -175,27 +167,26 @@ public class CluedoTests {
         megan.setPositionPoint(new Point(23,1));
         Point moveTo = new Point(24,1);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,6,g),false);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
     @Test
     public void testPlayerMoveLeaveRoomCorrect2() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(4,22));
         Point moveTo = new Point(5,18);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,5,g),true);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
     }
 
     @Test
     public void testPlayerMoveLeaveRoomCorrect3() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(12,4));
         Point moveTo = new Point(6,5);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,5,g),true);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
 
     }
     @Test
@@ -203,6 +194,7 @@ public class CluedoTests {
         Game g= new Game();
         Board board = new Board();
         Player megan = new Player("Megan");
+
         megan.setPositionPoint(new Point(0,17)); //starting square 6
         if(megan.isInRoom(megan,board, g)) {
             assertFalse("Player not in room", megan.isInRoom(megan,board,g));
@@ -213,6 +205,7 @@ public class CluedoTests {
     public void testPlayerMoveBasic1() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(0,7));
         Point moveTo = new Point(1,7);
         boolean m = g.getMoving().moveCheck(moveTo,megan,6,g);
@@ -225,10 +218,39 @@ public class CluedoTests {
     public void testPlayerMoveLeaveRoomIncorrect1() {
         Game g = new Game();
         Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
         megan.setPositionPoint(new Point(12,4));
         Point moveTo = new Point(6,5);
         assertEquals(g.getMoving().moveCheck(moveTo,megan,5,g),true);
-        //assertEquals(megan.getPositionPoint(),new Point(0,8));
+    }
+
+    @Test
+    public void testPreviousMove() {
+        Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
+        megan.setPositionPoint(new Point(12,4));
+        megan.setPreviousPoint(new Point(12,4));
+        megan.setPositionPoint(new Point(12,3));
+        assertEquals(megan.getPreviousPoint(), new Point(12,4));
+    }
+    @Test
+    public void outOfBoundsMoving_1() {
+        Game g = new Game();
+        Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
+        megan.setPositionPoint(new Point(23,24));
+        Point moveTo = new Point(24,24);
+        assertEquals(g.getMoving().moveCheck(moveTo,megan,1,g),false);
+    }
+
+    @Test
+    public void outOfBoundsMoving_2() {
+        Game g = new Game();
+        Player megan = new Player("Megan");
+        megan.setCharacter(Character.Characters.MrsWhite);
+        megan.setPositionPoint(new Point(23,2));
+        Point moveTo = new Point(25,2);
+        assertEquals(g.getMoving().moveCheck(moveTo,megan,2,g),false);
     }
 
 }

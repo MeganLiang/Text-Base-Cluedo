@@ -171,7 +171,7 @@ public class Moving {
         System.out.println("=============================");
         System.out.println(player.getName() + "'s turn");
         Random random = new Random();
-        int diceRoll = random.nextInt(12 - 1) + 1;
+        int diceRoll = random.nextInt(12 - 1) + 2;
         //int diceRoll = 6;
         System.out.println("You rolled a " + diceRoll);
         System.out.println("Your location: x="+ player.getPositionPoint().getX() + " y=" + player.getPositionPoint().getY());

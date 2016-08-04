@@ -47,6 +47,7 @@ public class Setup {
         for(Player player: cluedo.getPlayerList()) {
             Point point = player.startingSquare(player.getCharacter(), cluedo.getBoard(), cluedo);
             player.setPositionPoint(point);
+            cluedo.getPaintBoard().updateArray(player,cluedo, null);
         }
     }
     /**
@@ -71,10 +72,10 @@ public class Setup {
      */
      public void dealCards(Game cluedo) {
         dealCards(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-        for(Player p: cluedo.getPlayerList()) {
-            System.out.println("Player's hand: ============");
-            p.printHand();
-        }
+//        for(Player p: cluedo.getPlayerList()) {
+//            System.out.println("Player's hand: ============");
+//            p.printHand();
+//        }
          dealWeaponsAtStart(cluedo);
     }
 
@@ -124,11 +125,11 @@ public class Setup {
                 index++;
             }
         }
-        System.out.println("Everyone can see: ");
+        System.out.println("These are the cards everyone can see: (This can be empty if all the cards are dealt evenly)");
         for(int i = index; i < cardsList.size(); i++) {
             System.out.println(cardsList.get(i).getName());
-            System.out.println();
         }
+        System.out.println();
 
     }
 
@@ -139,13 +140,15 @@ public class Setup {
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         Collections.shuffle(weaponsList); //randomise the weapons
         Collections.shuffle(availableRooms); //randomise the rooms
+        Weapon weapon = null;
         for(int index = 0; index < 6; index++) {
             Room room = new Room(availableRooms.get(index));
             room.addWeapon(new Weapon(weaponsList.get(index)));
             Weapon.Weapons enumW = weaponsList.get(index);
-            Weapon weapon = new Weapon(enumW);
+            weapon = new Weapon(enumW);
+            weapon.setPrevRoom(null);
             weapon.setInRoom(room);
-            cluedo.getPaintBoard().paintBoard();
+            cluedo.getPaintBoard().updateArray(null, cluedo, weapon);
         }
     }
 

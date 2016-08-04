@@ -9,7 +9,7 @@ public class Weapon implements Card{
     private Weapons weaponName; //enum representing all the possible weapons
     private final SecureRandom random = new SecureRandom();
     private Room inRoom;
-
+    private Room prevRoom;
     public Weapon(Weapons name) {
         this.weaponName = name;
     }
@@ -63,6 +63,14 @@ public class Weapon implements Card{
         this.inRoom = inRoom;
     }
 
+    public Room getPrevRoom() {
+        return prevRoom;
+    }
+
+    public void setPrevRoom(Room prevRoom) {
+        this.prevRoom = prevRoom;
+    }
+
     public void setWeaponName(Weapons weaponName) {
         this.weaponName = weaponName;
     }
@@ -73,3 +81,4 @@ public class Weapon implements Card{
     }
 
 }
+

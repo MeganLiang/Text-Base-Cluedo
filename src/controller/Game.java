@@ -68,6 +68,8 @@ public class Game {
         System.out.println("Game is ready to play!!");
         while (!cluedo.guessing.isGameWon()) {
             for (Player player : cluedo.playersList) {
+                System.out.println("Player's hand: ============");
+                player.printHand();
                 if (!player.hasMadeAccusation()) {
                     cluedo.getPaintBoard().repaint(player,cluedo, null);
                     System.out.println();

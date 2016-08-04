@@ -73,7 +73,7 @@ public class TextBaseCluedo implements UserInput{
     public String moving(Player player) {
         Scanner reader = new Scanner(System.in);
         System.out.println("=======================================");
-        System.out.println(player.getName() + ", where would you like to move? Enter [W] [A] [S] [D]");
+        System.out.println(player.getName() + ", where would you like to move? Enter [W] [A] [S] [D]. Enter your move all at once with spaces in between");
 
         return reader.nextLine().trim();
     }

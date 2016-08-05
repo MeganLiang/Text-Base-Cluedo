@@ -270,8 +270,7 @@ public class Moving {
         System.out.println(player.getName() + "'s turn");
         System.out.println("Your number on the board is " + player.getCharacter().ordinal());
         Random random = new Random();
-        //int diceRoll = random.nextInt(12 - 1) + 2;
-        int diceRoll = 12;
+        int diceRoll = random.nextInt(12 - 1) + 2;
         System.out.println("You rolled a " + diceRoll);
         System.out.println("Your location: x=" + player.getPositionPoint().getX() + " y=" + player.getPositionPoint().getY());
         String commands = "";

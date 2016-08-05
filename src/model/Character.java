@@ -2,15 +2,22 @@ package model;
 
 import java.security.SecureRandom;
 
+/**
+ * Character card in Cluedo
+ */
 public class Character implements Card{
 
     private Characters characterName;
     private static final SecureRandom random = new SecureRandom();
-    
+
+
     public Character(Characters name) {
         this.characterName = name;
     }
-    
+    /**
+     * Valid Character Enum
+     *
+     */
     public enum Characters {
         MissScarlett("MissScarlett"),
         ColonelMustard("ColonelMustard"),
@@ -25,6 +32,11 @@ public class Character implements Card{
             this.text = text;
         }
 
+        /**
+         * Get name (String) for comparisons
+         * @param text
+         * @return
+         */
         public static Characters fromString(String text) {
             if (text != null) {
                 for (Characters b : Characters.values()) {
@@ -51,6 +63,11 @@ public class Character implements Card{
         this.characterName = characterName;
     }
 
+    /**
+     * Pick a random card to deal
+     * @param clazz
+     * @return
+     */
     public Characters getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         return (Characters) clazz.getEnumConstants()[x];

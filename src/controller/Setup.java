@@ -7,7 +7,9 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-
+/**
+ * Controller Setup to prepare the Game
+ */
 public class Setup {
     private Solution gameSolution;
     private int numPlayers;
@@ -57,9 +59,9 @@ public class Setup {
      */
     private int getNumberOfPlayers(Game cluedo) {
         int numPlayers = 0;
-        while(numPlayers < 1 || numPlayers > 6) {
+        while(numPlayers < 3 || numPlayers > 6) {
             numPlayers = cluedo.getTextBaseCluedo().getNumberOfPlayers();
-            if(numPlayers < 1 || numPlayers > 6) {
+            if(numPlayers < 3 || numPlayers > 6) {
                 System.out.println("Please enter a number between 3-6");
                 numPlayers = cluedo.getTextBaseCluedo().getNumberOfPlayers();
             }
@@ -73,11 +75,7 @@ public class Setup {
      */
      public void dealCards(Game cluedo) {
         dealCards(cluedo, Weapon.Weapons.class, Character.Characters.class, Room.Rooms.class);
-//        for(Player p: cluedo.getPlayerList()) {
-//            System.out.println("Player's hand: ============");
-//            p.printHand();
-//        }
-         dealWeaponsAtStart(cluedo);
+        dealWeaponsAtStart(cluedo);
     }
 
     /**
@@ -193,21 +191,40 @@ public class Setup {
 
     }
 
+    /**
+     * getter for number of players
+     * @return
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
 
+    /**
+     * Getter for game solution
+     * @return
+     */
     public Solution getGameSolution() {
         return gameSolution;
     }
 
+    /**
+     * Getter for weapons list
+     * @return
+     */
     public Set<Weapon.Weapons> getAvailableWeapons() {
         return availableWeapons;
     }
+    /**
+     * Getter for room list
+     * @return
+     */
     public List<Room.Rooms> getAvailableRooms() {
         return availableRooms;
     }
-
+    /**
+     * Getter for character list
+     * @return
+     */
     public Set<Character.Characters> getAvailableCharacters() {
         return availableCharacters;
     }

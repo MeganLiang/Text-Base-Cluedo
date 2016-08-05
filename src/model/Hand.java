@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 
+/**
+ * Hand of player
+ */
 public class Hand {
     private List<Card> cards;
 

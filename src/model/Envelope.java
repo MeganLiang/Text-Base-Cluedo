@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Abstract class for Accusation, Solution and Suggestion classes
+ * Holds a weapon, room and character
+ */
 public abstract class Envelope {
     protected Weapon weapon;
     protected Room room;

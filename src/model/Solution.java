@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Solution Cards in the envelope
+ */
 public class Solution extends Envelope {
 
     public Solution(Weapon weapon, Room room, Character character) {
@@ -7,6 +10,7 @@ public class Solution extends Envelope {
     }
 
     public void printSolution() {
+        System.out.println("For marking purposes, this is the Solution to the Game");
         System.out.println(weapon.getName());
         System.out.println(character.getName());
         System.out.println(room.getName());

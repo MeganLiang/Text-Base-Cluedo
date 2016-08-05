@@ -4,9 +4,12 @@ import model.Squares.*;
 
 import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 
+/**
+ * Reads the text file and read it into a 2D array of Squares
+ */
 public class Board {
-    private File file = new File("board.txt");
     private final int WIDTH = 24;
     private final int HEIGHT = 25;
     private Square[][] board = new Square[WIDTH][HEIGHT];
@@ -18,15 +21,44 @@ public class Board {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Opens the board. If there is a file called board.txt in the right place, it will read, else, class.getResourcesAsStream() will attempt to find it
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static InputStream openBoard() throws FileNotFoundException {
+        File boardFile = new File("board.txt");
+        InputStream in;
+        if(boardFile.exists()) {
+            in = new FileInputStream(boardFile);
+        } else {
+            in = Board.class.getResourceAsStream("/board.txt");
+        }
+        return in;
+    }
+
+    /**
+     * Attempt to read board.txt
+     * @throws IOException
+     */
     private void handleFile() throws IOException {
-        try (InputStream in = new FileInputStream(file);
-             Reader reader = new InputStreamReader(in);
-             // buffer for efficiency
-             Reader buffer = new BufferedReader(reader)) {
+        try {
+            InputStream in = openBoard();
+            Reader reader = new InputStreamReader(in);
+            // buffer for efficiency
+            Reader buffer = new BufferedReader(reader);
             handleCharacters(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Read each character from board.txt and assign it to what Square it corresponds to.
+     * @param reader
+     * @throws IOException
+     */
     private void handleCharacters(Reader reader) throws IOException {
         int r;
         int x=0;
@@ -184,7 +216,7 @@ public class Board {
                     x++;
                     break;
                 case 'Z':
-                    StairwaySquare libraryStairway = new StairwaySquare(new Room(Room.Rooms.Library), new Room(Room.Rooms.Conservatory) ,x, y);
+                    StairwaySquare libraryStairway = new StairwaySquare(new Room(Room.Rooms.Lounge), new Room(Room.Rooms.Conservatory) ,x, y);
                     board[x][y] = libraryStairway;
                     x++;
                     break;

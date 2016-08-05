@@ -14,6 +14,9 @@ public class Weapon implements Card{
         this.weaponName = name;
     }
 
+    /**
+     * Valid Weapons for the user to enter
+     */
     public enum  Weapons { //enum of the possible murder weapons
         CandleStick("CandleStick"),
         Dagger("Dagger"),
@@ -41,10 +44,6 @@ public class Weapon implements Card{
 
     }
 
-    public String WeaponSymbol(Weapons w) {
-        String toreturn = w.toString().substring(0,2);
-        return toreturn;
-    }
     @Override
     public String getName() {
         return weaponName.toString();
@@ -75,6 +74,11 @@ public class Weapon implements Card{
         this.weaponName = weaponName;
     }
 
+    /**
+     * Random generator of weapons used in dealing cards
+     * @param clazz
+     * @return
+     */
     public Enum<? extends Enum> getRandom(Class clazz) {
         int x = random.nextInt(clazz.getEnumConstants().length);
         return (Weapons) clazz.getEnumConstants()[x];

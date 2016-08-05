@@ -1,17 +1,18 @@
 package view;
 
 import controller.Game;
+import model.*;
 import model.Character;
-import model.Player;
-import model.Room;
 import model.Squares.*;
-import model.Weapon;
 
 import java.awt.*;
 import java.io.*;
 
+/**
+ * User Output Board for clarity, simplified version of Board.java
+ * paints, repaints and updates to keep track of graphics
+ */
 public class PaintBoard {
-    private File file = new File("board.txt");
     private final int WIDTH = 24;
     private final int HEIGHT = 25;
     private String[][] cluedoBoard = new String[WIDTH][HEIGHT];
@@ -23,12 +24,18 @@ public class PaintBoard {
             e.printStackTrace();
         }
     }
+    /**
+     * Attempt to read board.txt
+     * @throws IOException
+     */
     private void handleFile() throws IOException {
-        try (InputStream in = new FileInputStream(file);
-             Reader reader = new InputStreamReader(in);
-             // buffer for efficiency
-             Reader buffer = new BufferedReader(reader)) {
+        try {
+            InputStream in = Board.openBoard();
+            Reader reader = new InputStreamReader(in);
+            Reader buffer = new BufferedReader(reader);
             readBoard(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -174,6 +181,9 @@ public class PaintBoard {
 
     }
 
+    /**
+     * Prints the board out
+     */
     public void paintBoard() {
 
         for(int y=0; y<HEIGHT; y++) {
@@ -185,6 +195,11 @@ public class PaintBoard {
         System.out.println();
     }
 
+    /**
+     * updates the 2D array of where the player has moved
+     * @param player
+     * @param cluedo
+     */
     public void updateArray(Player player, Game cluedo) {
 
         if(player != null) {
@@ -251,18 +266,7 @@ public class PaintBoard {
                 }
             }
         }
-        //paintBoard();
-    }
-    public static void main(String [] args) {
-        Game cluedo = new Game();
-        PaintBoard p = new PaintBoard();
-//        p.paintBoard();
-        Player megan = new Player("Megan");
-        megan.setCharacter(Character.Characters.MrsPeacock);
-        megan.setPreviousPoint(null);
-        megan.setPositionPoint(new Point(7,0));
-        p.updateArray(megan,cluedo);
-        p.paintBoard();
 
     }
+
 }

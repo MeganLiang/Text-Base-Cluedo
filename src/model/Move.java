@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Valid Moves the player can enter
+ */
 public class Move {
     public enum Moves {
         W("W"),
@@ -21,6 +24,11 @@ public class Move {
             return text;
         }
 
+        /**
+         * Gets the String associations of the enums
+         * @param text
+         * @return
+         */
         public static Moves fromString(String text) {
             if (text != null) {
                 for (Moves b : Moves.values()) {

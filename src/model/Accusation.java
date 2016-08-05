@@ -9,6 +9,11 @@ public class Accusation extends Envelope {
         super(weapon, room, character);
     }
 
+    /**
+     * Equals() for comparing a Solution with a Accuation
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if(o==null) {

@@ -44,32 +44,55 @@ public class TextBaseCluedo implements UserInput{
         return reader.next();
 
     }
+
+    /**
+     * Invalid Move prompt
+     * @return
+     */
     public String invalidCharacterInput() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Unexpected input, please enter a valid character");
         return reader.next();
     }
+    /**
+     * Invalid Move prompt
+     * @return
+     */
     public String invalidArrayInput() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Unexpected input, please enter a sequence");
         return reader.nextLine().trim();
     }
+
+    /**
+     * Suggest prompt
+     * @return
+     */
     public String [] suggest() {
         Scanner reader = new Scanner(System.in);
         System.out.println("=======================================");
-        System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character]");
+        System.out.println("What is your suggestion? Enter [Weapon] [Room] [Character] This needs to be in the correct order and spelt exactly as in the Specifications");
         String input = reader.nextLine().trim();
         String [] suggested = input.split("\\s+");
         return suggested;
     }
+
+    /**
+     * Accuse prompt
+     * @return
+     */
     public String [] accuse() {
         Scanner reader = new Scanner(System.in);
         System.out.println("=======================================");
-        System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]");
+        System.out.println("What is your accusation? Enter [Weapon] [Room] [Character]  This needs to be in the correct order and spelt exactly as in the Specifications");
         String input = reader.nextLine().trim();
         String [] suggested = input.split("\\s+");
         return suggested;
     }
+    /**
+     * Moving prompt
+     * @return
+     */
     public String moving(Player player) {
         Scanner reader = new Scanner(System.in);
         System.out.println("=======================================");
@@ -86,7 +109,10 @@ public class TextBaseCluedo implements UserInput{
         }
         System.out.println("=======================================");
     }
-
+    /**
+     * accuse prompt
+     * @return
+     */
     public String accusationOption() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Would you like to make an accusation?");

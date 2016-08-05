@@ -7,12 +7,16 @@ import model.Squares.StartSquare;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Player class for game
+ */
 public class Player {
     private String name;
     private Character.Characters character;
     private Hand hand;
     private Point point;
     private Point previousPoint;
+    private boolean justEnteredRoom = false;
     private boolean inRoom;
     private boolean madeAccusation = false;
 
@@ -110,6 +114,20 @@ public class Player {
         }
         return null;
     }
+    /**
+     * boolean for entering a room
+     * @return boolean
+     */
+    public boolean isJustEnteredRoom() {
+        return justEnteredRoom;
+    }
+    /**
+     * For testing, setting the boolean for entering square
+     * @param justEnteredRoom
+     */
+    public void setJustEnteredRoom(boolean justEnteredRoom) {
+        this.justEnteredRoom = justEnteredRoom;
+    }
     public void setInRoom(boolean inRoom) {
         this.inRoom = inRoom;
     }
@@ -137,4 +155,5 @@ public class Player {
     public void setPreviousPoint(Point previousPoint) {
         this.previousPoint = previousPoint;
     }
+
 }

@@ -52,8 +52,7 @@ public class Room implements Card  {
      * @param weapon
      */
     public void addWeapon(Weapon weapon) {
-        System.out.println("===========================================================");
-        System.out.println(weapon.getName() + " added to " + this.roomType.toString());
+
         this.weaponList.add(weapon);
     }
     /**

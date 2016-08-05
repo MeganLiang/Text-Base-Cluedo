@@ -74,6 +74,7 @@ public class TextBaseCluedo implements UserInput{
         Scanner reader = new Scanner(System.in);
         System.out.println("=======================================");
         System.out.println(player.getName() + ", where would you like to move? Enter [W] [A] [S] [D]. Enter your move all at once with spaces in between");
+        System.out.println("Note, if you roll a 12, you may move 1-12 moves, if you roll a 1, you must move once");
 
         return reader.nextLine().trim();
     }

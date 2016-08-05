@@ -11,7 +11,7 @@ import java.awt.*;
 import java.io.*;
 
 public class PaintBoard {
-    private File file = new File("data/board.txt");
+    private File file = new File("board.txt");
     private final int WIDTH = 24;
     private final int HEIGHT = 25;
     private String[][] cluedoBoard = new String[WIDTH][HEIGHT];
@@ -184,25 +184,8 @@ public class PaintBoard {
         }
         System.out.println();
     }
-    public void updateArray( Player player, Game cluedo, Weapon weapon) {
-        if (weapon != null) {
-            for(int y=0; y<HEIGHT; y++) {
-                for (int x = 0; x < WIDTH; x++) {
-                    Room roomPosition = weapon.getInRoom();
-                    if (cluedo.getBoard().getBoard()[x][y] instanceof RoomSquare) { // it is a room, render weapons
-                        RoomSquare roomSquare = (RoomSquare) cluedo.getBoard().getBoard()[x][y];
-                        Room room = roomSquare.getRoom();
-                        if (roomPosition.getName().equals(room.getName())) {
-                            cluedoBoard[x][y] = weapon.WeaponSymbol(weapon.getEnum());
-                            //paintBoard();
-                            return;
-                        }
-                    }
-                }
-            }
-            //phantom weapons, erase weapon at previous location
 
-        }
+    public void updateArray(Player player, Game cluedo) {
 
         if(player != null) {
             for(int y=0; y<HEIGHT; y++) {
@@ -268,9 +251,7 @@ public class PaintBoard {
                 }
             }
         }
-    }
-    public void repaint(Player player, Game cluedo, Weapon weapon) {
-        paintBoard();
+        //paintBoard();
     }
     public static void main(String [] args) {
         Game cluedo = new Game();
@@ -280,11 +261,8 @@ public class PaintBoard {
         megan.setCharacter(Character.Characters.MrsPeacock);
         megan.setPreviousPoint(null);
         megan.setPositionPoint(new Point(7,0));
-        Weapon weapon = new Weapon(Weapon.Weapons.CandleStick);
-        weapon.setInRoom(new Room(Room.Rooms.BallRoom));
-        p.repaint(null, cluedo, weapon);
-        weapon.setInRoom(new Room(Room.Rooms.Kitchen));
-        p.repaint(null, cluedo, weapon);
+        p.updateArray(megan,cluedo);
+        p.paintBoard();
 
     }
 }

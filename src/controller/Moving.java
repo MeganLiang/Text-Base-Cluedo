@@ -24,8 +24,54 @@ public class Moving {
         Set<Point> availableSquares;
 
 
+        //If moving to StairwaySquare
+        if(cluedo.getBoard().returnSquare(point) instanceof StairwaySquare) {
+            System.out.println("In stairway");
+            //make sure player is in a room
+            if (!(cluedo.getBoard().returnSquare(player.getPositionPoint()) instanceof RoomSquare)) {
+                System.out.println("In room check failed");
+                return false;
+            }
+            StairwaySquare st = (StairwaySquare) cluedo.getBoard().returnSquare(point);
+            //if in same room as chosen staircase
+            String playerLRoom = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom().getName();
+            String stairwayRoom = st.inRoom.getName();
+            //System.out.println(((RoomSquare) board.returnSquare(player.getPositionPoint())).getRoom().getName());
+            //System.out.println(st.inRoom.getName());
+
+            if (playerLRoom.equals(stairwayRoom)) {
+                System.out.println("Room names equal");
+                Room goingTo = st.outRoom;
+                System.out.println("Room going to: " + goingTo.getName());
+                for (int x = 0; x < 24; x++) {
+                    for (int y = 0; y < 25; y++) {
+                        if (cluedo.getBoard().getBoard()[x][y] instanceof RoomSquare) {
+                            RoomSquare rs = (RoomSquare) cluedo.getBoard().getBoard()[x][y];
+                            Point moveToRoom = new Point(x, y);
+                            //System.out.println("Looking at room: " + rs.getRoom().getName());
+                            if (rs.getRoom().getName().equals(goingTo.getName())) {
+                                System.out.println("Names equal");
+                                if (!(playerAtPoint(new Point(x, y), cluedo))) {
+                                    System.out.println("No player here");
+                                    player.setPreviousPoint(player.getPositionPoint());
+                                    player.setPositionPoint(moveToRoom);
+                                    System.out.println("Your are passing through a door");
+                                    cluedo.getPaintBoard().updateArray(player,cluedo);
+                                    cluedo.getPaintBoard().paintBoard();
+                                    System.out.println();
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            return false;
+        }
+
         //If player is in a room square
-        if(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare){
+        else if(cluedo.getBoard().returnSquare(player.getPositionPoint())instanceof RoomSquare){
             System.out.println("In Room");
             availableSquares = new HashSet<>();
             Room current = ((RoomSquare) cluedo.getBoard().returnSquare(player.getPositionPoint())).getRoom();
@@ -54,7 +100,8 @@ public class Moving {
                             if (((RoomSquare) rs).getRoom().equals(room)) {
                                 player.setPreviousPoint(player.getPositionPoint());
                                 player.setPositionPoint(point);
-                                cluedo.getPaintBoard().repaint(player,cluedo,null);
+                                cluedo.getPaintBoard().updateArray(player,cluedo);
+                                cluedo.getPaintBoard().paintBoard();
                                 System.out.println();
                                 return true;
                             }
@@ -65,7 +112,8 @@ public class Moving {
                 //Move players point to that position
                 player.setPreviousPoint(player.getPositionPoint());
                 player.setPositionPoint(point);
-                cluedo.getPaintBoard().repaint(player,cluedo,null);
+                cluedo.getPaintBoard().updateArray(player,cluedo);
+                cluedo.getPaintBoard().paintBoard();
                 System.out.println();
                 return true;
             }
@@ -96,7 +144,8 @@ public class Moving {
                                 player.setPreviousPoint(player.getPositionPoint());
                                 player.setPositionPoint(point);
                                 System.out.println("Your are passing through a door");
-                                cluedo.getPaintBoard().repaint(player,cluedo,null);
+                                cluedo.getPaintBoard().updateArray(player,cluedo);
+                                cluedo.getPaintBoard().paintBoard();
                                 System.out.println();
                                 return true;
                             }
@@ -107,7 +156,8 @@ public class Moving {
                 //Move players point to that position
                 player.setPreviousPoint(player.getPositionPoint());
                 player.setPositionPoint(point);
-                cluedo.getPaintBoard().repaint(player,cluedo,null);
+                cluedo.getPaintBoard().updateArray(player,cluedo);
+                cluedo.getPaintBoard().paintBoard();
                 System.out.println();
                 return true;
             }
@@ -170,6 +220,7 @@ public class Moving {
     public void movePlayer(Player player, Game cluedo) {
         System.out.println("=============================");
         System.out.println(player.getName() + "'s turn");
+        System.out.println("Your number on the board is " + player.getCharacter().ordinal());
         Random random = new Random();
         int diceRoll = random.nextInt(12 - 1) + 2;
         //int diceRoll = 6;
@@ -195,7 +246,13 @@ public class Moving {
                     //convert commandArray to point coordinates
             newPosition = convertArrayToPoint(commandArray, player);
             validMove =  moveCheck(newPosition, player, diceRoll, cluedo); //check if valid move
-            System.out.println("Your move is " + validMove);
+            if(validMove) {
+                System.out.println("Your move is valid");
+                System.out.println("New location: x=" + newPosition.getX() + " , y=" +newPosition.getY());
+            }else {
+                System.out.println("Invalid Move");
+            }
+
         }
     }
 

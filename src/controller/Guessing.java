@@ -79,8 +79,8 @@ public class Guessing {
                     }
                 }
                 r.addWeapon(w);
+                System.out.println(w.getName() + " teleported to " + r.toString());
                 w.setInRoom(r);
-                cluedo.getPaintBoard().repaint(null, cluedo,w);
 
                 System.out.println("Refuting the suggestion: ");
                 proveSuggestions(suggestion,player, cluedo);

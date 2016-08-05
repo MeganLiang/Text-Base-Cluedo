@@ -14,28 +14,6 @@ import static org.junit.Assert.assertTrue;
 public class CluedoTests {
 
     @Test
-    public void testRefutingSuggestions() {
-        Game cluedo = new Game();
-        Player megan = new Player("Megan");
-        Player tristan = new Player("Tristan");
-        cluedo.addToPlayersList(megan);
-        cluedo.addToPlayersList(tristan);
-        java.util.List<Card> cardsM = new ArrayList<>();
-        cardsM.add(new Weapon(Weapon.Weapons.Revolver));
-        java.util.List<Card> cardsT = new ArrayList<>();
-        cardsT.add(new Room(Room.Rooms.Study));
-        cardsT.add(new Weapon(Weapon.Weapons.Spanner));
-        megan.setHand(new Hand(cardsM));
-        tristan.setHand(new Hand(cardsT));
-        megan.setInRoom(true);
-        megan.setPositionPoint(new Point(23,24));//study
-        tristan.setInRoom(false);
-        tristan.setPositionPoint(new Point(9,0));
-        Suggestion s = new Suggestion(new Weapon(Weapon.Weapons.Spanner), new Room(Room.Rooms.Study), new Character(Character.Characters.MrsWhite));
-        Guessing.proveSuggestions(s, megan, cluedo);
-    }
-
-    @Test
     public void testingSolutionEqualsAccusation() {
         Solution solution = new Solution(new Weapon(Weapon.Weapons.Revolver), new Room(Room.Rooms.BallRoom), new Character(Character.Characters.ColonelMustard));
         Accusation accusation = new Accusation(new Weapon(Weapon.Weapons.Revolver), new Room(Room.Rooms.BallRoom), new Character(Character.Characters.ColonelMustard));
@@ -63,6 +41,29 @@ public class CluedoTests {
         // coordinates returned
         assertEquals(megan.startingSquare(Character.Characters.ReverendGreen,board,cluedo), new Point(14,0));
     }
+
+    @Test
+    public void testRefutingSuggestions() {
+        Game cluedo = new Game();
+        Player megan = new Player("Megan");
+        Player tristan = new Player("Tristan");
+        cluedo.addToPlayersList(megan);
+        cluedo.addToPlayersList(tristan);
+        java.util.List<Card> cardsM = new ArrayList<>();
+        cardsM.add(new Weapon(Weapon.Weapons.Revolver));
+        java.util.List<Card> cardsT = new ArrayList<>();
+        cardsT.add(new Room(Room.Rooms.Study));
+        cardsT.add(new Weapon(Weapon.Weapons.Spanner));
+        megan.setHand(new Hand(cardsM));
+        tristan.setHand(new Hand(cardsT));
+        megan.setInRoom(true);
+        megan.setPositionPoint(new Point(23,24));//study
+        tristan.setInRoom(false);
+        tristan.setPositionPoint(new Point(9,0));
+        Suggestion s = new Suggestion(new Weapon(Weapon.Weapons.Spanner), new Room(Room.Rooms.Study), new Character(Character.Characters.MrsWhite));
+        Guessing.proveSuggestions(s, megan, cluedo);
+    }
+
 
     @Test
     public void testPlayerInRoom() {

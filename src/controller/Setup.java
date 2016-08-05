@@ -47,8 +47,9 @@ public class Setup {
         for(Player player: cluedo.getPlayerList()) {
             Point point = player.startingSquare(player.getCharacter(), cluedo.getBoard(), cluedo);
             player.setPositionPoint(point);
-            cluedo.getPaintBoard().updateArray(player,cluedo, null);
+            cluedo.getPaintBoard().updateArray(player,cluedo);
         }
+        cluedo.getPaintBoard().paintBoard();
     }
     /**
      * Get the number of players
@@ -140,15 +141,17 @@ public class Setup {
         List<Weapon.Weapons> weaponsList = new ArrayList<>(Arrays.asList(Weapon.Weapons.values()));
         Collections.shuffle(weaponsList); //randomise the weapons
         Collections.shuffle(availableRooms); //randomise the rooms
-        Weapon weapon = null;
+        System.out.println("================================");
+        System.out.println("Weapons is each room:");
         for(int index = 0; index < 6; index++) {
             Room room = new Room(availableRooms.get(index));
             room.addWeapon(new Weapon(weaponsList.get(index)));
+
             Weapon.Weapons enumW = weaponsList.get(index);
-            weapon = new Weapon(enumW);
+            Weapon weapon = new Weapon(enumW);
             weapon.setPrevRoom(null);
             weapon.setInRoom(room);
-            cluedo.getPaintBoard().updateArray(null, cluedo, weapon);
+            System.out.println(weapon.getName() + " added to " + room.getName());
         }
     }
 
